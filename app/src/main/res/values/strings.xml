@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Team11-Project-front</string>
     <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="id_plain_text">ID</string>
+    <string name="pw_plain_text">PW</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
