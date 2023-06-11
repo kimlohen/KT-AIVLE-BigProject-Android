@@ -6,9 +6,49 @@
     tools:context=".HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+
+    <Button
+        android:id="@+id/btnCreatePost"
+        android:layout_width="180dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center|left"
+        android:layout_margin="16dp"
+        android:text="Skin Upload"
+        />
+
+    <Button
+        android:id="@+id/btnDeletePost"
+        android:layout_width="180dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center|right"
+        android:layout_margin="16dp"
+        android:text="Eye Upload" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="this is home fragment" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:text="<"
+            android:textColorHighlight="@color/white"
+            android:textColorLink="#FDFAFA"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="270dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:text="Pet Check LiST"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </FrameLayout>
