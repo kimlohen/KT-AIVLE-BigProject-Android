@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         ft = fm.beginTransaction();
 
         resultLauncher = registerForActivityResult(
@@ -50,9 +51,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login(View view) {
         Cursor cursor;
-        /*
-            추후에 test에서 ""로 변경
-         */
         String string1 = "test";
         String string2 = "test";
 
