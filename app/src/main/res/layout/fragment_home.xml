@@ -34,7 +34,7 @@
             android:id="@+id/button3"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:text="<"
+            android:text="iii"
             android:textColorHighlight="@color/white"
             android:textColorLink="#FDFAFA"
             android:textSize="18sp"
