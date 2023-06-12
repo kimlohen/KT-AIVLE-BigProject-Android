@@ -73,7 +73,7 @@
         tools:srcCompat="@drawable/logo" />
 
     <CheckBox
-        android:id="@+id/keepLogin"
+        android:id="@+id/autoLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="로그인 상태 유지"
