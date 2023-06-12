@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public EditText idEdit, pwEdit;
     public Button loginBtn, joinBtn;
     public CheckBox checkBox;
-    public ImageButton kakaoBtn;
+    public ImageButton kakaoBtn, naverBtn;
     public SignInButton googleBtn;
 
     @Override
@@ -62,8 +62,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         pwEdit = (EditText) findViewById(R.id.editPW);
         loginBtn = (Button) findViewById(R.id.loginBtn);
         joinBtn = (Button) findViewById(R.id.joinBtn);
-        kakaoBtn = (ImageButton) findViewById(R.id.kakaoLoginBtn);
         checkBox = findViewById(R.id.autoLogin);
+        kakaoBtn = (ImageButton) findViewById(R.id.kakaoLoginBtn);
+        naverBtn = (ImageButton) findViewById(R.id.naverLoginBtn);
         googleBtn = (SignInButton) findViewById(R.id.googleLoginBtn);
         findID = (TextView) findViewById(R.id.findID);
         findPW =  (TextView) findViewById(R.id.findPW);
@@ -76,7 +77,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         loginBtn.setOnClickListener(this);
         joinBtn.setOnClickListener(this);
+        googleBtn.setOnClickListener(this);
         kakaoBtn.setOnClickListener(this);
+        naverBtn.setOnClickListener(this);
         findID.setOnClickListener(this);
         findPW.setOnClickListener(this);
 
@@ -134,6 +137,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else if (id == R.id.joinBtn) {
             Intent intent = new Intent(v.getContext(), MainActivity.class); // 회원가입 페이지 만들면 변경
             resultLauncher.launch(intent);
+        } else if (id == R.id.googleLoginBtn){
+            Intent intent = new Intent(v.getContext(), MainActivity.class); // 구글 기능 구현하면
+            resultLauncher.launch(intent);
         } else if (id == R.id.kakaoLoginBtn){
             if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this)){
                 UserApiClient.getInstance().loginWithKakaoTalk(LoginActivity.this, callback);
@@ -141,6 +147,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 // 카카오톡이 설치되어 있지 않다면
                 UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callback);
             }
+        } else if (id == R.id.naverLoginBtn){
+            Intent intent = new Intent(v.getContext(), MainActivity.class); // 네이버 기능 구현하면
+            resultLauncher.launch(intent);
         } else if (id == R.id.findID) {
             Intent intent = new Intent(v.getContext(), MainActivity.class); // 아이디 찾기 페이지 만들면 변경
             resultLauncher.launch(intent);
