@@ -135,7 +135,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (id == R.id.loginBtn) {
             login();
         } else if (id == R.id.joinBtn) {
-            Intent intent = new Intent(v.getContext(), MainActivity.class); // 회원가입 페이지 만들면 변경
+            Intent intent = new Intent(v.getContext(), RegisterActivity.class); // 회원가입 페이지 만들면 변경
             resultLauncher.launch(intent);
         } else if (id == R.id.googleLoginBtn){
             Intent intent = new Intent(v.getContext(), MainActivity.class); // 구글 기능 구현하면
@@ -154,7 +154,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(v.getContext(), MainActivity.class); // 아이디 찾기 페이지 만들면 변경
             resultLauncher.launch(intent);
         } else if (id == R.id.findPW) {
-            Intent intent = new Intent(v.getContext(), MainActivity.class); // 비밀번호 찾기 페이지 만들면 변경
+            Intent intent = new Intent(v.getContext(), ChangePwdActivity.class); // 비밀번호 찾기 페이지 만들면 변경
             resultLauncher.launch(intent);
         }
 
