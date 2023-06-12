@@ -29,8 +29,8 @@
         android:background="@drawable/edittext"
         android:ems="10"
         android:hint="비밀번호 입력"
-        android:paddingLeft="8dp"
         android:inputType="textPassword"
+        android:paddingLeft="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -88,7 +88,7 @@
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/googleLoginBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="190dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

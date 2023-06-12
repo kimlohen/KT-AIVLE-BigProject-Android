@@ -21,12 +21,14 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.common.SignInButton;
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.User;
@@ -47,6 +49,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public CheckBox checkBox;
     public ImageButton kakaoBtn;
 
+    public SignInButton googleBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +64,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         joinBtn = (Button) findViewById(R.id.joinBtn);
         kakaoBtn = (ImageButton) findViewById(R.id.kakaoLoginBtn);
         checkBox = findViewById(R.id.autoLogin);
+        googleBtn = (SignInButton) findViewById(R.id.googleLoginBtn);
 
         //자동 로그인을 선택한 유저
         if (!getPreferenceString("autoLoginId").equals("") && !getPreferenceString("autoLoginPw").equals("")) {
@@ -70,6 +75,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginBtn.setOnClickListener(this);
         joinBtn.setOnClickListener(this);
         kakaoBtn.setOnClickListener(this);
+
+        setGooglePlusButtonText(googleBtn, "구글로 로그인");
 
         resultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -101,6 +108,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return null;
         }
     };
+
+    protected void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
+        // Find the TextView that is inside of the SignInButton and set its text
+        for (int i = 0; i < signInButton.getChildCount(); i++) {
+            View v = signInButton.getChildAt(i);
+
+            if (v instanceof TextView) {
+                TextView tv = (TextView) v;
+                tv.setText(buttonText);
+                return;
+            }
+        }
+    }
 
     @Override
     public void onClick(View v){
