@@ -44,11 +44,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private RetrofitClient retrofitClient;
     private initMyApi initMyApi;
 
+    public TextView findID, findPW;
     public EditText idEdit, pwEdit;
     public Button loginBtn, joinBtn;
     public CheckBox checkBox;
     public ImageButton kakaoBtn;
-
     public SignInButton googleBtn;
 
     @Override
@@ -65,6 +65,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         kakaoBtn = (ImageButton) findViewById(R.id.kakaoLoginBtn);
         checkBox = findViewById(R.id.autoLogin);
         googleBtn = (SignInButton) findViewById(R.id.googleLoginBtn);
+        findID = (TextView) findViewById(R.id.findID);
+        findPW =  (TextView) findViewById(R.id.findPW);
 
         //자동 로그인을 선택한 유저
         if (!getPreferenceString("autoLoginId").equals("") && !getPreferenceString("autoLoginPw").equals("")) {
@@ -75,6 +77,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginBtn.setOnClickListener(this);
         joinBtn.setOnClickListener(this);
         kakaoBtn.setOnClickListener(this);
+        findID.setOnClickListener(this);
+        findPW.setOnClickListener(this);
 
         setGooglePlusButtonText(googleBtn, "구글로 로그인");
 
@@ -128,7 +132,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (id == R.id.loginBtn) {
             login();
         } else if (id == R.id.joinBtn) {
-            Intent intent = new Intent(v.getContext(), MainActivity.class); // 회원가입 페이지 만들면 회원가입으로
+            Intent intent = new Intent(v.getContext(), MainActivity.class); // 회원가입 페이지 만들면 변경
             resultLauncher.launch(intent);
         } else if (id == R.id.kakaoLoginBtn){
             if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this)){
@@ -137,6 +141,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 // 카카오톡이 설치되어 있지 않다면
                 UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callback);
             }
+        } else if (id == R.id.findID) {
+            Intent intent = new Intent(v.getContext(), MainActivity.class); // 아이디 찾기 페이지 만들면 변경
+            resultLauncher.launch(intent);
+        } else if (id == R.id.findPW) {
+            Intent intent = new Intent(v.getContext(), MainActivity.class); // 비밀번호 찾기 페이지 만들면 변경
+            resultLauncher.launch(intent);
         }
 
     }
