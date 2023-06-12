@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.team11_project_front.Data.HospitalInfo;
 import com.example.team11_project_front.Data.PetInfo;
@@ -29,6 +30,17 @@ public class MyPageFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_my_page, container, false);
         mContext = getActivity();
 
+        String name = "이름";
+        String type = "수의사";
+        String email = "hhe@naver.com";
+
+        TextView tv_name = (TextView) view.findViewById(R.id.profileName);
+        TextView tv_type = (TextView) view.findViewById(R.id.type);
+        TextView tv_email = (TextView) view.findViewById(R.id.email);
+
+        tv_name.setText(name);
+        tv_type.setText(type);
+        tv_email.setText(email);
         return view;
     }
 
