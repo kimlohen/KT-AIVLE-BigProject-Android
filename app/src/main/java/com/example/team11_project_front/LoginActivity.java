@@ -165,7 +165,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         .create()
                         .show();
                 AlertDialog alertDialog = builder.create();
-                alertDialog.show();
             }else{
                 LoginResponse();
             }
@@ -199,23 +198,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     //response.body()를 result에 저장
                     LoginResponse result = response.body();
 
-                    //받은 코드 저장
-                    String resultCode = result.getResultCode();
-
                     //받은 토큰 저장
-                    String token = result.getToken();
-
-                    String success = "200"; //로그인 성공
-                    String errorId = "300"; //아이디 일치x
-                    String errorPw = "400"; //비밀번호 일치x
+                    String acessToken = result.getAcessToken();
+                    String refreshToken = result.getRefreshToken();
 
 
-                    if (resultCode.equals(success)) {
+                    if (acessToken != null) {
                         String userID = idEdit.getText().toString();
                         String userPassword = pwEdit.getText().toString();
 
                         //다른 통신을 하기 위해 token 저장
-                        setPreference(token,token);
+                        setPreference(acessToken,acessToken);
+                        setPreference(refreshToken,refreshToken);
 
                         //자동 로그인 여부
                         if (checkBox.isChecked()) {
@@ -232,25 +226,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         startActivity(intent);
                         LoginActivity.this.finish();
 
-                    } else if (resultCode.equals(errorId)) {
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                        builder.setTitle("알림")
-                                .setMessage("아이디가 존재하지 않습니다.\n 고객센터에 문의바랍니다.")
-                                .setPositiveButton("확인", null)
-                                .create()
-                                .show();
-                        AlertDialog alertDialog = builder.create();
-                        alertDialog.show();
-
-                    } else if (resultCode.equals(errorPw)) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                        builder.setTitle("알림")
-                                .setMessage("비밀번호가 일치하지 않습니다.\n 고객" +
-                                        "센터에 문의바랍니다.")
-                                .setPositiveButton("확인", null)
-                                .create()
-                                .show();
                     } else {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
@@ -259,7 +234,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 .setPositiveButton("확인", null)
                                 .create()
                                 .show();
-
                     }
                 }
             }
