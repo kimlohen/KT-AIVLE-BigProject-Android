@@ -330,8 +330,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     // 유저의 연령대
                     Log.d(TAG, "invoke: age=" + user.getKakaoAccount().getAgeRange());
 
-
-
                     // 로그인이 되어있으면
 
                 } else {
