@@ -1,5 +1,7 @@
 package com.example.team11_project_front;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -11,7 +13,6 @@ import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.AsyncTask;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,12 +20,19 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import android.content.Intent;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.kakao.sdk.auth.model.OAuthToken;
+import com.kakao.sdk.user.UserApiClient;
+import com.kakao.sdk.user.model.User;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function2;
 import retrofit2.*;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
@@ -37,6 +45,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public EditText idEdit, pwEdit;
     public Button loginBtn, joinBtn;
     public CheckBox checkBox;
+    public ImageButton kakaoBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +58,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         pwEdit = (EditText) findViewById(R.id.editPW);
         loginBtn = (Button) findViewById(R.id.loginBtn);
         joinBtn = (Button) findViewById(R.id.joinBtn);
+        kakaoBtn = (ImageButton) findViewById(R.id.kakaoLoginBtn);
         checkBox = findViewById(R.id.autoLogin);
 
         //자동 로그인을 선택한 유저
@@ -59,6 +69,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         loginBtn.setOnClickListener(this);
         joinBtn.setOnClickListener(this);
+        kakaoBtn.setOnClickListener(this);
 
         resultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -72,6 +83,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         );
     }
 
+    // 카카오톡이 설치되어 있는지 확인하는 메서드 , 카카오에서 제공함. 콜백 객체를 이용합.
+    Function2<OAuthToken,Throwable, Unit> callback = new Function2<OAuthToken, Throwable, Unit>() {
+        @Override
+        // 콜백 메서드 ,
+        public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
+            Log.e(TAG,"CallBack Method");
+            //oAuthToken != null 이라면 로그인 성공
+            if(oAuthToken!=null){
+                // 토큰이 전달된다면 로그인이 성공한 것이고 토큰이 전달되지 않으면 로그인 실패한다.
+                updateKakaoLoginUi();
+            }else {
+                //로그인 실패
+                Log.e(TAG, "invoke: login fail" );
+            }
+
+            return null;
+        }
+    };
+
     @Override
     public void onClick(View v){
         int id = v.getId();
@@ -80,6 +110,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else if (id == R.id.joinBtn) {
             Intent intent = new Intent(v.getContext(), MainActivity.class); // 회원가입 페이지 만들면 회원가입으로
             resultLauncher.launch(intent);
+        } else if (id == R.id.kakaoLoginBtn){
+            if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this)){
+                UserApiClient.getInstance().loginWithKakaoTalk(LoginActivity.this, callback);
+            }else{
+                // 카카오톡이 설치되어 있지 않다면
+                UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callback);
+            }
         }
 
     }
@@ -258,5 +295,38 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(intent);
         finish();
 
+    }
+
+    private void updateKakaoLoginUi() {
+
+        // 로그인 여부에 따른 UI 설정
+        UserApiClient.getInstance().me(new Function2<User, Throwable, Unit>() {
+            @Override
+            public Unit invoke(User user, Throwable throwable) {
+
+                if (user != null) {
+
+                    // 유저의 아이디
+                    Log.d(TAG, "invoke: id =" + user.getId());
+                    // 유저의 이메일
+                    Log.d(TAG, "invoke: email =" + user.getKakaoAccount().getEmail());
+                    // 유저의 닉네임
+                    Log.d(TAG, "invoke: nickname =" + user.getKakaoAccount().getProfile().getNickname());
+                    // 유저의 성별
+                    Log.d(TAG, "invoke: gender =" + user.getKakaoAccount().getGender());
+                    // 유저의 연령대
+                    Log.d(TAG, "invoke: age=" + user.getKakaoAccount().getAgeRange());
+
+
+
+                    // 로그인이 되어있으면
+
+                } else {
+                    // 로그인 되어있지 않으면
+
+                }
+                return null;
+            }
+        });
     }
 }

@@ -36,7 +36,10 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    // 구글 로그인
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
+    // 카카오 로그인
+    implementation "com.kakao.sdk:v2-user:2.14.0" // 카카오 로그인
 
     // retrofit2
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
