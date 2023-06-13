@@ -156,6 +156,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         .setPositiveButton("확인", null)
                         .create()
                         .show();
+            }else if (pw.trim().length() < 8) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                builder.setTitle("알림")
+                        .setMessage("비밀번호가 너무 짧습니다.")
+                        .setPositiveButton("확인", null)
+                        .create();
             }else if (pw2.trim().length() == 0 || pw == null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                 builder.setTitle("알림")
