@@ -1,4 +1,4 @@
-package com.example.team11_project_front;
+package com.example.team11_project_front.Data;
 
 import com.google.gson.annotations.SerializedName;
 

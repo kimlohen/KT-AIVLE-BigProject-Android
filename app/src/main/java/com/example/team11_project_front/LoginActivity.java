@@ -27,10 +27,17 @@ import android.content.Intent;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.team11_project_front.Data.LoginRequest;
+import com.example.team11_project_front.Data.LoginResponse;
 import com.google.android.gms.common.SignInButton;
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.User;
+
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
@@ -147,7 +154,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(v.getContext(), MainActivity.class); // 네이버 기능 구현하면
             resultLauncher.launch(intent);
         } else if (id == R.id.initPW) {
-            Intent intent = new Intent(v.getContext(), initPW.class); // 비밀번호 찾기 페이지 만들면 변경
+            Intent intent = new Intent(v.getContext(), initPWActivity.class); // 비밀번호 찾기 페이지 만들면 변경
             resultLauncher.launch(intent);
         }
 
@@ -176,12 +183,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    public void LoginResponse(){
+    public void LoginResponse() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         String userID = idEdit.getText().toString().trim();
         String userPassword = pwEdit.getText().toString().trim();
 
         //loginRequest에 사용자가 입력한 id와 pw를 저장
-        LoginRequest loginRequest = new LoginRequest(userID, userPassword);
+        LoginRequest loginRequest = new LoginRequest(userID, sha256(userPassword));
 
         //retrofit 생성
         retrofitClient = RetrofitClient.getInstance();
@@ -216,7 +223,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         //자동 로그인 여부
                         if (checkBox.isChecked()) {
                             setPreference("autoLoginId", userID);
-                            setPreference("autoLoginPw", userPassword);
+                            try {
+                                setPreference("autoLoginPw", sha256(userPassword));
+                            } catch (NoSuchAlgorithmException e) {
+                                throw new RuntimeException(e);
+                            } catch (UnsupportedEncodingException e) {
+                                throw new RuntimeException(e);
+                            }
                         } else {
                             setPreference("autoLoginId", "");
                             setPreference("autoLoginPw", "");
@@ -405,5 +418,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 return null;
             }
         });
+    }
+    public static String sha256(String data) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(data.getBytes("UTF-8"));
+        byte[] bytes = md.digest();
+        String hash = String.format("%64x", new BigInteger(1, bytes));
+        return hash;
     }
 }
