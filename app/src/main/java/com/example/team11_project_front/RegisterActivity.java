@@ -27,6 +27,11 @@ import android.widget.Toast;
 import com.example.team11_project_front.Data.JoinRequest;
 import com.example.team11_project_front.Data.JoinResponse;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -156,12 +161,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         .setPositiveButton("확인", null)
                         .create()
                         .show();
-            }else if (pw.trim().length() < 8) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                builder.setTitle("알림")
-                        .setMessage("비밀번호가 너무 짧습니다.")
-                        .setPositiveButton("확인", null)
-                        .create();
             }else if (pw2.trim().length() == 0 || pw == null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                 builder.setTitle("알림")
@@ -173,6 +172,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                 builder.setTitle("알림")
                         .setMessage("비밀번호 입력과 확인이 다릅니다.")
+                        .setPositiveButton("확인", null)
+                        .create()
+                        .show();
+            }else if (pw.trim().length() < 8 || pw2.trim().length() < 8) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                builder.setTitle("알림")
+                        .setMessage("비밀번호가 너무 짧습니다.")
                         .setPositiveButton("확인", null)
                         .create()
                         .show();
@@ -193,7 +199,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }else if (veterinarianBtn.isChecked() && (hospitalCode.trim().length() == 0 || hospitalCode == null)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                 builder.setTitle("알림")
-                        .setMessage("병원명을 입력바랍니다.")
+                        .setMessage("병원코드 입력바랍니다.")
                         .setPositiveButton("확인", null)
                         .create()
                         .show();
@@ -205,7 +211,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    public void joinResponse() {
+    public void joinResponse() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         String email = mailEdit.getText().toString().trim();
         String name = nameEdit.getText().toString().trim();
         String pw = pwEdit.getText().toString().trim();
@@ -213,10 +219,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String hospitalName = hospitalNameEdit.getText().toString().trim();
         String hospitalCode = hospitalCodeEdit.getText().toString().trim();
 
-        JoinRequest joinRequest = new JoinRequest(name, email, pw, pw2);
+        JoinRequest joinRequest = new JoinRequest(name, email, sha256(pw), sha256(pw2));
 
         if (veterinarianBtn.isChecked()){
-            joinRequest = new JoinRequest(name, email, pw, pw2, hospitalName, hospitalCode);
+            joinRequest = new JoinRequest(name, email,  sha256(pw), sha256(pw2), hospitalName, hospitalCode);
         }
 
         retrofitClient = RetrofitClient.getInstance();
@@ -251,4 +257,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
+    public static String sha256(String data) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(data.getBytes("UTF-8"));
+        byte[] bytes = md.digest();
+        String hash = String.format("%64x", new BigInteger(1, bytes));
+        return hash;
+    }
 }
