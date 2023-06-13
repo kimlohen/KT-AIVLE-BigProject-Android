@@ -31,6 +31,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -175,13 +177,55 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         .setPositiveButton("확인", null)
                         .create()
                         .show();
-            }else if (pw.trim().length() < 8 || pw2.trim().length() < 8) {
+            }else if (pw.trim().length() < 8) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                 builder.setTitle("알림")
                         .setMessage("비밀번호가 너무 짧습니다.")
                         .setPositiveButton("확인", null)
                         .create()
                         .show();
+            }else if (isValidPassword(pw.trim()) != 7) {
+                int errorCode = isValidPassword(pw.trim());
+                if (errorCode == 2) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                    builder.setTitle("알림")
+                            .setMessage("비밀번호가 너무 깁니다.")
+                            .setPositiveButton("확인", null)
+                            .create()
+                            .show();
+                }else if(errorCode == 3){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                    builder.setTitle("알림")
+                            .setMessage("비밀번호가 공백을 포함하고 있습니다.")
+                            .setPositiveButton("확인", null)
+                            .create()
+                            .show();
+                }else if(errorCode == 4){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                    builder.setTitle("알림")
+                            .setMessage("비밀번호가 유효하지 않은 문자를 포함하고 있습니다.")
+                            .setPositiveButton("확인", null)
+                            .create()
+                            .show();
+                }else if(errorCode == 5){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                    builder.setTitle("알림")
+                            .setMessage("비밀번호가 같은 문자를 연속으로 3번이상 포함하고 있습니다.")
+                            .setPositiveButton("확인", null)
+                            .create()
+                            .show();
+                }else if(errorCode == 6){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                    builder.setTitle("알림")
+                            .setMessage("비밀번호가 연속된 문자, 숫자를 포함하고 있습니다.")
+                            .setPositiveButton("확인", null)
+                            .create()
+                            .show();
+                }
+
+
+
+
             }else if (!serviceOkBtn.isChecked()) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                 builder.setTitle("알림")
@@ -263,5 +307,91 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         byte[] bytes = md.digest();
         String hash = String.format("%64x", new BigInteger(1, bytes));
         return hash;
+    }
+
+    /**
+     * 비밀번호 검증 메소드
+     *
+     * @param password 비밀번호 문자열
+     * @return 오류번호
+     */
+    int isValidPassword(String password) {
+        // 최소 8자, 최대 20자 상수 선언
+        final int MIN = 8;
+        final int MAX = 20;
+
+        // 영어, 숫자, 특수문자 포함한 MIN to MAX 글자 정규식
+        final String REGEX =
+                "^((?=.*\\d)(?=.*[a-zA-Z])(?=.*[\\W]).{" + MIN + "," + MAX + "})$";
+        // 3자리 연속 문자 정규식
+        final String SAMEPT = "(\\w)\\1\\1";
+        // 공백 문자 정규식
+        final String BLANKPT = "(\\s)";
+
+        // 정규식 검사객체
+        Matcher matcher;
+
+        // 공백 체크
+        if (password == null || "".equals(password)) {
+            return 1; // "Detected: No Password";
+        }
+
+        // ASCII 문자 비교를 위한 UpperCase
+        String tmpPw = password.toUpperCase();
+        // 문자열 길이
+        int strLen = tmpPw.length();
+
+        // 글자 길이 체크
+        if (strLen > 20 || strLen < 8) {
+            return 2; // "Detected: Incorrect Length(Length: " + strLen + ")";
+        }
+
+        // 공백 체크
+        matcher = Pattern.compile(BLANKPT).matcher(tmpPw);
+        if (matcher.find()) {
+            return 3; //"Detected: Blank";
+        }
+
+        // 비밀번호 정규식 체크
+        matcher = Pattern.compile(REGEX).matcher(tmpPw);
+        if (!matcher.find()) {
+            return 4; //"Detected: Wrong Regex";
+        }
+
+        // 동일한 문자 3개 이상 체크
+        matcher = Pattern.compile(SAMEPT).matcher(tmpPw);
+        if (matcher.find()) {
+            return 5; //"Detected: Same Word";
+        }
+
+        // 연속된 문자 / 숫자 3개 이상 체크
+        // ASCII Char를 담을 배열 선언
+        int[] tmpArray = new int[strLen];
+
+        // Make Array
+        for (int i = 0; i < strLen; i++) {
+            tmpArray[i] = tmpPw.charAt(i);
+        }
+
+        // Validation Array
+        for (int i = 0; i < strLen - 2; i++) {
+            // 첫 글자 A-Z / 0-9
+            if ((tmpArray[i] > 47
+                    && tmpArray[i + 2] < 58)
+                    || (tmpArray[i] > 64
+                    && tmpArray[i + 2] < 91)) {
+                // 배열의 연속된 수 검사
+                // 3번째 글자 - 2번째 글자 = 1, 3번째 글자 - 1번째 글자 = 2
+                if (Math.abs(tmpArray[i + 2] - tmpArray[i + 1]) == 1
+                        && Math.abs(tmpArray[i + 2] - tmpArray[i]) == 2) {
+                    char c1 = (char) tmpArray[i];
+                    char c2 = (char) tmpArray[i + 1];
+                    char c3 = (char) tmpArray[i + 2];
+                    return 6; //"Detected: Continuous Pattern: \"" + c1 + c2 + c3 + "\"";
+                }
+            }
+        }
+        // Validation Complete
+        return 7;
     }
 }
