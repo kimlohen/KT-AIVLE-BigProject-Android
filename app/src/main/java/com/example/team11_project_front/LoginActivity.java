@@ -8,7 +8,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
@@ -42,7 +41,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private FragmentTransaction ft;
     private ActivityResultLauncher<Intent> resultLauncher;
     private RetrofitClient retrofitClient;
-    private initMyApi initMyApi;
+    private loginApi loginApi;
 
     public TextView findID, findPW;
     public EditText idEdit, pwEdit;
@@ -192,10 +191,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         //retrofit 생성
         retrofitClient = RetrofitClient.getInstance();
-        initMyApi = RetrofitClient.getRetrofitInterface();
+        loginApi = RetrofitClient.getRetrofitInterface();
 
         //loginRequest에 저장된 데이터와 함께 init에서 정의한 getLoginResponse 함수를 실행한 후 응답을 받음
-        initMyApi.getLoginResponse(loginRequest).enqueue(new Callback<LoginResponse>() {
+        loginApi.getLoginResponse(loginRequest).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
@@ -302,6 +301,79 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     //자동 로그인 유저
     public void checkAutoLogin(String id){
+        String userID = getPreferenceString("autoLoginId").trim();
+        String userPassword = getPreferenceString("autoLoginPw").trim();
+
+        LoginRequest loginRequest = new LoginRequest(userID, userPassword);
+
+        //retrofit 생성
+        retrofitClient = RetrofitClient.getInstance();
+        loginApi = RetrofitClient.getRetrofitInterface();
+
+        //loginRequest에 저장된 데이터와 함께 init에서 정의한 getLoginResponse 함수를 실행한 후 응답을 받음
+        loginApi.getLoginResponse(loginRequest).enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+
+                Log.d("retrofit", "Data fetch success");
+
+                //통신 성공
+                if (response.isSuccessful() && response.body() != null) {
+
+                    //response.body()를 result에 저장
+                    LoginResponse result = response.body();
+
+                    //받은 토큰 저장
+                    String acessToken = result.getAcessToken();
+                    String refreshToken = result.getRefreshToken();
+
+
+                    if (acessToken != null) {
+                        String userID = getPreferenceString("autoLoginId");
+                        String userPassword = getPreferenceString("autoLoginPw");
+
+                        //다른 통신을 하기 위해 token 저장
+                        setPreference(acessToken,acessToken);
+                        setPreference(refreshToken,refreshToken);
+
+                        //자동 로그인 여부
+                        if (checkBox.isChecked()) {
+                            setPreference("autoLoginId", userID);
+                            setPreference("autoLoginPw", userPassword);
+                        } else {
+                            setPreference("autoLoginId", "");
+                            setPreference("autoLoginPw", "");
+                        }
+
+                        Toast.makeText(LoginActivity.this, userID + "님 환영합니다.", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("userId", userID);
+                        startActivity(intent);
+                        LoginActivity.this.finish();
+
+                    } else {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                        builder.setTitle("알림")
+                                .setMessage("예기치 못한 오류가 발생하였습니다.\n 고객센터에 문의바랍니다.")
+                                .setPositiveButton("확인", null)
+                                .create()
+                                .show();
+                    }
+                }
+            }
+
+            //통신 실패
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                builder.setTitle("알림")
+                        .setMessage("예기치 못한 오류가 발생하였습니다.\n 고객센터에 문의바랍니다.")
+                        .setPositiveButton("확인", null)
+                        .create()
+                        .show();
+            }
+        });
 
         //Toast.makeText(this, id + "님 환영합니다.", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, MainActivity.class);
