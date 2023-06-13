@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".RegisterActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|center_vertical"
+            android:text="회원가입"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="60dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/editTextText6"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/edittext_rectangle"
+            android:ems="10"
+            android:hint="  이름"
+            android:inputType="text"
+            android:layout_marginBottom="16dp"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp" >
+
+            <EditText
+                android:id="@+id/editTextText8"
+                android:layout_width="230dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_rectangle"
+                android:ems="10"
+                android:hint="  이메일"
+
+                android:inputType="text" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="인증" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/editTextText"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:background="@drawable/edittext_rectangle"
+            android:hint="  비밀번호"
+            android:inputType="text"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/editTextText2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:background="@drawable/edittext_rectangle"
+            android:hint="  비밀번호 확인"
+            android:layout_marginBottom="16dp"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="  비밀번호가 같지 않습니다."
+            android:layout_marginBottom="8dp"
+            android:visibility="invisible" />
+
+        <Switch
+            android:id="@+id/switchToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  수의사  "
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/editTextText3"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="  수의사 병원명"
+            android:background="@drawable/edittext_rectangle"
+            android:inputType="text"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/editTextText4"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/edittext_rectangle"
+            android:hint="  병원 코드"
+            android:inputType="text"
+            android:visibility="gone" />
+
+        <CheckBox
+            android:id="@+id/checkBox2"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="서비스 약관 동의" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onclick"
+            android:text="회원가입" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
