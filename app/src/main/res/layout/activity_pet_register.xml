@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/notEqualPWText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -40,7 +40,7 @@
         android:padding="60dp" >
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/pwEdit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"
@@ -50,7 +50,7 @@
             android:background="@drawable/edittext_rectangle" />
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/pwEdit2"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"
@@ -60,7 +60,7 @@
             android:background="@drawable/edittext_rectangle" />
 
         <EditText
-            android:id="@+id/editTextText3"
+            android:id="@+id/hospitalNameEdit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"
@@ -70,7 +70,7 @@
             android:background="@drawable/edittext_rectangle" />
 
         <EditText
-            android:id="@+id/editTextText4"
+            android:id="@+id/hospitalCodeEdit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"

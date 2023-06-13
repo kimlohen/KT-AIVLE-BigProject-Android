@@ -10,6 +10,7 @@ public class RetrofitClient {
     private static RetrofitClient instance = null;
     private static loginApi loginApi;
     private static emailApi emailApi;
+    private static joinApi joinApi;
     //사용하고 있는 서버 BASE 주소
     private static String baseUrl = "http://13.124.194.227/";
 
@@ -31,6 +32,7 @@ public class RetrofitClient {
 
         loginApi = retrofit.create(loginApi.class);
         emailApi = retrofit.create(emailApi.class);
+        joinApi = retrofit.create(joinApi.class);
     }
 
     public static RetrofitClient getInstance() {
@@ -45,5 +47,8 @@ public class RetrofitClient {
     }
     public static emailApi getRetrofitEmailInterface() {
         return emailApi;
+    }
+    public static joinApi getRetrofitJoinInterface() {
+        return joinApi;
     }
 }

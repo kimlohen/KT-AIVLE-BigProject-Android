@@ -1,5 +1,8 @@
 package com.example.team11_project_front;
 
+import com.example.team11_project_front.Data.LoginRequest;
+import com.example.team11_project_front.Data.LoginResponse;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;

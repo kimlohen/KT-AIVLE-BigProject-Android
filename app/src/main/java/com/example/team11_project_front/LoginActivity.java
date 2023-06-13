@@ -27,6 +27,8 @@ import android.content.Intent;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.team11_project_front.Data.LoginRequest;
+import com.example.team11_project_front.Data.LoginResponse;
 import com.google.android.gms.common.SignInButton;
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.user.UserApiClient;
@@ -147,7 +149,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(v.getContext(), MainActivity.class); // 네이버 기능 구현하면
             resultLauncher.launch(intent);
         } else if (id == R.id.initPW) {
-            Intent intent = new Intent(v.getContext(), initPW.class); // 비밀번호 찾기 페이지 만들면 변경
+            Intent intent = new Intent(v.getContext(), initPWActivity.class); // 비밀번호 찾기 페이지 만들면 변경
             resultLauncher.launch(intent);
         }
 
