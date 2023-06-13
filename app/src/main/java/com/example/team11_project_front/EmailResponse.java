@@ -1,0 +1,18 @@
+package com.example.team11_project_front;
+
+import com.google.gson.annotations.SerializedName;
+
+public class EmailResponse {
+    @SerializedName("result")
+    public String resultCode;
+
+    public String getResultCode() {
+        return resultCode;
+    }
+
+    public void setResultCode(String resultCode) {
+        this.resultCode = resultCode;
+    }
+
+}
+

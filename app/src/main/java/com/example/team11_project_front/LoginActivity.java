@@ -42,8 +42,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private ActivityResultLauncher<Intent> resultLauncher;
     private RetrofitClient retrofitClient;
     private loginApi loginApi;
-
-    public TextView findID, findPW;
+    public TextView initPW;
     public EditText idEdit, pwEdit;
     public Button loginBtn, joinBtn;
     public CheckBox checkBox;
@@ -65,8 +64,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         kakaoBtn = (ImageButton) findViewById(R.id.kakaoLoginBtn);
         naverBtn = (ImageButton) findViewById(R.id.naverLoginBtn);
         googleBtn = (SignInButton) findViewById(R.id.googleLoginBtn);
-        findID = (TextView) findViewById(R.id.findID);
-        findPW =  (TextView) findViewById(R.id.findPW);
+        initPW =  (TextView) findViewById(R.id.initPW);
 
         //자동 로그인을 선택한 유저
         if (!getPreferenceString("autoLoginId").equals("") && !getPreferenceString("autoLoginPw").equals("")) {
@@ -79,8 +77,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         googleBtn.setOnClickListener(this);
         kakaoBtn.setOnClickListener(this);
         naverBtn.setOnClickListener(this);
-        findID.setOnClickListener(this);
-        findPW.setOnClickListener(this);
+        initPW.setOnClickListener(this);
 
         setGooglePlusButtonText(googleBtn, "구글로 로그인");
 
@@ -149,11 +146,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else if (id == R.id.naverLoginBtn){
             Intent intent = new Intent(v.getContext(), MainActivity.class); // 네이버 기능 구현하면
             resultLauncher.launch(intent);
-        } else if (id == R.id.findID) {
-            Intent intent = new Intent(v.getContext(), MainActivity.class); // 아이디 찾기 페이지 만들면 변경
-            resultLauncher.launch(intent);
-        } else if (id == R.id.findPW) {
-            Intent intent = new Intent(v.getContext(), ChangePwdActivity.class); // 비밀번호 찾기 페이지 만들면 변경
+        } else if (id == R.id.initPW) {
+            Intent intent = new Intent(v.getContext(), initPW.class); // 비밀번호 찾기 페이지 만들면 변경
             resultLauncher.launch(intent);
         }
 
@@ -191,7 +185,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         //retrofit 생성
         retrofitClient = RetrofitClient.getInstance();
-        loginApi = RetrofitClient.getRetrofitInterface();
+        loginApi = RetrofitClient.getRetrofitLoginInterface();
 
         //loginRequest에 저장된 데이터와 함께 init에서 정의한 getLoginResponse 함수를 실행한 후 응답을 받음
         loginApi.getLoginResponse(loginRequest).enqueue(new Callback<LoginResponse>() {
@@ -308,7 +302,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         //retrofit 생성
         retrofitClient = RetrofitClient.getInstance();
-        loginApi = RetrofitClient.getRetrofitInterface();
+        loginApi = RetrofitClient.getRetrofitLoginInterface();
 
         //loginRequest에 저장된 데이터와 함께 init에서 정의한 getLoginResponse 함수를 실행한 후 응답을 받음
         loginApi.getLoginResponse(loginRequest).enqueue(new Callback<LoginResponse>() {

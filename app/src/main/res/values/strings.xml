@@ -11,8 +11,8 @@
     <string name="logo">Logo</string>
     <string name="id_plain_text">ID</string>
     <string name="pw_plain_text">PW</string>
-    <string name="find_id">아이디 찾기</string>
-    <string name="find_pw">비밀번호 찾기</string>
+    <string name="find_message">비밀번호를 잊으셨나요?</string>
+    <string name="find_pw">비밀번호 초기화</string>
     <string name='back_text'>&gt;</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
