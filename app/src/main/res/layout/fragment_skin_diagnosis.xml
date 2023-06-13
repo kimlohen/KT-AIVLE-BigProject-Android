@@ -3,46 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment"
+    tools:context=".SkinDiagnosisActivity"
     android:paddingTop="20dp">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:prompt="@string/my_pet_prompt"
-        />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_skin_diagnosis"
+        android:id="@+id/btn_take_pic"
         android:layout_width="180dp"
         android:layout_height="80dp"
         android:layout_gravity="center|left"
         android:layout_margin="16dp"
         android:textSize="20sp"
-        android:text="@string/skin_diagnosis"
+        android:text="@string/take_pic"
         />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_eye_diagnosis"
+        android:id="@+id/btn_select_pic"
         android:layout_width="180dp"
         android:layout_height="80dp"
         android:layout_gravity="center|right"
         android:layout_margin="16dp"
         android:textSize="20sp"
-        android:text="@string/eye_diagnosis"
+        android:text="@string/select_pic"
         />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-    </LinearLayout>
-
 
 </FrameLayout>
