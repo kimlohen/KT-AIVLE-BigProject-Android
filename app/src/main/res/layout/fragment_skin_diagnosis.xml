@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SkinDiagnosisActivity"
+    android:paddingTop="20dp">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_take_pic"
+        android:layout_width="180dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center|left"
+        android:layout_margin="16dp"
+        android:textSize="20sp"
+        android:text="@string/take_pic"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_select_pic"
+        android:layout_width="180dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center|right"
+        android:layout_margin="16dp"
+        android:textSize="20sp"
+        android:text="@string/select_pic"
+        />
+
+</FrameLayout>
