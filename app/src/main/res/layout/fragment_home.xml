@@ -42,6 +42,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button3"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+
+            android:text="@string/back_text"
+            android:textColorHighlight="@color/white"
+            android:textColorLink="#FDFAFA"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="270dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:text="Pet Check LiST"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
 

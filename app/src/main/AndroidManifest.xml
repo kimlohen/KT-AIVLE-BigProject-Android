@@ -11,9 +11,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Team11Projectfront"
+        android:usesCleartextTraffic="true"
+        android:name=".KakaoApplication"
         tools:targetApi="31">
+
         <activity
-            android:name=".MainActivity"
+            android:name=".ChangePwdActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PetRegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +34,27 @@
             </intent-filter>
         </activity>
         <activity android:name=".SkinDiagnosisActivity"/>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
+                <data android:host="oauth"
+                    android:scheme="kakao4ea08aa1447cd2212c1beffea7c02a1a" />
+            </intent-filter>
+        </activity>
+
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
