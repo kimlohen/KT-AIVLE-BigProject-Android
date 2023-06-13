@@ -20,6 +20,9 @@
             android:name=".initPW"
             android:exported="false" />
         <activity
+            android:name=".MyPage.PostedActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChangePwdActivity"
             android:exported="false" />
         <activity

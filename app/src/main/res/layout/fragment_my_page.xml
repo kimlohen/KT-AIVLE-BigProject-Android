@@ -175,6 +175,7 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
             app:layout_constraintVertical_bias="0.338">
             <LinearLayout
+                android:id="@+id/posted"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal"
