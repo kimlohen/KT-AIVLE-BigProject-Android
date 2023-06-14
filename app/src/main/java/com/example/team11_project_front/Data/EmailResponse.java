@@ -9,10 +9,8 @@ public class EmailResponse {
     public String getResultCode() {
         return resultCode;
     }
-
     public void setResultCode(String resultCode) {
         this.resultCode = resultCode;
     }
-
 }
 

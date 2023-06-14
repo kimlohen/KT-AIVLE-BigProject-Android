@@ -206,23 +206,26 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/logout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:orientation="horizontal"
                 android:layout_marginTop="5dp"
-                android:clickable="true">
+                android:clickable="true"
+                android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="로그아웃"
-                    android:textSize="18dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:text="로그아웃"
+                    android:textSize="18dp" />
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -230,8 +233,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/right_icon"
-                    />
+                    android:background="@drawable/right_icon" />
 
 
             </LinearLayout>
@@ -239,22 +241,24 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:orientation="horizontal"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="20dp"
-                android:clickable="true">
+                android:clickable="true"
+                android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="회원 탈퇴"
-                    android:textSize="18dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:text="회원 탈퇴"
+                    android:textSize="18dp" />
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -262,8 +266,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/right_icon"
-                    />
+                    android:background="@drawable/right_icon" />
 
 
             </LinearLayout>

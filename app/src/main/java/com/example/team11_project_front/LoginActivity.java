@@ -44,8 +44,6 @@ import kotlin.jvm.functions.Function2;
 import retrofit2.*;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
-    private FragmentManager fm = getSupportFragmentManager();
-    private FragmentTransaction ft;
     private ActivityResultLauncher<Intent> resultLauncher;
     private RetrofitClient retrofitClient;
     private loginApi loginApi;
@@ -60,8 +58,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        ft = fm.beginTransaction();
 
         idEdit = (EditText) findViewById(R.id.editID);
         pwEdit = (EditText) findViewById(R.id.editPW);
@@ -173,7 +169,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         .setPositiveButton("확인", null)
                         .create()
                         .show();
-                AlertDialog alertDialog = builder.create();
             }else{
                 LoginResponse();
             }
@@ -211,14 +206,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String acessToken = result.getAcessToken();
                     String refreshToken = result.getRefreshToken();
 
+                    String email = result.getUser().getEmail();
+                    String first_name = result.getUser().getFirst_name();
+                    String last_name = result.getUser().getLast_name();
 
                     if (acessToken != null) {
                         String userID = idEdit.getText().toString();
                         String userPassword = pwEdit.getText().toString();
 
                         //다른 통신을 하기 위해 token 저장
-                        setPreference(acessToken,acessToken);
-                        setPreference(refreshToken,refreshToken);
+                        setPreference("acessToken",acessToken);
+                        setPreference("refreshToken",refreshToken);
+                        setPreference("email", email);
+                        setPreference("first_name", first_name);
+                        setPreference("last_name", last_name);
 
                         //자동 로그인 여부
                         if (checkBox.isChecked()) {
@@ -266,7 +267,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    //데이터를 내부 저장소에 저장하기
+    // 데이터를 내부 저장소에 저장하기
     public void setPreference(String key, String value){
         SharedPreferences pref = getSharedPreferences("DATA_STORE", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
@@ -274,7 +275,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editor.apply();
     }
 
-    //내부 저장소에 저장된 데이터 가져오기
+    // 내부 저장소에 저장된 데이터 가져오기
     public String getPreferenceString(String key) {
         SharedPreferences pref = getSharedPreferences("DATA_STORE", MODE_PRIVATE);
         return pref.getString(key, "");
