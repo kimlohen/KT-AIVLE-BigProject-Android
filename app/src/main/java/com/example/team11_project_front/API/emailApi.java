@@ -9,6 +9,6 @@ import retrofit2.http.POST;
 
 public interface emailApi {
     //@통신 방식("통신 API명")
-    @POST("/accounts/password/reset")
+    @POST("/accounts/password/reset/")
     Call<EmailResponse> getEmailResponse(@Body EmailRequest emailRequest);
 }
