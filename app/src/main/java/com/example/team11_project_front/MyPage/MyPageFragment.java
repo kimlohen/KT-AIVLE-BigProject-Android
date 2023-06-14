@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.team11_project_front.Data.HospitalInfo;
 import com.example.team11_project_front.Data.LogoutResponse;
@@ -78,8 +80,6 @@ public class MyPageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 logout();
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -150,13 +150,10 @@ public class MyPageFragment extends Fragment {
                     setPreference("last_name", "");
                     setPreference("autoLoginId", "");
                     setPreference("autoLoginPw", "");
+                    Toast.makeText(getActivity(), "로그아웃이 완료되었습니다.", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setTitle("알림")
-                            .setMessage("로그아웃 되었습니다.")
-                            .setPositiveButton("확인", null)
-                            .create()
-                            .show();
                 } else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("알림")
@@ -179,4 +176,5 @@ public class MyPageFragment extends Fragment {
         });
 
     }
+
 }

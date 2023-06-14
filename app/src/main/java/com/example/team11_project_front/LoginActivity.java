@@ -24,9 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import com.example.team11_project_front.Data.LoginRequest;
 import com.example.team11_project_front.Data.LoginResponse;
 import com.google.android.gms.common.SignInButton;
@@ -324,7 +321,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
                 Log.d("retrofit", "Data fetch success");
-
                 //통신 성공
                 if (response.isSuccessful() && response.body() != null) {
 
@@ -360,26 +356,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         LoginActivity.this.finish();
 
                     } else {
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                        builder.setTitle("알림")
-                                .setMessage("예기치 못한 오류가 발생하였습니다.\n 고객센터에 문의바랍니다.")
-                                .setPositiveButton("확인", null)
-                                .create()
-                                .show();
+                        Toast.makeText(LoginActivity.this, "잘못된 아이디 또는 비밀번호 입니다.", Toast.LENGTH_LONG).show();
                     }
+                } else {
+                    Toast.makeText(LoginActivity.this, "잘못된 아이디 또는 비밀번호 입니다.", Toast.LENGTH_LONG).show();
                 }
             }
 
             //통신 실패
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                builder.setTitle("알림")
-                        .setMessage("예기치 못한 오류가 발생하였습니다.\n 고객센터에 문의바랍니다.")
-                        .setPositiveButton("확인", null)
-                        .create()
-                        .show();
+                Toast.makeText(LoginActivity.this, "잘못된 아이디 또는 비밀번호 입니다.", Toast.LENGTH_LONG).show();
             }
         });
 
