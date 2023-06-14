@@ -5,7 +5,6 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -21,7 +20,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.team11_project_front.Data.JoinRequest;
@@ -41,7 +39,7 @@ import retrofit2.Response;
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
     private ActivityResultLauncher<Intent> resultLauncher;
     private RetrofitClient retrofitClient;
-    private joinApi joinApi;
+    private com.example.team11_project_front.API.joinApi joinApi;
     private Switch veterinarianBtn;
     private EditText pwEdit, pwEdit2, nameEdit, mailEdit, hospitalNameEdit, hospitalCodeEdit;
     private CheckBox serviceOkBtn;

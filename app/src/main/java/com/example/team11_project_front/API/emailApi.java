@@ -1,4 +1,4 @@
-package com.example.team11_project_front;
+package com.example.team11_project_front.API;
 
 import com.example.team11_project_front.Data.EmailRequest;
 import com.example.team11_project_front.Data.EmailResponse;

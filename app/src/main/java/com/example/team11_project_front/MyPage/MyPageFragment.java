@@ -4,7 +4,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,9 +23,10 @@ import com.example.team11_project_front.Data.HospitalInfo;
 import com.example.team11_project_front.Data.LogoutResponse;
 import com.example.team11_project_front.Data.PetInfo;
 import com.example.team11_project_front.LoginActivity;
+import com.example.team11_project_front.PetRegisterActivity;
 import com.example.team11_project_front.R;
 import com.example.team11_project_front.RetrofitClient;
-import com.example.team11_project_front.logoutApi;
+import com.example.team11_project_front.API.logoutApi;
 
 import java.util.ArrayList;
 
@@ -40,6 +41,8 @@ public class MyPageFragment extends Fragment {
     private ArrayList<HospitalInfo> hospitalInfos;
     private RetrofitClient retrofitClient;
     private logoutApi logoutApi;
+
+    private Button addPet;
     Context mContext;
 
     @Override
@@ -58,6 +61,7 @@ public class MyPageFragment extends Fragment {
         TextView tv_name = (TextView) view.findViewById(R.id.profileName);
         TextView tv_type = (TextView) view.findViewById(R.id.type);
         TextView tv_email = (TextView) view.findViewById(R.id.email);
+        addPet = (Button) view.findViewById(R.id.addPetBtn);
 
         tv_name.setText(name);
         tv_type.setText(type);
@@ -80,6 +84,14 @@ public class MyPageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 logout();
+            }
+        });
+
+        addPet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PetRegisterActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -153,7 +165,6 @@ public class MyPageFragment extends Fragment {
                     Toast.makeText(getActivity(), "로그아웃이 완료되었습니다.", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);
-
                 } else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("알림")

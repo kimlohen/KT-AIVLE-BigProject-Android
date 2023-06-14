@@ -43,7 +43,7 @@ import retrofit2.*;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     private ActivityResultLauncher<Intent> resultLauncher;
     private RetrofitClient retrofitClient;
-    private loginApi loginApi;
+    private com.example.team11_project_front.API.loginApi loginApi;
     public TextView initPW;
     public EditText idEdit, pwEdit;
     public Button loginBtn, joinBtn;
