@@ -134,17 +134,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(v.getContext(), RegisterActivity.class); // 회원가입 페이지 만들면 변경
             resultLauncher.launch(intent);
         } else if (id == R.id.googleLoginBtn){
-            Intent intent = new Intent(v.getContext(), MainActivity.class); // 구글 기능 구현하면
+            Intent intent = new Intent(v.getContext(), WebViewActivity.class); // 구글 기능 구현하면
+            intent.putExtra("url", "");
             resultLauncher.launch(intent);
         } else if (id == R.id.kakaoLoginBtn){
-            if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this)){
-                UserApiClient.getInstance().loginWithKakaoTalk(LoginActivity.this, callback);
-            }else{
-                // 카카오톡이 설치되어 있지 않다면
-                UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callback);
-            }
+            Intent intent = new Intent(v.getContext(), MainActivity.class); // 카카오 기능 구현하면
+            intent.putExtra("url", "");
+            resultLauncher.launch(intent);
         } else if (id == R.id.naverLoginBtn){
-            Intent intent = new Intent(v.getContext(), MainActivity.class); // 네이버 기능 구현하면
+            Intent intent = new Intent(v.getContext(), WebViewActivity.class); // 네이버 기능 구현하면
+            intent.putExtra("url", "13.124.194.227" + "/accounts/naver/login");
             resultLauncher.launch(intent);
         } else if (id == R.id.initPW) {
             Intent intent = new Intent(v.getContext(), initPWActivity.class); // 비밀번호 찾기 페이지 만들면 변경

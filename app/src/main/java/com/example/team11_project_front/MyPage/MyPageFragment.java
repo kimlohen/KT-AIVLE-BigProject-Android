@@ -77,7 +77,6 @@ public class MyPageFragment extends Fragment {
             }
         });
 
-
         //로그아웃 영역 클릭 시 로그아웃을 하고 로그인 페이지로 이동함
         LinearLayout logout_layout = (LinearLayout) view.findViewById(R.id.logout);
         logout_layout.setOnClickListener(new View.OnClickListener() {
