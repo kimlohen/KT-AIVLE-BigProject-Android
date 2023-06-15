@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.team11_project_front.Data.JoinRequest;
 import com.example.team11_project_front.Data.JoinResponse;
+import com.example.team11_project_front.Data.LoginResponse;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -277,8 +279,29 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 Log.d("retrofit", "Data fetch success");
 
                 //통신 성공
-                if (response.isSuccessful()) {
-                    //이메일 전송
+                if (response.isSuccessful() && response.body() != null) {
+                    JoinResponse result = response.body();
+
+                    String acessToken = result.getAcessToken();
+                    String refreshToken = result.getRefreshToken();
+
+                    String email = result.getUser().getEmail();
+                    String first_name = result.getUser().getFirst_name();
+                    String last_name = result.getUser().getLast_name();
+
+                    if (acessToken != null) {
+                        String userID = mailEdit.getText().toString();
+                        String userPassword = pwEdit.getText().toString();
+
+                        //다른 통신을 하기 위해 token 저장
+                        setPreference("acessToken",acessToken);
+                        setPreference("refreshToken",refreshToken);
+                        setPreference("email", email);
+                        setPreference("first_name", first_name);
+                        setPreference("last_name", last_name);
+                    }
+
+                    //회원가입 전송
                     Toast.makeText(RegisterActivity.this, "회원가입되었습니다.", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -297,6 +320,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         .show();
             }
         });
+    }
+
+    // 데이터를 내부 저장소에 저장하기
+    public void setPreference(String key, String value){
+        SharedPreferences pref = getSharedPreferences("DATA_STORE", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(key, value);
+        editor.apply();
     }
 
     public static String sha256(String data) throws NoSuchAlgorithmException, UnsupportedEncodingException {

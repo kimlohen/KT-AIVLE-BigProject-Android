@@ -53,13 +53,112 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="auto"
+            android:foreground="?android:attr/selectableItemBackground"
             android:text="더보기"
             android:textAlignment="center"
             android:translationY="-40dp"
-            android:visibility="visible"
-            android:clickable="true"
-            android:focusable="auto"
-            android:foreground="?android:attr/selectableItemBackground" />
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:translationY="-40dp">
+
+            <TextView
+                android:id="@+id/beforeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="auto"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:text="@string/front_text"
+                android:textAlignment="center"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/page1"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="auto"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:text="1"
+                android:textAlignment="center"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/page2"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="auto"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:text="2"
+                android:textAlignment="center"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/page3"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="auto"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:text="3"
+                android:textAlignment="center"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/page4"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="auto"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:text="4"
+                android:textAlignment="center"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/page5"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="auto"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:text="5"
+                android:textAlignment="center"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/afterBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="auto"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:text="@string/back_text"
+                android:textAlignment="center"
+                android:visibility="visible" />
+        </LinearLayout>
 
     </LinearLayout>
 
