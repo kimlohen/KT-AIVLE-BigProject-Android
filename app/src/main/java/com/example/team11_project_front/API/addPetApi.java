@@ -9,6 +9,6 @@ import retrofit2.http.POST;
 
 public interface addPetApi {
     //@통신 방식("통신 API명")
-    @POST("/accounts/addPet/")
+    @POST("/accounts/api/pet/")
     Call<AddPetResponse> getAddPetResponse(@Body AddPetRequest addPetRequest);
 }

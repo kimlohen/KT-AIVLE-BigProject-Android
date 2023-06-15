@@ -1,5 +1,7 @@
 package com.example.team11_project_front.QnA;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,6 +44,8 @@ public class QnaFragment extends Fragment {
         beforeBtn.setEnabled(false);
         beforeBtn.setVisibility(beforeBtn.INVISIBLE);
 
+        page1.setTextColor(Color.BLUE);
+
         beforeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,6 +58,12 @@ public class QnaFragment extends Fragment {
                 page3.setText(String.valueOf(Integer.valueOf(page3.getText().toString()) - 5));
                 page4.setText(String.valueOf(Integer.valueOf(page4.getText().toString()) - 5));
                 page5.setText(String.valueOf(Integer.valueOf(page5.getText().toString()) - 5));
+
+                page1.setTextColor(Color.BLUE);
+                page2.setTextColor(Color.BLACK);
+                page3.setTextColor(Color.BLACK);
+                page4.setTextColor(Color.BLACK);
+                page5.setTextColor(Color.BLACK);
             }
         });
 
@@ -66,6 +77,63 @@ public class QnaFragment extends Fragment {
                 page3.setText(String.valueOf(Integer.valueOf(page3.getText().toString()) + 5));
                 page4.setText(String.valueOf(Integer.valueOf(page4.getText().toString()) + 5));
                 page5.setText(String.valueOf(Integer.valueOf(page5.getText().toString()) + 5));
+
+                page1.setTextColor(Color.BLUE);
+                page2.setTextColor(Color.BLACK);
+                page3.setTextColor(Color.BLACK);
+                page4.setTextColor(Color.BLACK);
+                page5.setTextColor(Color.BLACK);
+            }
+        });
+        page1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                page1.setTextColor(Color.BLUE);
+                page2.setTextColor(Color.BLACK);
+                page3.setTextColor(Color.BLACK);
+                page4.setTextColor(Color.BLACK);
+                page5.setTextColor(Color.BLACK);
+            }
+        });
+
+        page2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                page1.setTextColor(Color.BLACK);
+                page2.setTextColor(Color.BLUE);
+                page3.setTextColor(Color.BLACK);
+                page4.setTextColor(Color.BLACK);
+                page5.setTextColor(Color.BLACK);
+            }
+        });
+        page3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                page1.setTextColor(Color.BLACK);
+                page2.setTextColor(Color.BLACK);
+                page3.setTextColor(Color.BLUE);
+                page4.setTextColor(Color.BLACK);
+                page5.setTextColor(Color.BLACK);
+            }
+        });
+        page4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                page1.setTextColor(Color.BLACK);
+                page2.setTextColor(Color.BLACK);
+                page3.setTextColor(Color.BLACK);
+                page4.setTextColor(Color.BLUE);
+                page5.setTextColor(Color.BLACK);
+            }
+        });
+        page5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                page1.setTextColor(Color.BLACK);
+                page2.setTextColor(Color.BLACK);
+                page3.setTextColor(Color.BLACK);
+                page4.setTextColor(Color.BLACK);
+                page5.setTextColor(Color.BLUE);
             }
         });
 
@@ -81,7 +149,7 @@ public class QnaFragment extends Fragment {
         for(int i = 0 ; i < 10 ; i++) {
             String title = "제목";
             for(int j = 0 ; j < i ; j ++){
-                title = title + "O";
+                title = title + "OOO";
             }
             String writer = "홍길동";
             String date = "2023-06-14";
@@ -93,6 +161,17 @@ public class QnaFragment extends Fragment {
         QnAAdapter adapter = new QnAAdapter(getContext(), qnAInfos);
         listView.setAdapter(adapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                Intent intent = new Intent(getContext(), ArticleActivity.class);
+                /* putExtra의 첫 값은 식별 태그, 뒤에는 다음 화면에 넘길 값 */
+                intent.putExtra("title", qnAInfos.get(position).getTitle());
+                intent.putExtra("writer", qnAInfos.get(position).getWriter());
+                intent.putExtra("date", qnAInfos.get(position).getDate());
+                startActivity(intent);
+            }
+        });
 
     }
 

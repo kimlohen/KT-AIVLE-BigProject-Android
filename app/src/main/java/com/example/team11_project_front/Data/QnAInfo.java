@@ -4,7 +4,7 @@ public class QnAInfo {
     private String title;
     private String writer;
     private String date;
-    private  String ansNum;
+    private String ansNum;
 
     public QnAInfo(String title, String writer, String date, String ansNum) {
         this.title = title;

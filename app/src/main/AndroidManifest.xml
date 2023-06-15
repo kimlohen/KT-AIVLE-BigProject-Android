@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".QnA.ArticleActivity"
+            android:exported="false" />
+        <activity
             android:name=".initPWActivity"
             android:exported="false" />
         <activity
@@ -43,7 +46,7 @@
         <activity android:name=".SkinDiagnosisActivity" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
