@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class JoinRequest {
 
-    @SerializedName("name")
+    @SerializedName("first_name")
     public String inputName;
     @SerializedName("email")
     public String inputId;

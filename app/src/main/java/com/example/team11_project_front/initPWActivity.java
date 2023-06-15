@@ -29,7 +29,7 @@ import retrofit2.Response;
 public class initPWActivity extends AppCompatActivity implements View.OnClickListener{
     private ActivityResultLauncher<Intent> resultLauncher;
     private RetrofitClient retrofitClient;
-    private emailApi emailApi;
+    private com.example.team11_project_front.API.emailApi emailApi;
     public EditText mailEdit;
     public Button sendMailBtn;
     public ImageView backBtn;

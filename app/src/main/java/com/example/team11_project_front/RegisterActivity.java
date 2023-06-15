@@ -5,10 +5,10 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,9 +21,12 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.team11_project_front.API.emailVerifyApi;
+import com.example.team11_project_front.API.joinApi;
+import com.example.team11_project_front.Data.EmailRequest;
+import com.example.team11_project_front.Data.EmailResponse;
 import com.example.team11_project_front.Data.JoinRequest;
 import com.example.team11_project_front.Data.JoinResponse;
 
@@ -42,11 +45,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private ActivityResultLauncher<Intent> resultLauncher;
     private RetrofitClient retrofitClient;
     private joinApi joinApi;
+    private emailVerifyApi emailVerifyApi;
     private Switch veterinarianBtn;
     private EditText pwEdit, pwEdit2, nameEdit, mailEdit, hospitalNameEdit, hospitalCodeEdit;
     private CheckBox serviceOkBtn;
     private ImageView backBtn;
-    private Button registerBtn;
+    private Button registerBtn, verifyBtn;
+    private boolean verifyMail = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +68,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         hospitalCodeEdit = (EditText) findViewById(R.id.hospitalCodeEdit);
         serviceOkBtn = (CheckBox) findViewById(R.id.serviceOkBtn);
         registerBtn = (Button) findViewById(R.id.registerBtn);
+        verifyBtn = (Button) findViewById(R.id.verifyBtn);
 
         backBtn.setOnClickListener(this);
         registerBtn.setOnClickListener(this);
+        verifyBtn.setOnClickListener(this);
 
         veterinarianBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -130,7 +137,62 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             resultLauncher.launch(intent);
         } else if (id == R.id.registerBtn) {
             send();
+        } else if (id == R.id.verifyBtn){
+            verify();
         }
+    }
+
+    void verify() {
+        String email = mailEdit.getText().toString().trim();
+        EmailRequest emailRequest = new EmailRequest(email);
+        retrofitClient = RetrofitClient.getInstance();
+        emailVerifyApi = RetrofitClient.getRetrofitEmailVerifytInterface();
+        emailVerifyApi.getEmailResponse(emailRequest).enqueue(new Callback<EmailResponse>() {
+            @Override
+            public void onResponse(Call<EmailResponse> call, Response<EmailResponse> response) {
+                Log.d("retrofit", "Data fetch success");
+                if (response.isSuccessful() && response.body() != null) {
+                    EmailResponse result = response.body();
+                    String success = result.getSuccess();
+                    if(success.equals("true")){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                        builder.setTitle("알림")
+                                .setMessage("이메일 인증에 성공하였습니다.")
+                                .setPositiveButton("확인", null)
+                                .create()
+                                .show();
+                        verifyMail = true;
+                        mailEdit.setFocusable(false);
+                        mailEdit.setClickable(false);
+                    }else if(success.equals("false")){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                        builder.setTitle("알림")
+                                .setMessage("이미 존재하는 이메일입니다.")
+                                .setPositiveButton("확인", null)
+                                .create()
+                                .show();
+                    }
+                }else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                    builder.setTitle("알림")
+                            .setMessage("이미 존재하는 이메일입니다.")
+                            .setPositiveButton("확인", null)
+                            .create()
+                            .show();
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<EmailResponse> call, Throwable t) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                builder.setTitle("알림")
+                        .setMessage("서버와 통신에 실패하였습니다. 네트워크를 확인해주세요.")
+                        .setPositiveButton("확인", null)
+                        .create()
+                        .show();
+            }
+        });
     }
 
     void send(){
@@ -153,6 +215,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                 builder.setTitle("알림")
                         .setMessage("이메일 정보를 입력바랍니다.")
+                        .setPositiveButton("확인", null)
+                        .create()
+                        .show();
+            }else if (!verifyMail) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                builder.setTitle("알림")
+                        .setMessage("이메일 인증을 시도하기 바랍니다.")
                         .setPositiveButton("확인", null)
                         .create()
                         .show();
@@ -222,10 +291,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             .create()
                             .show();
                 }
-
-
-
-
             }else if (!serviceOkBtn.isChecked()) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                 builder.setTitle("알림")
@@ -279,8 +344,29 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 Log.d("retrofit", "Data fetch success");
 
                 //통신 성공
-                if (response.isSuccessful()) {
-                    //이메일 전송
+                if (response.isSuccessful() && response.body() != null) {
+                    JoinResponse result = response.body();
+
+                    String acessToken = result.getAcessToken();
+                    String refreshToken = result.getRefreshToken();
+
+                    String email = result.getUser().getEmail();
+                    String first_name = result.getUser().getFirst_name();
+                    String last_name = result.getUser().getLast_name();
+
+                    if (acessToken != null) {
+                        String userID = mailEdit.getText().toString();
+                        String userPassword = pwEdit.getText().toString();
+
+                        //다른 통신을 하기 위해 token 저장
+                        setPreference("acessToken",acessToken);
+                        setPreference("refreshToken",refreshToken);
+                        setPreference("email", email);
+                        setPreference("first_name", first_name);
+                        setPreference("last_name", last_name);
+                    }
+
+                    //회원가입 전송
                     Toast.makeText(RegisterActivity.this, "회원가입되었습니다.", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -299,6 +385,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         .show();
             }
         });
+    }
+
+    // 데이터를 내부 저장소에 저장하기
+    public void setPreference(String key, String value){
+        SharedPreferences pref = getSharedPreferences("DATA_STORE", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(key, value);
+        editor.apply();
     }
 
     public static String sha256(String data) throws NoSuchAlgorithmException, UnsupportedEncodingException {

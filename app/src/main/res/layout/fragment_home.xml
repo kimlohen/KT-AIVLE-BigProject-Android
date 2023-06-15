@@ -56,7 +56,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/notEqualPWText"
+            android:id="@+id/addPetTitle"
             android:layout_width="270dp"
             android:layout_height="50dp"
             android:layout_gravity="right"

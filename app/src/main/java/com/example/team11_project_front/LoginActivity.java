@@ -24,9 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import com.example.team11_project_front.Data.LoginRequest;
 import com.example.team11_project_front.Data.LoginResponse;
 import com.google.android.gms.common.SignInButton;
@@ -44,11 +41,9 @@ import kotlin.jvm.functions.Function2;
 import retrofit2.*;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
-    private FragmentManager fm = getSupportFragmentManager();
-    private FragmentTransaction ft;
     private ActivityResultLauncher<Intent> resultLauncher;
     private RetrofitClient retrofitClient;
-    private loginApi loginApi;
+    private com.example.team11_project_front.API.loginApi loginApi;
     public TextView initPW;
     public EditText idEdit, pwEdit;
     public Button loginBtn, joinBtn;
@@ -60,8 +55,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        ft = fm.beginTransaction();
 
         idEdit = (EditText) findViewById(R.id.editID);
         pwEdit = (EditText) findViewById(R.id.editPW);
@@ -141,17 +134,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(v.getContext(), RegisterActivity.class); // 회원가입 페이지 만들면 변경
             resultLauncher.launch(intent);
         } else if (id == R.id.googleLoginBtn){
-            Intent intent = new Intent(v.getContext(), MainActivity.class); // 구글 기능 구현하면
+            Intent intent = new Intent(v.getContext(), WebViewActivity.class); // 구글 기능 구현하면
+            intent.putExtra("url", "");
             resultLauncher.launch(intent);
         } else if (id == R.id.kakaoLoginBtn){
-            if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this)){
-                UserApiClient.getInstance().loginWithKakaoTalk(LoginActivity.this, callback);
-            }else{
-                // 카카오톡이 설치되어 있지 않다면
-                UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callback);
-            }
+            Intent intent = new Intent(v.getContext(), MainActivity.class); // 카카오 기능 구현하면
+            intent.putExtra("url", "");
+            resultLauncher.launch(intent);
         } else if (id == R.id.naverLoginBtn){
-            Intent intent = new Intent(v.getContext(), MainActivity.class); // 네이버 기능 구현하면
+            Intent intent = new Intent(v.getContext(), WebViewActivity.class); // 네이버 기능 구현하면
+            intent.putExtra("url", "13.124.194.227" + "/accounts/naver/login");
             resultLauncher.launch(intent);
         } else if (id == R.id.initPW) {
             Intent intent = new Intent(v.getContext(), initPWActivity.class); // 비밀번호 찾기 페이지 만들면 변경
@@ -173,7 +165,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         .setPositiveButton("확인", null)
                         .create()
                         .show();
-                AlertDialog alertDialog = builder.create();
             }else{
                 LoginResponse();
             }
@@ -211,14 +202,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String acessToken = result.getAcessToken();
                     String refreshToken = result.getRefreshToken();
 
+                    String email = result.getUser().getEmail();
+                    String first_name = result.getUser().getFirst_name();
+                    String last_name = result.getUser().getLast_name();
 
                     if (acessToken != null) {
                         String userID = idEdit.getText().toString();
                         String userPassword = pwEdit.getText().toString();
 
                         //다른 통신을 하기 위해 token 저장
-                        setPreference(acessToken,acessToken);
-                        setPreference(refreshToken,refreshToken);
+                        setPreference("acessToken",acessToken);
+                        setPreference("refreshToken",refreshToken);
+                        setPreference("email", email);
+                        setPreference("first_name", first_name);
+                        setPreference("last_name", last_name);
 
                         //자동 로그인 여부
                         if (checkBox.isChecked()) {
@@ -250,6 +247,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 .create()
                                 .show();
                     }
+                } else {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setTitle("알림")
+                            .setMessage("이메일, 비밀번호가 일치하지 않습니다.")
+                            .setPositiveButton("확인", null)
+                            .create()
+                            .show();
                 }
             }
 
@@ -266,7 +271,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    //데이터를 내부 저장소에 저장하기
+    // 데이터를 내부 저장소에 저장하기
     public void setPreference(String key, String value){
         SharedPreferences pref = getSharedPreferences("DATA_STORE", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
@@ -274,7 +279,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editor.apply();
     }
 
-    //내부 저장소에 저장된 데이터 가져오기
+    // 내부 저장소에 저장된 데이터 가져오기
     public String getPreferenceString(String key) {
         SharedPreferences pref = getSharedPreferences("DATA_STORE", MODE_PRIVATE);
         return pref.getString(key, "");
@@ -323,7 +328,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
                 Log.d("retrofit", "Data fetch success");
-
                 //통신 성공
                 if (response.isSuccessful() && response.body() != null) {
 
@@ -359,26 +363,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         LoginActivity.this.finish();
 
                     } else {
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                        builder.setTitle("알림")
-                                .setMessage("예기치 못한 오류가 발생하였습니다.\n 고객센터에 문의바랍니다.")
-                                .setPositiveButton("확인", null)
-                                .create()
-                                .show();
+                        Toast.makeText(LoginActivity.this, "잘못된 아이디 또는 비밀번호 입니다.", Toast.LENGTH_LONG).show();
                     }
+                } else {
+                    Toast.makeText(LoginActivity.this, "잘못된 아이디 또는 비밀번호 입니다.", Toast.LENGTH_LONG).show();
                 }
             }
 
             //통신 실패
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                builder.setTitle("알림")
-                        .setMessage("예기치 못한 오류가 발생하였습니다.\n 고객센터에 문의바랍니다.")
-                        .setPositiveButton("확인", null)
-                        .create()
-                        .show();
+                Toast.makeText(LoginActivity.this, "잘못된 아이디 또는 비밀번호 입니다.", Toast.LENGTH_LONG).show();
             }
         });
 
