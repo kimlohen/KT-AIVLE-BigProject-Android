@@ -248,6 +248,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 .create()
                                 .show();
                     }
+                } else {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setTitle("알림")
+                            .setMessage("이메일, 비밀번호가 일치하지 않습니다.")
+                            .setPositiveButton("확인", null)
+                            .create()
+                            .show();
                 }
             }
 
