@@ -12,6 +12,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +23,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.team11_project_front.API.deleteUserApi;
+import com.example.team11_project_front.Data.DeleteUserResponse;
 import com.example.team11_project_front.Data.HospitalInfo;
+import com.example.team11_project_front.Data.JoinResponse;
 import com.example.team11_project_front.Data.LogoutResponse;
 import com.example.team11_project_front.Data.PetInfo;
 import com.example.team11_project_front.LoginActivity;
+import com.example.team11_project_front.MainActivity;
 import com.example.team11_project_front.PetRegisterActivity;
 import com.example.team11_project_front.R;
+import com.example.team11_project_front.RegisterActivity;
 import com.example.team11_project_front.RetrofitClient;
 import com.example.team11_project_front.API.logoutApi;
 
@@ -50,7 +56,7 @@ public class MyPageFragment extends Fragment {
     private ArrayList<HospitalInfo> hospitalInfos;
     private RetrofitClient retrofitClient;
     private logoutApi logoutApi;
-
+    private deleteUserApi deleteUserApi;
     private Button addPet;
     Context mContext;
     Bitmap bitmap;
@@ -131,6 +137,12 @@ public class MyPageFragment extends Fragment {
             }
         });
 
+        LinearLayout deleteUser_layout = (LinearLayout) view.findViewById(R.id.deleteUser);
+        deleteUser_layout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){ deleteUser(); }
+        });
+
         addPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,12 +215,14 @@ public class MyPageFragment extends Fragment {
                     setPreference("refreshToken","");
                     setPreference("email", "");
                     setPreference("first_name", "");
-                    setPreference("last_name", "");
+                    setPreference("is_vet", "");
+                    setPreference("profile_img", "");
                     setPreference("autoLoginId", "");
                     setPreference("autoLoginPw", "");
                     Toast.makeText(getActivity(), "로그아웃이 완료되었습니다.", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);
+                    getActivity().finish();
                 } else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("알림")
@@ -230,6 +244,44 @@ public class MyPageFragment extends Fragment {
             }
         });
 
+    }
+
+    void deleteUser(){
+        retrofitClient = RetrofitClient.getInstance();
+        deleteUserApi = RetrofitClient.getRetrofitDeleteUserInterface();
+        deleteUserApi.getDeleteUserResponse().enqueue(new Callback<DeleteUserResponse>() {
+            @Override
+            public void onResponse(Call<DeleteUserResponse> call, Response<DeleteUserResponse> response) {
+                Log.d("retrofit", "Data fetch success");
+
+                //통신 성공
+                if (response.isSuccessful() && response.body() != null) {
+                    setPreference("acessToken","");
+                    setPreference("refreshToken","");
+                    setPreference("email", "");
+                    setPreference("first_name", "");
+                    setPreference("is_vet", "");
+                    setPreference("profile_img", "");
+                    setPreference("autoLoginId", "");
+                    setPreference("autoLoginPw", "");
+
+                    Toast.makeText(getActivity(), "회원탈퇴 되셨습니다.", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteUserResponse> call, Throwable t) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("알림")
+                            .setMessage("예기치 못한 오류가 발생하였습니다.\n 고객센터에 문의바랍니다.")
+                            .setPositiveButton("확인", null)
+                            .create()
+                            .show();
+            }
+        });
     }
 
 }
