@@ -16,7 +16,7 @@
         app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider3"
-        app:layout_constraintVertical_bias="0.095" />
+        app:layout_constraintVertical_bias="0.05" />
 
     <TextView
         android:id="@+id/articleDate"
@@ -28,7 +28,7 @@
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider3"
-        app:layout_constraintVertical_bias="0.093" />
+        app:layout_constraintVertical_bias="0.05" />
 
     <ImageView
         android:id="@+id/backBtn2"
@@ -83,7 +83,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider3"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintVertical_bias="0.01" />
 
     <View
         android:id="@+id/divider4"
@@ -110,7 +110,7 @@
 
     <ScrollView
         android:layout_width="380dp"
-        android:layout_height="500dp"
+        android:layout_height="540dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -118,10 +118,11 @@
         app:layout_constraintTop_toBottomOf="@+id/divider4"
         app:layout_constraintVertical_bias="0.25">
 
-        <LinearLayout
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContainerView"
+            android:name="com.example.team11_project_front.ArticleFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:layout_height="wrap_content" />
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
