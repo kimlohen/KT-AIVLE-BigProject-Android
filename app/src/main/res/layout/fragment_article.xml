@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ArticleFragment">
+    tools:context=".QnA.ArticleFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -158,7 +158,7 @@
             app:layout_constraintVertical_bias="0.02" />
 
         <ListView
-            android:id="@+id/ansLint"
+            android:id="@+id/ansList"
             android:layout_width="345dp"
             android:layout_height="195dp"
             app:layout_constraintBottom_toBottomOf="parent"

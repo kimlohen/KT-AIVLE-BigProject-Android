@@ -1,4 +1,4 @@
-package com.example.team11_project_front;
+package com.example.team11_project_front.QnA;
 
 import android.os.Bundle;
 
@@ -7,6 +7,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import com.example.team11_project_front.Data.AnsInfo;
+import com.example.team11_project_front.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +29,8 @@ public class ArticleFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private View view;
+    private ArrayList<AnsInfo> ansInfos;
     public ArticleFragment() {
         // Required empty public constructor
     }
@@ -59,6 +66,21 @@ public class ArticleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_article, container, false);
+        view = inflater.inflate(R.layout.fragment_article, container, false);
+        return view;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        ListView listView = (ListView) view.findViewById(R.id.ansList);
+        ansInfos = new ArrayList<>();
+        String writer = "홍길동";
+        String date = "2023-06-16";
+        String content = "안녕하세요. 수의사 홍길동입니다. 질문에 대해 답변드리겠습니다.";
+        AnsInfo ansInfo = new AnsInfo(writer, date, content, "");
+        ansInfos.add(ansInfo);
+        AnsAdapter adapter = new AnsAdapter(getContext(), ansInfos);
+        listView.setAdapter(adapter);
     }
 }
