@@ -352,7 +352,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                     String email = result.getUser().getEmail();
                     String first_name = result.getUser().getFirst_name();
-                    String last_name = result.getUser().getLast_name();
+                    String profile_img = result.getUser().getIs_vet();
+                    String is_vet = result.getUser().getProfile_img();
 
                     if (acessToken != null) {
                         String userID = mailEdit.getText().toString();
@@ -363,7 +364,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         setPreference("refreshToken",refreshToken);
                         setPreference("email", email);
                         setPreference("first_name", first_name);
-                        setPreference("last_name", last_name);
+                        setPreference("is_vet", is_vet);
+                        setPreference("profile_img", profile_img);
                     }
 
                     //회원가입 전송

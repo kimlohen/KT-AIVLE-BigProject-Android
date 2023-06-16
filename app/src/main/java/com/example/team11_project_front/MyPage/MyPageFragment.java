@@ -6,6 +6,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,11 +31,17 @@ import com.example.team11_project_front.R;
 import com.example.team11_project_front.RetrofitClient;
 import com.example.team11_project_front.API.logoutApi;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Url;
 
 
 public class MyPageFragment extends Fragment {
@@ -44,6 +53,7 @@ public class MyPageFragment extends Fragment {
 
     private Button addPet;
     Context mContext;
+    Bitmap bitmap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,20 +62,55 @@ public class MyPageFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_my_page, container, false);
         mContext = getActivity();
 
+
         //profile 부분 text 설정
         //이 변수들에 서버에서 받아온 데이터 저장하면 마이페이지 프로필에 보여줌
         String name = getPreferenceString("first_name");
-        String type = "수의사";
+        String type = "일반회원";
         String email = getPreferenceString("email");
+        String is_vet = getPreferenceString("is_vet");
+        String profile = getPreferenceString("profile_img");
 
         TextView tv_name = (TextView) view.findViewById(R.id.profileName);
         TextView tv_type = (TextView) view.findViewById(R.id.type);
         TextView tv_email = (TextView) view.findViewById(R.id.email);
+        ImageView iv_profile = (ImageView) view.findViewById(R.id.profile);
         addPet = (Button) view.findViewById(R.id.addPetBtn);
+
+        if (is_vet.equals("true")){
+            type = "수의사";
+        }
 
         tv_name.setText(name);
         tv_type.setText(type);
         tv_email.setText(email);
+
+        Thread mthread = new Thread(){
+            @Override
+            public void run(){
+                try{
+                    URL url = new URL(profile);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
+
+                    InputStream is = conn.getInputStream();
+                    bitmap = BitmapFactory.decodeStream(is);
+                }catch (MalformedURLException e){
+                    e.printStackTrace();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        };
+        mthread.start();
+        try{
+            mthread.join();
+            iv_profile.setImageBitmap(bitmap.createScaledBitmap(bitmap, 87, 87, false));
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+
 
         //게시글 작성 내역 버튼 클릭 시 작성한 게시글들을 보여주는 페이지로 이동함
         LinearLayout layout = (LinearLayout) view.findViewById(R.id.posted);

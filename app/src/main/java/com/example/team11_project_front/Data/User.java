@@ -4,15 +4,16 @@ import com.google.gson.annotations.SerializedName;
 
 public class User
 {
-    @SerializedName("pk")
+    @SerializedName("id")
     private String pk;
     @SerializedName("email")
     private String email;
     @SerializedName("first_name")
     private String first_name;
-    @SerializedName("last_name")
-    private String last_name;
-
+    @SerializedName("is_vat")
+    private String is_vet;
+    @SerializedName("profile_img")
+    private String profile_img;
 
     public void setPk (String pk)
     {
@@ -26,9 +27,13 @@ public class User
     {
         this.first_name = first_name;
     }
-    public void setLast_name (String last_name)
+    public void setIs_vet(String is_vet)
     {
-        this.last_name = last_name;
+        this.is_vet = is_vet;
+    }
+
+    public void setProfile_img(String profile_img) {
+        this.profile_img = profile_img;
     }
 
     public String getPk ()
@@ -40,8 +45,11 @@ public class User
         return email;
     }
     public String getFirst_name () { return first_name; }
-    public String getLast_name ()
+    public String getIs_vet()
     {
-        return last_name;
+        return is_vet;
+    }
+    public String getProfile_img() {
+        return profile_img;
     }
 }

@@ -22,7 +22,7 @@ public class RetrofitClient {
     private static com.example.team11_project_front.API.addPetApi addPetApi;
     private static com.example.team11_project_front.API.emailVerifyApi emailVerifyApi;
     //사용하고 있는 서버 BASE 주소
-    private static String baseUrl = "http://13.124.194.227/";
+    private static String baseUrl = "http://43.202.5.122/";
 
 
     private RetrofitClient() {

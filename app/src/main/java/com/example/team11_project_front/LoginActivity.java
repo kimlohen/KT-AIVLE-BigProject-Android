@@ -204,7 +204,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     String email = result.getUser().getEmail();
                     String first_name = result.getUser().getFirst_name();
-                    String last_name = result.getUser().getLast_name();
+                    String is_vet = result.getUser().getIs_vet();
+                    String profile_img = result.getUser().getProfile_img();
 
                     if (acessToken != null) {
                         String userID = idEdit.getText().toString();
@@ -215,7 +216,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         setPreference("refreshToken",refreshToken);
                         setPreference("email", email);
                         setPreference("first_name", first_name);
-                        setPreference("last_name", last_name);
+                        setPreference("is_vet", is_vet);
+                        setPreference("profile_img", profile_img);
 
                         //자동 로그인 여부
                         if (checkBox.isChecked()) {
