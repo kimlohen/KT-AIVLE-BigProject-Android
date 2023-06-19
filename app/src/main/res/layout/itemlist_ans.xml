@@ -12,32 +12,39 @@
 
         <TextView
             android:id="@+id/ansName"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:text="홍길동" />
+            android:ems="8"
+            android:paddingLeft="8dp"
+            android:text="홍길동"
+            android:textAlignment="viewStart" />
 
         <TextView
             android:id="@+id/ansDate"
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
             android:layout_weight="1"
-            android:text="2023-06-16" />
+            android:paddingRight="8dp"
+            android:text="2023-06-16"
+            android:textAlignment="textEnd" />
 
         <TextView
             android:id="@+id/talBtn"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="80dp"
+            android:layout_width="40dp"
+            android:layout_height="23dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:background="@drawable/edittext"
-            android:text="연락하기" />
+            android:background="@drawable/round_border"
+            android:text="연락하기"
+            android:textAlignment="center"
+            android:clickable="true"
+            android:focusable="auto"
+            android:foreground="?android:attr/selectableItemBackground" />
 
     </LinearLayout>
 
