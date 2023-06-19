@@ -5,8 +5,12 @@
     <string name="my_pet_prompt">나의 반려동물</string>
     <string name="skin_diagnosis">피부질환 진단</string>
     <string name="eye_diagnosis">안구질환 진단</string>
+    <string name="advertisement">광고</string>
     <string name="take_pic">이미지 촬영</string>
     <string name="select_pic">이미지 선택</string>
+
+    <string name="diagnosis_skin">피부질환 진단하기</string>
+
 
     <string name="logo">Logo</string>
     <string name="id_plain_text">ID</string>
