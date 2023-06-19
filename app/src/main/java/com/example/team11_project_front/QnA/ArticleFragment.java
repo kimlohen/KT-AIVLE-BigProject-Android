@@ -1,9 +1,13 @@
 package com.example.team11_project_front.QnA;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +66,7 @@ public class ArticleFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -69,10 +74,12 @@ public class ArticleFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_article, container, false);
-        ansBtn = (Button) getActivity().findViewById(R.id.ansBtn);
 
-
-
+        ansBtn = (Button) view.findViewById(R.id.ansBtn);
+        String is_vet = getPreferenceString("is_vet");
+        if(is_vet.equals("false")){
+            ansBtn.setVisibility(View.GONE);
+        }
         return view;
     }
 
@@ -88,5 +95,20 @@ public class ArticleFragment extends Fragment {
         ansInfos.add(ansInfo);
         AnsAdapter adapter = new AnsAdapter(getContext(), ansInfos);
         listView.setAdapter(adapter);
+    }
+
+
+    // 데이터를 내부 저장소에 저장하기
+    public void setPreference(String key, String value){
+        SharedPreferences pref = getActivity().getSharedPreferences("DATA_STORE", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+
+    // 내부 저장소에 저장된 데이터 가져오기
+    public String getPreferenceString(String key) {
+        SharedPreferences pref = getActivity().getSharedPreferences("DATA_STORE", MODE_PRIVATE);
+        return pref.getString(key, "");
     }
 }

@@ -10,7 +10,7 @@ public class User
     private String email;
     @SerializedName("first_name")
     private String first_name;
-    @SerializedName("is_vat")
+    @SerializedName("is_vet")
     private String is_vet;
     @SerializedName("profile_img")
     private String profile_img;
