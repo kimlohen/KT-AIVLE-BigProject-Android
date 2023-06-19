@@ -143,7 +143,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             resultLauncher.launch(intent);
         } else if (id == R.id.naverLoginBtn){
             Intent intent = new Intent(v.getContext(), WebViewActivity.class); // 네이버 기능 구현하면
-            intent.putExtra("url", "13.124.194.227" + "/accounts/naver/login");
+            intent.putExtra("url", "43.202.5.122" + "/accounts/naver/login");
             resultLauncher.launch(intent);
         } else if (id == R.id.initPW) {
             Intent intent = new Intent(v.getContext(), initPWActivity.class); // 비밀번호 찾기 페이지 만들면 변경
@@ -204,7 +204,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     String email = result.getUser().getEmail();
                     String first_name = result.getUser().getFirst_name();
-                    String last_name = result.getUser().getLast_name();
+                    String is_vet = result.getUser().getIs_vet();
+                    String profile_img = result.getUser().getProfile_img();
 
                     if (acessToken != null) {
                         String userID = idEdit.getText().toString();
@@ -215,7 +216,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         setPreference("refreshToken",refreshToken);
                         setPreference("email", email);
                         setPreference("first_name", first_name);
-                        setPreference("last_name", last_name);
+                        setPreference("is_vet", is_vet);
+                        setPreference("profile_img", profile_img);
 
                         //자동 로그인 여부
                         if (checkBox.isChecked()) {
@@ -344,8 +346,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         String userPassword = getPreferenceString("autoLoginPw");
 
                         //다른 통신을 하기 위해 token 저장
-                        setPreference(acessToken,acessToken);
-                        setPreference(refreshToken,refreshToken);
+                        setPreference("acessToken",acessToken);
+                        setPreference("refreshToken",refreshToken);
 
                         //자동 로그인 여부
                         if (checkBox.isChecked()) {
