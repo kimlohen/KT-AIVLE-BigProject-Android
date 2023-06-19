@@ -109,7 +109,7 @@ public class PetRegisterActivity extends AppCompatActivity implements View.OnCli
         retrofitClient = RetrofitClient.getInstance();
         addPetApi addPetApi = RetrofitClient.getRetrofitAddPetInterface();
 
-        addPetApi.getAddPetResponse(addPetRequest).enqueue(new Callback<AddPetResponse>() {
+        addPetApi.getAddPetResponse("Bearer " + getPreferenceString("acessToken"), addPetRequest).enqueue(new Callback<AddPetResponse>() {
             @Override
             public void onResponse(Call<AddPetResponse> call, Response<AddPetResponse> response) {
                 if(response.isSuccessful()){

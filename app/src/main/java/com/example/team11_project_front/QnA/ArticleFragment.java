@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.team11_project_front.Data.AnsInfo;
@@ -31,6 +32,7 @@ public class ArticleFragment extends Fragment {
     private String mParam2;
     private View view;
     private ArrayList<AnsInfo> ansInfos;
+    private Button ansBtn;
     public ArticleFragment() {
         // Required empty public constructor
     }
@@ -67,6 +69,10 @@ public class ArticleFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_article, container, false);
+        ansBtn = (Button) getActivity().findViewById(R.id.ansBtn);
+
+
+
         return view;
     }
 

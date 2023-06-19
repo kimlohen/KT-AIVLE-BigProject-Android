@@ -143,7 +143,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             resultLauncher.launch(intent);
         } else if (id == R.id.naverLoginBtn){
             Intent intent = new Intent(v.getContext(), WebViewActivity.class); // 네이버 기능 구현하면
-            intent.putExtra("url", "13.124.194.227" + "/accounts/naver/login");
+            intent.putExtra("url", "43.202.5.122" + "/accounts/naver/login");
             resultLauncher.launch(intent);
         } else if (id == R.id.initPW) {
             Intent intent = new Intent(v.getContext(), initPWActivity.class); // 비밀번호 찾기 페이지 만들면 변경
@@ -346,8 +346,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         String userPassword = getPreferenceString("autoLoginPw");
 
                         //다른 통신을 하기 위해 token 저장
-                        setPreference(acessToken,acessToken);
-                        setPreference(refreshToken,refreshToken);
+                        setPreference("acessToken",acessToken);
+                        setPreference("refreshToken",refreshToken);
 
                         //자동 로그인 여부
                         if (checkBox.isChecked()) {

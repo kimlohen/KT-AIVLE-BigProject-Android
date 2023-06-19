@@ -61,6 +61,8 @@ public class MyPageFragment extends Fragment {
     Context mContext;
     Bitmap bitmap;
 
+    String is_vet;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,17 +76,19 @@ public class MyPageFragment extends Fragment {
         String name = getPreferenceString("first_name");
         String type = "일반회원";
         String email = getPreferenceString("email");
-        String is_vet = getPreferenceString("is_vet");
         String profile = getPreferenceString("profile_img");
-
+        is_vet = getPreferenceString("is_vet");
         TextView tv_name = (TextView) view.findViewById(R.id.profileName);
         TextView tv_type = (TextView) view.findViewById(R.id.type);
         TextView tv_email = (TextView) view.findViewById(R.id.email);
+        TextView tv_hospital = (TextView) view.findViewById(R.id.hospitalText);
         ImageView iv_profile = (ImageView) view.findViewById(R.id.profile);
         addPet = (Button) view.findViewById(R.id.addPetBtn);
 
         if (is_vet.equals("true")){
             type = "수의사";
+        }else {
+            tv_hospital.setVisibility(View.INVISIBLE);
         }
 
         tv_name.setText(name);
@@ -109,6 +113,7 @@ public class MyPageFragment extends Fragment {
                 }
             }
         };
+
         mthread.start();
         try{
             mthread.join();
@@ -174,20 +179,23 @@ public class MyPageFragment extends Fragment {
         listView.setAdapter(adapter);
 
         //병원정보 리스트
-        ListView lv = (ListView) view.findViewById(R.id.hospital_list);
-        hospitalInfos = new ArrayList<>();
 
-        //이 변수들에 서버에서 받아온 데이터 저장 후 hospitalInfos에 추가하면 화면에 보여줌
-        String name = "병원이름";
-        String location = "병원위치";
-        String prof = "전문영역";
-        String intro = "한줄 소개";
+        if(is_vet.equals("true")){
+            ListView lv = (ListView) view.findViewById(R.id.hospital_list);
+            hospitalInfos = new ArrayList<>();
 
-        HospitalInfo info = new HospitalInfo(name, location, prof, intro);
-        hospitalInfos.add(info);
+            //이 변수들에 서버에서 받아온 데이터 저장 후 hospitalInfos에 추가하면 화면에 보여줌
+            String name = "병원이름";
+            String location = "병원위치";
+            String prof = "전문영역";
+            String intro = "한줄 소개";
 
-        HospitalAdapter hospitalAdapter = new HospitalAdapter(getContext(), hospitalInfos);
-        lv.setAdapter(hospitalAdapter);
+            HospitalInfo info = new HospitalInfo(name, location, prof, intro);
+            hospitalInfos.add(info);
+
+            HospitalAdapter hospitalAdapter = new HospitalAdapter(getContext(), hospitalInfos);
+            lv.setAdapter(hospitalAdapter);
+        }
     }
 
     // 데이터를 내부 저장소에 저장하기
@@ -207,7 +215,7 @@ public class MyPageFragment extends Fragment {
         retrofitClient = RetrofitClient.getInstance();
         logoutApi = RetrofitClient.getRetrofitLogoutInterface();
 
-        logoutApi.getLogoutResponse().enqueue(new Callback<LogoutResponse>() {
+        logoutApi.getLogoutResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<LogoutResponse>() {
             @Override
             public void onResponse(Call<LogoutResponse> call, Response<LogoutResponse> response) {
                 if (response.isSuccessful()){
@@ -249,7 +257,7 @@ public class MyPageFragment extends Fragment {
     void deleteUser(){
         retrofitClient = RetrofitClient.getInstance();
         deleteUserApi = RetrofitClient.getRetrofitDeleteUserInterface();
-        deleteUserApi.getDeleteUserResponse().enqueue(new Callback<DeleteUserResponse>() {
+        deleteUserApi.getDeleteUserResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<DeleteUserResponse>() {
             @Override
             public void onResponse(Call<DeleteUserResponse> call, Response<DeleteUserResponse> response) {
                 Log.d("retrofit", "Data fetch success");
