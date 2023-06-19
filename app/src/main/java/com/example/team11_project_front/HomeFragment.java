@@ -13,14 +13,22 @@ import android.view.ViewGroup;
 
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+
 
 public class HomeFragment extends Fragment {
     private View view;
-    private ImageButton button_skin;
+    private ImageView backBtn2;
+    private androidx.appcompat.widget.AppCompatButton button_skin;
 
+
+    @NonNull
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -35,18 +43,19 @@ public class HomeFragment extends Fragment {
         spinner.setAdapter(adapter);
 
         // Fragment -> Activity 화면 전환!
-        //// androidx.appcompat.widget.AppCompatButton button_skin = view.findViewById(R.id.btn_skin_diagnosis);
-//        button_skin = (ImageButton) view.findViewById(R.id.btn_skin_diagnosis);
-//        button_skin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // 버튼 클릭 이벤트 처리 및 Activity로 이동
-//                Intent intent = new Intent(getActivity(), SkinDiagnosisActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-//                startActivity(intent);
-//            }
-//        });
+        // androidx.appcompat.widget.AppCompatButton button_skin = view.findViewById(R.id.btn_skin_diagnosis);
+        button_skin = (androidx.appcompat.widget.AppCompatButton) view.findViewById(R.id.btn_skin_diagnosis);
+        button_skin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 버튼 클릭 이벤트 처리 및 SkinDiagnosisActivity로 이동
+                Intent intent = new Intent(getActivity(), SkinDiagnosisActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+            }
+        });
 
         return view;
+
     }
 }
