@@ -11,5 +11,5 @@ import retrofit2.http.POST;
 public interface addPetApi {
     //@통신 방식("통신 API명")
     @POST("/accounts/api/pet/")
-    Call<AddPetResponse> getAddPetResponse(@Header("my-app-auth") String auth, @Body AddPetRequest addPetRequest);
+    Call<AddPetResponse> getAddPetResponse(@Header("Authorization") String auth, @Body AddPetRequest addPetRequest);
 }

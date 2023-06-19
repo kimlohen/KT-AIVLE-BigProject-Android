@@ -9,5 +9,5 @@ import retrofit2.http.POST;
 public interface logoutApi {
     //@통신 방식("통신 API명")
     @POST("/accounts/logout/")
-    Call<LogoutResponse> getLogoutResponse(@Header("my-app-auth") String auth);
+    Call<LogoutResponse> getLogoutResponse(@Header("Authorization") String auth);
 }

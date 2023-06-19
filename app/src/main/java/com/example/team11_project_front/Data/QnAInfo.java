@@ -5,12 +5,16 @@ public class QnAInfo {
     private String writer;
     private String date;
     private String ansNum;
+    private String photo;
+    private String content;
 
-    public QnAInfo(String title, String writer, String date, String ansNum) {
+    public QnAInfo(String title, String writer, String date, String ansNum, String photo, String content) {
         this.title = title;
         this.writer = writer;
         this.date = date;
         this.ansNum = ansNum;
+        this.photo = photo;
+        this.content = content;
     }
 
     public String getTitle() {
@@ -37,5 +41,22 @@ public class QnAInfo {
     public void setAnsNum(String ansNum) {
         this.ansNum = ansNum;
     }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
 
 }
