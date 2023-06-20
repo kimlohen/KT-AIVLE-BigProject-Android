@@ -8,6 +8,7 @@ import com.example.team11_project_front.API.emailVerifyApi;
 import com.example.team11_project_front.API.joinApi;
 import com.example.team11_project_front.API.loginApi;
 import com.example.team11_project_front.API.logoutApi;
+import com.example.team11_project_front.API.petlistApi;
 import com.example.team11_project_front.API.qnaApi;
 import com.example.team11_project_front.API.refreshApi;
 
@@ -29,6 +30,9 @@ public class RetrofitClient {
     private static com.example.team11_project_front.API.qnaApi qnaApi;
     private static com.example.team11_project_front.API.refreshApi refreshApi;
     private static com.example.team11_project_front.API.changePetApi changePetApi;
+    private static com.example.team11_project_front.API.petlistApi petlistApi;
+
+
     //사용하고 있는 서버 BASE 주소
     private static String baseUrl = "http://43.202.5.122/";
 
@@ -58,6 +62,8 @@ public class RetrofitClient {
         qnaApi = retrofit.create(qnaApi.class);
         refreshApi = retrofit.create(refreshApi.class);
         changePetApi = retrofit.create(com.example.team11_project_front.API.changePetApi.class);
+        petlistApi = retrofit.create(com.example.team11_project_front.API.petlistApi.class);
+
     }
 
     public static RetrofitClient getInstance() {
@@ -85,4 +91,5 @@ public class RetrofitClient {
     public static qnaApi getRetrofitQnaInterface() { return qnaApi; }
     public static refreshApi getRefreshInterface() { return refreshApi; }
     public static changePetApi getRetrofitChangePetInterface() { return changePetApi; }
+    public static com.example.team11_project_front.API.petlistApi getRetrofitPetlistInterface() { return petlistApi; }
 }
