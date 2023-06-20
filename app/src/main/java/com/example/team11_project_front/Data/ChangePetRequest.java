@@ -4,9 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class ChangePetRequest {
 
-    public String inputEmail;
-
-
+    @SerializedName("id")
+    public String inputId;
 
     @SerializedName("name")
     public String inputName;
@@ -16,10 +15,10 @@ public class ChangePetRequest {
     public String inputGender;
     @SerializedName("species")
     public String inputSpecies;
-    public String getInputEmail() {
-        return inputEmail;
-    }
 
+    public String getInputId() {
+        return inputId;
+    }
     public String getInputName() {
         return inputName;
     }
@@ -34,8 +33,8 @@ public class ChangePetRequest {
     }
 
 
-    public void setInputEmail(String inputEmail) {
-        this.inputEmail = inputEmail;
+    public void setInputId(String id) {
+        this.inputId = inputId;
     }
 
     public void setInputName(String inputName) {
@@ -51,9 +50,9 @@ public class ChangePetRequest {
         this.inputSpecies = inputSpecies;
     }
 
-    public ChangePetRequest(String inputEmail,  String inputName, String inputBirth, String inputGender, String inputSpecies){
-        this.inputEmail = inputEmail;
+    public ChangePetRequest(String inputId, String inputName, String inputBirth, String inputGender, String inputSpecies){
 
+        this.inputId = inputId;
         this.inputName = inputName;
         this.inputBirth = inputBirth;
         this.inputGender = inputGender;

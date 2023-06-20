@@ -169,8 +169,9 @@ public class MyPageFragment extends Fragment {
         retrofitClient = RetrofitClient.getInstance();
         petlistApi = retrofitClient.getRetrofitPetlistInterface();
 
-        ListView listView = (ListView) view.findViewById(R.id.petList);
-        petInfos = new ArrayList<>();
+
+
+
 
         petlistApi.getPetlistResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<ArrayList<PetlistResponse>>() {
             @Override
@@ -178,6 +179,8 @@ public class MyPageFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     ArrayList<PetlistResponse> petlistResponses = response.body();
                     // PetlistResponse 객체를 PetInfo 객체로 변환하여 리스트에 추가
+                    Toast.makeText(getActivity(),  "리스트가 갱신되었습니다.", Toast.LENGTH_LONG).show();
+                    petInfos = new ArrayList<>();
 
                     for (PetlistResponse petlistResponse : petlistResponses) {
                         String id = petlistResponse.getId();
@@ -189,6 +192,12 @@ public class MyPageFragment extends Fragment {
                         petInfos.add(petInfo);
                     }
 
+
+                    ListView listView = (ListView) view.findViewById(R.id.petList);
+                    PetAdapter adapter = new PetAdapter(getContext(), petInfos);
+                    listView.setAdapter(adapter);
+
+
                 }
             }
             public void onFailure(Call<ArrayList<PetlistResponse>> call, Throwable t) {
@@ -196,8 +205,12 @@ public class MyPageFragment extends Fragment {
             }
         });
 
-        PetAdapter adapter = new PetAdapter(getContext(), petInfos);
-        listView.setAdapter(adapter);
+
+
+
+
+
+
 
 
         //병원정보 리스트

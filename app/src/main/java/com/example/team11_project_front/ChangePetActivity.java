@@ -49,10 +49,10 @@ public class ChangePetActivity extends AppCompatActivity {
         String species = intent.getStringExtra("species");
         String birth = intent.getStringExtra("birth");
 
-        EditText editText = findViewById(R.id.editTextText);
-        EditText editText2 = findViewById(R.id.editTextText2);
-        EditText editText3 = findViewById(R.id.editTextText3);
-        EditText editText4 = findViewById(R.id.editTextText4);
+        editTextText = findViewById(R.id.editTextText); // 수정된 부분
+        editTextText2 = findViewById(R.id.editTextText2); // 수정된 부분
+        editTextText3 = findViewById(R.id.editTextText3); // 수정된 부분
+        editTextText4 = findViewById(R.id.editTextText4); // 수정된 부분
         backBtn = (ImageView) findViewById(R.id.petBackBtn);
         editButton = (Button) findViewById(R.id.editButton);
 
@@ -71,17 +71,17 @@ public class ChangePetActivity extends AppCompatActivity {
         });
 
 // 힌트 텍스트 설정
-        editText.setHint(name);
-        editText.setHint(gender);
-        editText.setHint(birth);
-        editText.setHint(species);
+        editTextText.setHint(name);
+        editTextText2.setHint(birth);
+        editTextText3.setHint(gender);
+        editTextText4.setHint(species);
 
 // 색상 설정
         int hintColor = Color.BLACK; // 원하는 색상으로 변경해주세요
-        editText.setHintTextColor(hintColor);
-        editText2.setHintTextColor(hintColor);
-        editText3.setHintTextColor(hintColor);
-        editText4.setHintTextColor(hintColor);
+        editTextText.setHintTextColor(hintColor);
+        editTextText2.setHintTextColor(hintColor);
+        editTextText3.setHintTextColor(hintColor);
+        editTextText4.setHintTextColor(hintColor);
 
         // 제출을 눌렀을 때 edittext에 적은 text 내용들 가져와서 DB에 보내기
 
@@ -92,26 +92,26 @@ public class ChangePetActivity extends AppCompatActivity {
     }
 
     void changePet(){
-        String email = getPreferenceString("email");
+
         String petId = PID;
         String petName = editTextText.getText().toString();
         String petBirth = editTextText2.getText().toString();
         String petGender = editTextText3.getText().toString();
         String petSpecies = editTextText4.getText().toString();
 
-        ChangePetRequest changePetRequest = new ChangePetRequest(email, petName, petBirth, petGender, petSpecies);
+        ChangePetRequest changePetRequest = new ChangePetRequest(petId, petName, petBirth, petGender, petSpecies);
 
         retrofitClient = RetrofitClient.getInstance();
         changePetApi changePetApi = RetrofitClient.getRetrofitChangePetInterface();
 
-        changePetApi.getChangePetResponse(PID,changePetRequest).enqueue(new Callback<ChangePetResponse>() {
+        changePetApi.getChangePetResponse("Bearer " + getPreferenceString("acessToken"),PID,changePetRequest).enqueue(new Callback<ChangePetResponse>() {
             @Override
             public void onResponse(Call<ChangePetResponse> call, Response<ChangePetResponse> response) {
                 if(response.isSuccessful()){
                     Toast.makeText(ChangePetActivity.this, "수정되었습니다.", Toast.LENGTH_LONG).show();
                     onBackPressed();
                 }else{
-                    Toast.makeText(ChangePetActivity.this, "잘못된 동물 정보입니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ChangePetActivity.this, "수정하려면 데이터가 더 필요합니다.", Toast.LENGTH_LONG).show();
                 }
             }
 

@@ -65,9 +65,9 @@ public class PetAdapter extends BaseAdapter {
 
                 String Pid = list.get(i).getId();
                 String Pname = list.get(i).getName();
-                String Pgender = list.get(i).getSpecies();
-                String Pspecies = list.get(i).getBirth();
-                String Pbirth = list.get(i).getGender();
+                String Pgender = list.get(i).getGender();
+                String Pspecies = list.get(i).getSpecies();
+                String Pbirth = list.get(i).getBirth();
                 Intent intent = new Intent(mContext, ChangePetActivity.class);
 
                 intent.putExtra("id", Pid);
