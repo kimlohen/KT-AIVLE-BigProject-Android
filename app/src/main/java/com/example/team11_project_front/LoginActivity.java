@@ -234,7 +234,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             setPreference("autoLoginPw", "");
                         }
 
-                        Toast.makeText(LoginActivity.this, userID + "님 환영합니다.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, first_name + "님 환영합니다.", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.putExtra("userId", userID);
                         startActivity(intent);
@@ -340,6 +340,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String acessToken = result.getAcessToken();
                     String refreshToken = result.getRefreshToken();
 
+                    String email = result.getUser().getEmail();
+                    String first_name = result.getUser().getFirst_name();
+                    String is_vet = result.getUser().getIs_vet();
+                    String profile_img = result.getUser().getProfile_img();
+
 
                     if (acessToken != null) {
                         String userID = getPreferenceString("autoLoginId");
@@ -348,6 +353,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         //다른 통신을 하기 위해 token 저장
                         setPreference("acessToken",acessToken);
                         setPreference("refreshToken",refreshToken);
+                        setPreference("email", email);
+                        setPreference("first_name", first_name);
+                        setPreference("is_vet", is_vet);
+                        setPreference("profile_img", profile_img);
 
                         //자동 로그인 여부
                         if (checkBox.isChecked()) {
@@ -358,9 +367,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             setPreference("autoLoginPw", "");
                         }
 
-                        Toast.makeText(LoginActivity.this, userID + "님 환영합니다.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, first_name + "님 환영합니다.", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        intent.putExtra("userId", userID);
                         startActivity(intent);
                         LoginActivity.this.finish();
 

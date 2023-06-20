@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -167,6 +168,7 @@ public class QnaFragment extends Fragment {
         qnaApi.getQnaResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<ArrayList<QnaResponse>>() {
             @Override
             public void onResponse(Call<ArrayList<QnaResponse>> call, Response<ArrayList<QnaResponse>> response) {
+                Log.e("qna", String.valueOf(response.isSuccessful()));
                 if (response.isSuccessful()){
                     ArrayList<QnaResponse> responses = response.body();
                     responses.forEach((element) -> {
