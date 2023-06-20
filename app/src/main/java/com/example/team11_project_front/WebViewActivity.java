@@ -130,11 +130,4 @@ public class WebViewActivity extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("DATA_STORE", MODE_PRIVATE);
         return pref.getString(key, "");
     }
-
-    class MyJavaScriptInterface{
-        @JavascriptInterface
-        fun getHtml(html: String){
-            return $html;
-        }
-    }
 }

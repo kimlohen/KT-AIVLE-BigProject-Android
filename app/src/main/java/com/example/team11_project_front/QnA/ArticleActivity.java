@@ -35,7 +35,8 @@ public class ArticleActivity extends AppCompatActivity {
 
         summaryTitle.setText(intent.getStringExtra("title"));
         title.setText(intent.getStringExtra("title"));
-        date.setText(intent.getStringExtra("date"));
+        String dateText = intent.getStringExtra("date");
+        date.setText(dateText.split("T")[0] + " " + dateText.split("T")[1].substring(0, 8));
         writer.setText(intent.getStringExtra("writer"));
 
         FragmentManager fm = getSupportFragmentManager();

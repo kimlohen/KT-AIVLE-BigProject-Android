@@ -2,12 +2,13 @@ package com.example.team11_project_front.Data;
 
 import com.google.gson.annotations.SerializedName;
 
-public class QnaResponse {
+import java.util.List;
 
+public class QnaResponse {
     @SerializedName("id")
     private String id;
     @SerializedName("answer_set")
-    private Answer_set answer_set;
+    private List<Answer_set> answer_set;
     @SerializedName("answer_count")
     private String answer_count;
     @SerializedName("pictureid")
@@ -33,14 +34,6 @@ public class QnaResponse {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Answer_set getAnswer_set() {
-        return answer_set;
-    }
-
-    public void setAnswer_set(Answer_set answer_set) {
-        this.answer_set = answer_set;
     }
 
     public String getAnswer_count() {
@@ -113,6 +106,14 @@ public class QnaResponse {
 
     public void setUserid(String userid) {
         this.userid = userid;
+    }
+
+    public List<Answer_set> getAnswer_set() {
+        return answer_set;
+    }
+
+    public void setAnswer_set(List<Answer_set> answer_set) {
+        this.answer_set = answer_set;
     }
 }
 

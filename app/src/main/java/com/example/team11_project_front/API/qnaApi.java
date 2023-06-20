@@ -15,6 +15,6 @@ import retrofit2.http.POST;
 
 public interface qnaApi {
     //@통신 방식("통신 API명")
-    @GET("/posts/api/question")
-    Call<ArrayList<QnaResponse>> getQnaResponse(@Header("Authorization") String auth);
+    @GET("/posts/api/question/")
+    Call<List<QnaResponse>> getQnaResponse(@Header("Authorization") String auth);
 }
