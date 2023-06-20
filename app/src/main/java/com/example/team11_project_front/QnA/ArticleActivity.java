@@ -45,7 +45,9 @@ public class ArticleActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
 
         String contents = intent.getStringExtra("contents");
+        String photo = intent.getStringExtra("photo");
         bundle.putString("contents", contents);
+        bundle.putString("photo", photo);
         ArticleFragment articleFragment = new ArticleFragment();
         articleFragment.setArguments(bundle);
         transaction.replace(R.id.articleFragmentContainerView, articleFragment).commit();
