@@ -5,14 +5,17 @@ public class PetInfo {
     private String birth;
     private String species;
     private String gender;
+    private String id;
 
-    public PetInfo(String name, String birth, String species, String gender) {
+    public PetInfo(String id, String name, String birth, String species, String gender) {
+        this.id = id;
         this.name = name;
         this.birth = birth;
         this.species = species;
         this.gender = gender;
     }
 
+    public String getId() { return id;}
     public String getName() {
         return name;
     }
@@ -29,6 +32,7 @@ public class PetInfo {
         return gender;
     }
 
+    public void setId(String id) {this.id = id; }
     public void setName(String name) {
         this.name = name;
     }

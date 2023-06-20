@@ -1,6 +1,7 @@
 package com.example.team11_project_front.MyPage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatButton;
 
+import com.example.team11_project_front.ChangePetActivity;
 import com.example.team11_project_front.Data.PetInfo;
 import com.example.team11_project_front.R;
 
@@ -56,6 +58,26 @@ public class PetAdapter extends BaseAdapter {
         species.setText(list.get(i).getSpecies());
         birth.setText(list.get(i).getBirth());
         gender.setText(list.get(i).getGender());
+
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String Pid = list.get(i).getId();
+                String Pname = list.get(i).getName();
+                String Pgender = list.get(i).getSpecies();
+                String Pspecies = list.get(i).getBirth();
+                String Pbirth = list.get(i).getGender();
+                Intent intent = new Intent(mContext, ChangePetActivity.class);
+
+                intent.putExtra("id", Pid);
+                intent.putExtra("name", Pname);
+                intent.putExtra("gender", Pgender);
+                intent.putExtra("species", Pspecies);
+                intent.putExtra("birth", Pbirth);
+                mContext.startActivity(intent);
+            }
+        });
 
         return view;
     }

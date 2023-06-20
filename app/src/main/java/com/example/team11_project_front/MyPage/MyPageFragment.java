@@ -180,11 +180,12 @@ public class MyPageFragment extends Fragment {
                     // PetlistResponse 객체를 PetInfo 객체로 변환하여 리스트에 추가
 
                     for (PetlistResponse petlistResponse : petlistResponses) {
+                        String id = petlistResponse.getId();
                         String petName = petlistResponse.getName();
                         String species = petlistResponse.getSpecies();
                         String gender = petlistResponse.getGender();
                         String birth = petlistResponse.getBirth();
-                        PetInfo petInfo = new PetInfo(petName, birth, species, gender);
+                        PetInfo petInfo = new PetInfo(id,petName, birth, species, gender);
                         petInfos.add(petInfo);
                     }
 
