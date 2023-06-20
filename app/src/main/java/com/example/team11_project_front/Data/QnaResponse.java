@@ -10,7 +10,7 @@ public class QnaResponse {
     private Answer_set answer_set;
     @SerializedName("answer_count")
     private String answer_count;
-    @SerializedName("photo")
+    @SerializedName("pictureid")
     private String photo;
     @SerializedName("model_result")
     private String model_request;

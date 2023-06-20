@@ -7,12 +7,12 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.team11_project_front.Data.AnsInfo;
 import com.example.team11_project_front.R;
@@ -32,8 +32,7 @@ public class ArticleFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String contents;
     private View view;
     private ArrayList<AnsInfo> ansInfos;
     private Button ansBtn;
@@ -50,11 +49,10 @@ public class ArticleFragment extends Fragment {
      * @return A new instance of fragment ArticleFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ArticleFragment newInstance(String param1, String param2) {
+    public static ArticleFragment newInstance(String param1) {
         ArticleFragment fragment = new ArticleFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,8 +61,7 @@ public class ArticleFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            contents = getArguments().getString(ARG_PARAM1);
         }
 
     }
@@ -74,6 +71,14 @@ public class ArticleFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_article, container, false);
+
+        TextView question = view.findViewById(R.id.question);
+        try {
+            String questionText = this.getArguments().getString("contents");
+            question.setText(questionText);
+        }catch (NullPointerException e){
+            question.setText("질문 내용을 불러오는데 실패하였습니다.");
+        }
 
         ansBtn = (Button) view.findViewById(R.id.ansBtn);
         String is_vet = getPreferenceString("is_vet");

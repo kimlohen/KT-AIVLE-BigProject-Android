@@ -168,29 +168,36 @@ public class QnaFragment extends Fragment {
             @Override
             public void onResponse(Call<ArrayList<QnaResponse>> call, Response<ArrayList<QnaResponse>> response) {
                 if (response.isSuccessful()){
+                    QnAInfo test = new QnAInfo("동해물과 백두산이 마르고 닳도록", "홍길동", "2023-06-20", "0", "photo", "하느님이 보우하사 우리나라 만세");
+                    qnAInfos.add(test);
                     ArrayList<QnaResponse> responses = response.body();
                     responses.forEach((element) -> {
                         String title = element.getTitle();
                         String writer = element.getUserid();
-                        String content = element.getContents();
+                        String contents = element.getContents();
                         String ansNum = element.getAnswer_count();
                         String photo = element.getPhoto();
                         String date = element.getCreated_at();
 
-                        QnAInfo info = new QnAInfo(title, writer, date, ansNum, photo, content);
+                        QnAInfo info = new QnAInfo(title, writer, date, ansNum, photo, contents);
                         qnAInfos.add(info);
                     });
+                    QnAAdapter adapter = new QnAAdapter(getContext(), qnAInfos);
+                    listView.setAdapter(adapter);
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<QnaResponse>> call, Throwable t) {
                 Toast.makeText(getActivity(), "서버에서 게시판 정보를 받아오지 못하였습니다.", Toast.LENGTH_LONG).show();
+
+                QnAInfo test = new QnAInfo("동해물과 백두산이 마르고 닳도록", "홍길동", "2023-06-20", "0", "photo", "하느님이 보우하사 우리나라 만세");
+                qnAInfos.add(test);
+                QnAAdapter adapter = new QnAAdapter(getContext(), qnAInfos);
+                listView.setAdapter(adapter);
             }
         });
 
-        QnAAdapter adapter = new QnAAdapter(getContext(), qnAInfos);
-        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -200,7 +207,7 @@ public class QnaFragment extends Fragment {
                 intent.putExtra("title", qnAInfos.get(position).getTitle());
                 intent.putExtra("writer", qnAInfos.get(position).getWriter());
                 intent.putExtra("date", qnAInfos.get(position).getDate());
-                intent.putExtra("content", qnAInfos.get(position).getContent());
+                intent.putExtra("contents", qnAInfos.get(position).getContent());
                 intent.putExtra("photo", qnAInfos.get(position).getPhoto());
                 startActivity(intent);
             }
