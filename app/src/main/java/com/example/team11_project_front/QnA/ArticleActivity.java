@@ -1,6 +1,8 @@
 package com.example.team11_project_front.QnA;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 
 import android.content.Intent;
@@ -16,7 +18,7 @@ import org.w3c.dom.Text;
 
 
 public class ArticleActivity extends AppCompatActivity {
-    private TextView summaryTitle, title, date, writer;
+    private TextView summaryTitle, title, date, writer, question;
     private ImageView backBtn;
 
     @Override
@@ -33,8 +35,22 @@ public class ArticleActivity extends AppCompatActivity {
 
         summaryTitle.setText(intent.getStringExtra("title"));
         title.setText(intent.getStringExtra("title"));
-        date.setText(intent.getStringExtra("date"));
+        String dateText = intent.getStringExtra("date");
+        date.setText(dateText.split("T")[0] + " " + dateText.split("T")[1].substring(0, 8));
         writer.setText(intent.getStringExtra("writer"));
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+
+        Bundle bundle = new Bundle();
+
+        String contents = intent.getStringExtra("contents");
+        String photo = intent.getStringExtra("photo");
+        bundle.putString("contents", contents);
+        bundle.putString("photo", photo);
+        ArticleFragment articleFragment = new ArticleFragment();
+        articleFragment.setArguments(bundle);
+        transaction.replace(R.id.articleFragmentContainerView, articleFragment).commit();
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override

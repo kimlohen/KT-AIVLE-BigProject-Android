@@ -51,4 +51,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     // 로그
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+
+    implementation 'org.jsoup:jsoup:1.13.1'
 }

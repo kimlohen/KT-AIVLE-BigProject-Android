@@ -9,25 +9,23 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.team11_project_front.API.addPetApi;
 import com.example.team11_project_front.API.qnaApi;
 import com.example.team11_project_front.Data.QnAInfo;
 import com.example.team11_project_front.Data.QnaResponse;
-import com.example.team11_project_front.MyPage.PetAdapter;
-import com.example.team11_project_front.PetRegisterActivity;
 import com.example.team11_project_front.R;
 import com.example.team11_project_front.RetrofitClient;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -164,33 +162,41 @@ public class QnaFragment extends Fragment {
 
         retrofitClient = RetrofitClient.getInstance();
         qnaApi qnaApi = RetrofitClient.getRetrofitQnaInterface();
-        qnaApi.getQnaResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<ArrayList<QnaResponse>>() {
+        qnaApi.getQnaResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<List<QnaResponse>>() {
             @Override
-            public void onResponse(Call<ArrayList<QnaResponse>> call, Response<ArrayList<QnaResponse>> response) {
+            public void onResponse(Call<List<QnaResponse>> call, Response<List<QnaResponse>> response) {
+                Log.d("retrofit", "Data fetch success");
+                Log.e("qna", String.valueOf(response.isSuccessful()));
                 if (response.isSuccessful()){
-                    ArrayList<QnaResponse> responses = response.body();
+                    List<QnaResponse> responses = response.body();
                     responses.forEach((element) -> {
                         String title = element.getTitle();
                         String writer = element.getUserid();
-                        String content = element.getContents();
+                        String contents = element.getContents();
                         String ansNum = element.getAnswer_count();
                         String photo = element.getPhoto();
                         String date = element.getCreated_at();
 
-                        QnAInfo info = new QnAInfo(title, writer, date, ansNum, photo, content);
+                        QnAInfo info = new QnAInfo(title, writer, date, ansNum, photo, contents);
                         qnAInfos.add(info);
                     });
+                    QnAAdapter adapter = new QnAAdapter(getContext(), qnAInfos);
+                    listView.setAdapter(adapter);
                 }
             }
 
             @Override
-            public void onFailure(Call<ArrayList<QnaResponse>> call, Throwable t) {
+            public void onFailure(Call<List<QnaResponse>> call, Throwable t) {
+                Log.e("qna", t.getMessage());
                 Toast.makeText(getActivity(), "서버에서 게시판 정보를 받아오지 못하였습니다.", Toast.LENGTH_LONG).show();
+
+                QnAInfo test = new QnAInfo("동해물과 백두산이 마르고 닳도록", "홍길동", "2023-06-20", "0", "photo", "하느님이 보우하사 우리나라 만세");
+                qnAInfos.add(test);
+                QnAAdapter adapter = new QnAAdapter(getContext(), qnAInfos);
+                listView.setAdapter(adapter);
             }
         });
 
-        QnAAdapter adapter = new QnAAdapter(getContext(), qnAInfos);
-        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -200,7 +206,7 @@ public class QnaFragment extends Fragment {
                 intent.putExtra("title", qnAInfos.get(position).getTitle());
                 intent.putExtra("writer", qnAInfos.get(position).getWriter());
                 intent.putExtra("date", qnAInfos.get(position).getDate());
-                intent.putExtra("content", qnAInfos.get(position).getContent());
+                intent.putExtra("contents", qnAInfos.get(position).getContent());
                 intent.putExtra("photo", qnAInfos.get(position).getPhoto());
                 startActivity(intent);
             }

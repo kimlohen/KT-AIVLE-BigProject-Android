@@ -2,15 +2,16 @@ package com.example.team11_project_front.Data;
 
 import com.google.gson.annotations.SerializedName;
 
-public class QnaResponse {
+import java.util.List;
 
+public class QnaResponse {
     @SerializedName("id")
     private String id;
     @SerializedName("answer_set")
-    private Answer_set answer_set;
+    private List<Answer_set> answer_set;
     @SerializedName("answer_count")
     private String answer_count;
-    @SerializedName("photo")
+    @SerializedName("pictureid")
     private String photo;
     @SerializedName("model_result")
     private String model_request;
@@ -26,8 +27,6 @@ public class QnaResponse {
     private String updated_at;
     @SerializedName("userid")
     private String userid;
-    @SerializedName("pet_id")
-    private String pet_id;
 
     public String getId() {
         return id;
@@ -35,14 +34,6 @@ public class QnaResponse {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Answer_set getAnswer_set() {
-        return answer_set;
-    }
-
-    public void setAnswer_set(Answer_set answer_set) {
-        this.answer_set = answer_set;
     }
 
     public String getAnswer_count() {
@@ -117,12 +108,12 @@ public class QnaResponse {
         this.userid = userid;
     }
 
-    public String getPet_id() {
-        return pet_id;
+    public List<Answer_set> getAnswer_set() {
+        return answer_set;
     }
 
-    public void setPet_id(String pet_id) {
-        this.pet_id = pet_id;
+    public void setAnswer_set(List<Answer_set> answer_set) {
+        this.answer_set = answer_set;
     }
 }
 

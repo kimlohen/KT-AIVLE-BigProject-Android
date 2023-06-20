@@ -119,7 +119,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentContainerView"
+            android:id="@+id/articleFragmentContainerView"
             android:name="com.example.team11_project_front.QnA.ArticleFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
