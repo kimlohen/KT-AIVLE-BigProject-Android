@@ -168,8 +168,6 @@ public class QnaFragment extends Fragment {
             @Override
             public void onResponse(Call<ArrayList<QnaResponse>> call, Response<ArrayList<QnaResponse>> response) {
                 if (response.isSuccessful()){
-                    QnAInfo test = new QnAInfo("동해물과 백두산이 마르고 닳도록", "홍길동", "2023-06-20", "0", "photo", "하느님이 보우하사 우리나라 만세");
-                    qnAInfos.add(test);
                     ArrayList<QnaResponse> responses = response.body();
                     responses.forEach((element) -> {
                         String title = element.getTitle();

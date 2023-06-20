@@ -26,8 +26,6 @@ public class QnaResponse {
     private String updated_at;
     @SerializedName("userid")
     private String userid;
-    @SerializedName("pet_id")
-    private String pet_id;
 
     public String getId() {
         return id;
@@ -115,14 +113,6 @@ public class QnaResponse {
 
     public void setUserid(String userid) {
         this.userid = userid;
-    }
-
-    public String getPet_id() {
-        return pet_id;
-    }
-
-    public void setPet_id(String pet_id) {
-        this.pet_id = pet_id;
     }
 }
 
