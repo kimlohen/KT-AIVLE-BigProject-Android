@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.team11_project_front"
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -58,14 +59,12 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
-                <data
-                    android:host="oauth"
-                    android:scheme="kakao4ea08aa1447cd2212c1beffea7c02a1a" />
+                <data android:host="oauth"
+                    android:scheme="kakao5100323d586bd5d262b47655192a03b7" />
             </intent-filter>
         </activity>
     </application>

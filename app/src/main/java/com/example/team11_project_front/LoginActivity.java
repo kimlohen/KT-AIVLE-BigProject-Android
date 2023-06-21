@@ -24,6 +24,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 
+import com.example.team11_project_front.API.emailVerifyApi;
+import com.example.team11_project_front.API.joinApi;
+import com.example.team11_project_front.Data.EmailRequest;
+import com.example.team11_project_front.Data.EmailResponse;
+import com.example.team11_project_front.Data.JoinRequest;
+import com.example.team11_project_front.Data.JoinResponse;
 import com.example.team11_project_front.Data.LoginRequest;
 import com.example.team11_project_front.Data.LoginResponse;
 import com.google.android.gms.common.SignInButton;
@@ -142,6 +148,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 UserApiClient.getInstance().loginWithKakaoTalk(LoginActivity.this, callback);
             }else {
                 UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callback);
+                updateKakaoLoginUi();
             }
         } else if (id == R.id.naverLoginBtn){
             Intent intent = new Intent(v.getContext(), WebViewActivity.class); // 네이버 기능 구현하면
@@ -403,6 +410,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public Unit invoke(User user, Throwable throwable) {
 
+                String email = null;
                 if (user != null) {
 
                     // 유저의 아이디
@@ -411,21 +419,198 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Log.d(TAG, "invoke: email =" + user.getKakaoAccount().getEmail());
                     // 유저의 닉네임
                     Log.d(TAG, "invoke: nickname =" + user.getKakaoAccount().getProfile().getNickname());
-                    // 유저의 성별
-                    Log.d(TAG, "invoke: gender =" + user.getKakaoAccount().getGender());
-                    // 유저의 연령대
-                    Log.d(TAG, "invoke: age=" + user.getKakaoAccount().getAgeRange());
+                    // 유저의 프로필
+                    Log.d(TAG, "invoke: nickname =" + user.getKakaoAccount().getProfile().getProfileImageUrl());
 
                     // 로그인이 되어있으면
 
+                    email = user.getKakaoAccount().getEmail();
+                    String name = user.getKakaoAccount().getProfile().getNickname();
+                    String profile = user.getKakaoAccount().getProfile().getProfileImageUrl();
+                    String pw;
+                    try {
+                        pw = sha256(name + email);
+                    } catch (NoSuchAlgorithmException e) {
+                        throw new RuntimeException(e);
+                    } catch (UnsupportedEncodingException e) {
+                        throw new RuntimeException(e);
+                    }
+                    EmailRequest emailRequest = new EmailRequest(email);
+                    retrofitClient = RetrofitClient.getInstance();
+                    emailVerifyApi emailVerifyApi = RetrofitClient.getRetrofitEmailVerifytInterface();
+                    emailVerifyApi.getEmailResponse(emailRequest).enqueue(new Callback<EmailResponse>() {
+                        @Override
+                        public void onResponse(Call<EmailResponse> call, Response<EmailResponse> response) {
+                            Log.d("retrofit", "Data fetch success");
+                            if (response.isSuccessful() && response.body() != null) {
+                                EmailResponse result = response.body();
+                                String success = result.getSuccess();
+                                if (success.equals("true")) { // 카카오로 처음 로그인
+                                    JoinRequest joinRequest = new JoinRequest(name, email, pw, pw);
+                                    joinApi joinApi = RetrofitClient.getRetrofitJoinInterface();
+                                    joinApi.getJoinResponse(joinRequest).enqueue(new Callback<JoinResponse>() {
+                                        @Override
+                                        public void onResponse(Call<JoinResponse> call, Response<JoinResponse> response) {
+
+                                            Log.d("retrofit", "Data fetch success");
+
+                                            //통신 성공
+                                            if (response.isSuccessful() && response.body() != null) {
+                                                JoinResponse result = response.body();
+
+                                                String acessToken = result.getAcessToken();
+                                                String refreshToken = result.getRefreshToken();
+                                                String email = result.getUser().getEmail();
+                                                String first_name = result.getUser().getFirst_name();
+                                                String profile_img = result.getUser().getIs_vet();
+                                                String is_vet = result.getUser().getProfile_img();
+
+                                                if (acessToken != null) {
+                                                    //다른 통신을 하기 위해 token 저장
+                                                    setPreference("acessToken", acessToken);
+                                                    setPreference("refreshToken", refreshToken);
+                                                    setPreference("email", email);
+                                                    setPreference("first_name", first_name);
+                                                    setPreference("is_vet", is_vet);
+                                                    setPreference("profile_img", profile_img);
+                                                }
+
+                                                /*
+                                                * 프로필 사진 등록 통신이 필요(url로 등록)
+                                                * */
+
+                                                //회원가입 전송
+                                                Toast.makeText(LoginActivity.this, "회원가입되었습니다.", Toast.LENGTH_LONG).show();
+                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                startActivity(intent);
+                                                LoginActivity.this.finish();
+                                            }
+                                        }
+
+                                        //통신 실패
+                                        @Override
+                                        public void onFailure(Call<JoinResponse> call, Throwable t) {
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                            builder.setTitle("알림")
+                                                    .setMessage("회원가입 중 예기치 못한 오류가 발생하였습니다.\n 고객센터에 문의바랍니다.")
+                                                    .setPositiveButton("확인", null)
+                                                    .create()
+                                                    .show();
+                                        }
+                                    });
+                                } else if (success.equals("false")) { // 카카오로 두번째 로그인 또는 회원가입 아이디가 존재.
+                                    //loginRequest에 사용자가 입력한 id와 pw를 저장
+                                    LoginRequest loginRequest = new LoginRequest(email, pw);
+
+                                    loginApi = RetrofitClient.getRetrofitLoginInterface();
+
+                                    //loginRequest에 저장된 데이터와 함께 init에서 정의한 getLoginResponse 함수를 실행한 후 응답을 받음
+                                    loginApi.getLoginResponse(loginRequest).enqueue(new Callback<LoginResponse>() {
+                                        @Override
+                                        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+
+                                            Log.d("retrofit", "Data fetch success");
+
+                                            //통신 성공
+                                            if (response.isSuccessful() && response.body() != null) {
+
+                                                //response.body()를 result에 저장
+                                                LoginResponse result = response.body();
+
+                                                //받은 토큰 저장
+                                                String acessToken = result.getAcessToken();
+                                                String refreshToken = result.getRefreshToken();
+                                                String email = result.getUser().getEmail();
+                                                String first_name = result.getUser().getFirst_name();
+                                                String is_vet = result.getUser().getIs_vet();
+                                                String profile_img = result.getUser().getProfile_img();
+
+                                                if (acessToken != null) {
+
+                                                    //다른 통신을 하기 위해 token 저장
+                                                    setPreference("acessToken", acessToken);
+                                                    setPreference("refreshToken", refreshToken);
+                                                    setPreference("email", email);
+                                                    setPreference("first_name", first_name);
+                                                    setPreference("is_vet", is_vet);
+                                                    setPreference("profile_img", profile_img);
+
+                                                    //자동 로그인 여부
+                                                    if (checkBox.isChecked()) {
+                                                        setPreference("autoLoginId", email);
+                                                        setPreference("autoLoginPw", pw);
+                                                    } else {
+                                                        setPreference("autoLoginId", "");
+                                                        setPreference("autoLoginPw", "");
+                                                    }
+
+                                                    Toast.makeText(LoginActivity.this, first_name + "님 환영합니다.", Toast.LENGTH_LONG).show();
+                                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                    intent.putExtra("userId", userID);
+                                                    startActivity(intent);
+                                                    LoginActivity.this.finish();
+                                                } else {
+
+                                                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                                    builder.setTitle("알림")
+                                                            .setMessage("예기치 못한 오류가 발생하였습니다.\n 고객센터에 문의바랍니다.")
+                                                            .setPositiveButton("확인", null)
+                                                            .create()
+                                                            .show();
+                                                }
+                                            } else {
+
+                                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                                builder.setTitle("알림")
+                                                        .setMessage("카카오로 시작하기로 가입하지 않은 이메일 입니다.")
+                                                        .setPositiveButton("확인", null)
+                                                        .create()
+                                                        .show();
+                                            }
+                                        }
+
+                                        //통신 실패
+                                        @Override
+                                        public void onFailure(Call<LoginResponse> call, Throwable t) {
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                            builder.setTitle("알림")
+                                                    .setMessage("예기치 못한 오류가 발생하였습니다.\n 고객센터에 문의바랍니다.")
+                                                    .setPositiveButton("확인", null)
+                                                    .create()
+                                                    .show();
+                                        }
+                                    });
+                                }
+                            } else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                builder.setTitle("알림")
+                                        .setMessage("")
+                                        .setPositiveButton("확인", null)
+                                        .create()
+                                        .show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<EmailResponse> call, Throwable t) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                            builder.setTitle("알림")
+                                    .setMessage("서버와 통신에 실패하였습니다. 네트워크를 확인해주세요.")
+                                    .setPositiveButton("확인", null)
+                                    .create()
+                                    .show();
+                        }
+                    });
+
+
                 } else {
                     // 로그인 되어있지 않으면
-
                 }
                 return null;
             }
         });
     }
+
     public static String sha256(String data) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.update(data.getBytes("UTF-8"));
