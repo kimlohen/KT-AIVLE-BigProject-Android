@@ -51,4 +51,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     // 로그
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+
+    // 네이버 로그인
+    implementation 'com.navercorp.nid:oauth:5.6.0' // jdk 11
 }
