@@ -427,9 +427,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     email = user.getKakaoAccount().getEmail();
                     String name = user.getKakaoAccount().getProfile().getNickname();
                     String profile = user.getKakaoAccount().getProfile().getProfileImageUrl();
-                    String pw;
+                    String pw = name + email;
                     try {
-                        pw = sha256(name + email);
+                        pw = sha256(pw);
                     } catch (NoSuchAlgorithmException e) {
                         throw new RuntimeException(e);
                     } catch (UnsupportedEncodingException e) {
@@ -438,6 +438,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     EmailRequest emailRequest = new EmailRequest(email);
                     retrofitClient = RetrofitClient.getInstance();
                     emailVerifyApi emailVerifyApi = RetrofitClient.getRetrofitEmailVerifytInterface();
+                    String finalEmail = email;
+                    String finalPw = pw;
                     emailVerifyApi.getEmailResponse(emailRequest).enqueue(new Callback<EmailResponse>() {
                         @Override
                         public void onResponse(Call<EmailResponse> call, Response<EmailResponse> response) {
@@ -446,7 +448,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 EmailResponse result = response.body();
                                 String success = result.getSuccess();
                                 if (success.equals("true")) { // 카카오로 처음 로그인
-                                    JoinRequest joinRequest = new JoinRequest(name, email, pw, pw);
+                                    JoinRequest joinRequest = new JoinRequest(name, finalEmail, finalPw, finalPw);
                                     joinApi joinApi = RetrofitClient.getRetrofitJoinInterface();
                                     joinApi.getJoinResponse(joinRequest).enqueue(new Callback<JoinResponse>() {
                                         @Override
@@ -500,7 +502,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     });
                                 } else if (success.equals("false")) { // 카카오로 두번째 로그인 또는 회원가입 아이디가 존재.
                                     //loginRequest에 사용자가 입력한 id와 pw를 저장
-                                    LoginRequest loginRequest = new LoginRequest(email, pw);
+                                    LoginRequest loginRequest = new LoginRequest(finalEmail, finalPw);
 
                                     loginApi = RetrofitClient.getRetrofitLoginInterface();
 
@@ -538,7 +540,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                                     //자동 로그인 여부
                                                     if (checkBox.isChecked()) {
                                                         setPreference("autoLoginId", email);
-                                                        setPreference("autoLoginPw", pw);
+                                                        setPreference("autoLoginPw", finalPw);
                                                     } else {
                                                         setPreference("autoLoginId", "");
                                                         setPreference("autoLoginPw", "");
@@ -546,7 +548,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                                                     Toast.makeText(LoginActivity.this, first_name + "님 환영합니다.", Toast.LENGTH_LONG).show();
                                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                                    intent.putExtra("userId", userID);
+                                                    intent.putExtra("userId", email);
                                                     startActivity(intent);
                                                     LoginActivity.this.finish();
                                                 } else {
