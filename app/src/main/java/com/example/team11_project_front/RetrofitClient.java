@@ -11,6 +11,7 @@ import com.example.team11_project_front.API.emailVerifyApi;
 import com.example.team11_project_front.API.joinApi;
 import com.example.team11_project_front.API.loginApi;
 import com.example.team11_project_front.API.logoutApi;
+import com.example.team11_project_front.API.petlistApi;
 import com.example.team11_project_front.API.qnaApi;
 import com.example.team11_project_front.API.refreshApi;
 import com.example.team11_project_front.API.naverLoginApi;
@@ -70,6 +71,7 @@ public class RetrofitClient {
         deleteUserApi = retrofit.create(deleteUserApi.class);
         qnaApi = retrofit.create(qnaApi.class);
         refreshApi = retrofit.create(refreshApi.class);
+        petlistApi = retrofit.create(com.example.team11_project_front.API.petlistApi.class);
         changePetApi = retrofit.create(changePetApi.class);
         naverLoginApi = retrofit.create(naverLoginApi.class);
         pictureApi = retrofit.create(pictureApi.class);

@@ -194,8 +194,6 @@ public class MyPageFragment extends Fragment {
                         petInfos.add(petInfo);
                     }
 
-
-
                     PetAdapter adapter = new PetAdapter(getContext(), petInfos);
                     adapter.notifyDataSetChanged();
                     listView.setAdapter(adapter);
