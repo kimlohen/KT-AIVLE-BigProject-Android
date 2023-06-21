@@ -70,7 +70,6 @@ public class ArticleFragment extends Fragment {
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment ArticleFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -154,7 +153,7 @@ public class ArticleFragment extends Fragment {
                         mThread.start();
                         try{
                             mThread.join();
-                            iv_disease.setImageBitmap(bitmap.createScaledBitmap(bitmap, 150, 150, false));
+                            iv_disease.setImageBitmap(bitmap.createScaledBitmap(bitmap, 400, 400, false));
                         }catch (InterruptedException e){
                             e.printStackTrace();
                         }

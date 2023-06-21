@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.team11_project_front.API.qnaApi;
 import com.example.team11_project_front.API.refreshApi;
 import com.example.team11_project_front.Data.QnAInfo;
+import com.example.team11_project_front.Data.QnaListResponse;
 import com.example.team11_project_front.Data.QnaResponse;
 import com.example.team11_project_front.Data.RefreshRequest;
 import com.example.team11_project_front.Data.RefreshResponse;
@@ -38,9 +39,8 @@ import retrofit2.Response;
 public class QnaFragment extends Fragment {
     private View view;
     private ArrayList<QnAInfo> qnAInfos;
-
     private TextView beforeBtn, page1, page2, page3, page4, page5, afterBtn;
-
+    private ListView listView;
     private RetrofitClient retrofitClient;
     private qnaApi qnaApi;
 
@@ -63,6 +63,9 @@ public class QnaFragment extends Fragment {
 
         page1.setTextColor(Color.BLUE);
 
+        listView = (ListView) view.findViewById(R.id.qnaList);
+        qnaList("1");
+
         beforeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +84,7 @@ public class QnaFragment extends Fragment {
                 page3.setTextColor(Color.BLACK);
                 page4.setTextColor(Color.BLACK);
                 page5.setTextColor(Color.BLACK);
+                qnaList(page1.getText().toString());
             }
         });
 
@@ -100,6 +104,7 @@ public class QnaFragment extends Fragment {
                 page3.setTextColor(Color.BLACK);
                 page4.setTextColor(Color.BLACK);
                 page5.setTextColor(Color.BLACK);
+                qnaList(page1.getText().toString());
             }
         });
         page1.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +115,7 @@ public class QnaFragment extends Fragment {
                 page3.setTextColor(Color.BLACK);
                 page4.setTextColor(Color.BLACK);
                 page5.setTextColor(Color.BLACK);
+                qnaList(page1.getText().toString());
             }
         });
 
@@ -121,6 +127,7 @@ public class QnaFragment extends Fragment {
                 page3.setTextColor(Color.BLACK);
                 page4.setTextColor(Color.BLACK);
                 page5.setTextColor(Color.BLACK);
+                qnaList(page2.getText().toString());
             }
         });
         page3.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +138,7 @@ public class QnaFragment extends Fragment {
                 page3.setTextColor(Color.BLUE);
                 page4.setTextColor(Color.BLACK);
                 page5.setTextColor(Color.BLACK);
+                qnaList(page3.getText().toString());
             }
         });
         page4.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +149,7 @@ public class QnaFragment extends Fragment {
                 page3.setTextColor(Color.BLACK);
                 page4.setTextColor(Color.BLUE);
                 page5.setTextColor(Color.BLACK);
+                qnaList(page4.getText().toString());
             }
         });
         page5.setOnClickListener(new View.OnClickListener() {
@@ -151,6 +160,7 @@ public class QnaFragment extends Fragment {
                 page3.setTextColor(Color.BLACK);
                 page4.setTextColor(Color.BLACK);
                 page5.setTextColor(Color.BLUE);
+                qnaList(page5.getText().toString());
             }
         });
 
@@ -160,67 +170,6 @@ public class QnaFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ListView listView = (ListView) view.findViewById(R.id.qnaList);
-        qnAInfos = new ArrayList<>();
-
-        retrofitClient = RetrofitClient.getInstance();
-        qnaApi qnaApi = RetrofitClient.getRetrofitQnaInterface();
-        qnaApi.getQnaResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<List<QnaResponse>>() {
-            @Override
-            public void onResponse(Call<List<QnaResponse>> call, Response<List<QnaResponse>> response) {
-                Log.d("retrofit", "Data fetch success");
-                Log.e("qna", String.valueOf(response.isSuccessful()));
-                if (response.code() == 401) {
-                    RefreshRequest refreshRequest = new RefreshRequest(getPreferenceString("refreshToken"));
-                    refreshApi refreshApi = RetrofitClient.getRefreshInterface();
-                    refreshApi.getRefreshResponse(refreshRequest).enqueue(new Callback<RefreshResponse>() {
-                        @Override
-                        public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
-                            if(response.isSuccessful() && response.body() != null){
-                                setPreference("acessToken", response.body().getAccessToken());
-                                Toast.makeText(getActivity(), "토큰이 만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
-                            }else{
-                                Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<RefreshResponse> call, Throwable t) {
-                            Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                } else if (response.isSuccessful()){
-                    List<QnaResponse> responses = response.body();
-                    responses.forEach((element) -> {
-                        String title = element.getTitle();
-                        String writer = element.getUser_name();
-                        String contents = element.getContents();
-                        String ansNum = element.getAnswer_count();
-                        String photo = element.getPhoto();
-                        String date = element.getCreated_at();
-
-                        QnAInfo info = new QnAInfo(title, writer, date, ansNum, photo, contents);
-                        qnAInfos.add(info);
-                    });
-                    QnAAdapter adapter = new QnAAdapter(getContext(), qnAInfos);
-                    adapter.notifyDataSetChanged();
-                    listView.setAdapter(adapter);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<QnaResponse>> call, Throwable t) {
-                Log.e("qna", t.getMessage());
-                Toast.makeText(getActivity(), "서버에서 게시판 정보를 받아오지 못하였습니다.", Toast.LENGTH_LONG).show();
-
-                QnAInfo test = new QnAInfo("동해물과 백두산이 마르고 닳도록", "홍길동", "2023-06-20", "0", "photo", "하느님이 보우하사 우리나라 만세");
-                qnAInfos.add(test);
-                QnAAdapter adapter = new QnAAdapter(getContext(), qnAInfos);
-                adapter.notifyDataSetChanged();
-                listView.setAdapter(adapter);
-            }
-        });
-
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -251,5 +200,68 @@ public class QnaFragment extends Fragment {
         SharedPreferences pref = getActivity().getSharedPreferences("DATA_STORE", MODE_PRIVATE);
         return pref.getString(key, "");
     }
+
+    void qnaList(String index){
+        qnAInfos = new ArrayList<>();
+
+        retrofitClient = RetrofitClient.getInstance();
+        qnaApi qnaApi = RetrofitClient.getRetrofitQnaInterface();
+        qnaApi.getQnaResponse("Bearer " + getPreferenceString("acessToken"), index).enqueue(new Callback<QnaListResponse>() {
+            @Override
+            public void onResponse(Call<QnaListResponse> call, Response<QnaListResponse> response) {
+                Log.d("retrofit", "Data fetch success");
+                Log.e("qna", String.valueOf(response.isSuccessful()));
+                if (response.code() == 401) {
+                    RefreshRequest refreshRequest = new RefreshRequest(getPreferenceString("refreshToken"));
+                    refreshApi refreshApi = RetrofitClient.getRefreshInterface();
+                    refreshApi.getRefreshResponse(refreshRequest).enqueue(new Callback<RefreshResponse>() {
+                        @Override
+                        public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
+                            if(response.isSuccessful() && response.body() != null){
+                                setPreference("acessToken", response.body().getAccessToken());
+                                Toast.makeText(getActivity(), "토큰이 만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RefreshResponse> call, Throwable t) {
+                            Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else if (response.isSuccessful()){
+                    List<QnaResponse> responses = response.body().getQnaResponses();
+                    responses.forEach((element) -> {
+                        String title = element.getTitle();
+                        String writer = element.getUser_name();
+                        String contents = element.getContents();
+                        String ansNum = element.getAnswer_count();
+                        String photo = element.getPhoto();
+                        String date = element.getCreated_at();
+
+                        QnAInfo info = new QnAInfo(title, writer, date, ansNum, photo, contents);
+                        qnAInfos.add(info);
+                    });
+                    QnAAdapter adapter = new QnAAdapter(getContext(), qnAInfos);
+                    adapter.notifyDataSetChanged();
+                    listView.setAdapter(adapter);
+                } else{
+                    Toast.makeText(getActivity(), "해당 페이지에 게시물이 존재하지 않습니다.", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<QnaListResponse> call, Throwable t) {
+                Log.e("qna", t.getMessage());
+                Toast.makeText(getActivity(), "서버에서 게시판 정보를 받아오지 못하였습니다.", Toast.LENGTH_LONG).show();
+
+                QnAInfo test = new QnAInfo("동해물과 백두산이 마르고 닳도록", "홍길동", "2023-06-20", "0", "photo", "하느님이 보우하사 우리나라 만세");
+                qnAInfos.add(test);
+                QnAAdapter adapter = new QnAAdapter(getContext(), qnAInfos);
+                adapter.notifyDataSetChanged();
+                listView.setAdapter(adapter);
+            }
+        });}
 
 }

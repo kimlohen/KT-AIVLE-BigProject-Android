@@ -134,13 +134,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(v.getContext(), RegisterActivity.class); // 회원가입 페이지 만들면 변경
             resultLauncher.launch(intent);
         } else if (id == R.id.googleLoginBtn){
-            Intent intent = new Intent(v.getContext(), WebViewActivity.class); // 구글 기능 구현하면
+            Intent intent = new Intent(v.getContext(), MainActivity.class); // 구글 기능 구현하면
             intent.putExtra("url", "");
             resultLauncher.launch(intent);
         } else if (id == R.id.kakaoLoginBtn){
-            Intent intent = new Intent(v.getContext(), MainActivity.class); // 카카오 기능 구현하면
-            intent.putExtra("url", "");
-            resultLauncher.launch(intent);
+            if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this)) {
+                UserApiClient.getInstance().loginWithKakaoTalk(LoginActivity.this, callback);
+            }else {
+                UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callback);
+            }
         } else if (id == R.id.naverLoginBtn){
             Intent intent = new Intent(v.getContext(), WebViewActivity.class); // 네이버 기능 구현하면
             intent.putExtra("url", "43.202.5.122" + "/accounts/naver/login");
