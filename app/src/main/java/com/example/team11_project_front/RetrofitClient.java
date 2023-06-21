@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.example.team11_project_front.API.addPetApi;
 import com.example.team11_project_front.API.changePetApi;
+import com.example.team11_project_front.API.deletePetApi;
 import com.example.team11_project_front.API.deleteUserApi;
 import com.example.team11_project_front.API.emailApi;
 import com.example.team11_project_front.API.emailVerifyApi;
@@ -37,6 +38,8 @@ public class RetrofitClient {
     private static com.example.team11_project_front.API.qnaApi qnaApi;
     private static com.example.team11_project_front.API.refreshApi refreshApi;
     private static com.example.team11_project_front.API.changePetApi changePetApi;
+    private static com.example.team11_project_front.API.petlistApi petlistApi;
+    private static com.example.team11_project_front.API.deletePetApi deletePetApi;
     private static com.example.team11_project_front.API.naverLoginApi naverLoginApi;
     private static com.example.team11_project_front.API.pictureApi pictureApi;
     //사용하고 있는 서버 BASE 주소
@@ -97,6 +100,8 @@ public class RetrofitClient {
     public static qnaApi getRetrofitQnaInterface() { return qnaApi; }
     public static refreshApi getRefreshInterface() { return refreshApi; }
     public static changePetApi getRetrofitChangePetInterface() { return changePetApi; }
+    public static com.example.team11_project_front.API.petlistApi getRetrofitPetlistInterface() { return petlistApi; }
+    public static deletePetApi getRetrofitDeletePetInterface() { return deletePetApi; }
     public static naverLoginApi getRetrofitNaverLoginInterface() { return naverLoginApi; }
     public static pictureApi getRetrofitPictureInterface() { return pictureApi; }
 }

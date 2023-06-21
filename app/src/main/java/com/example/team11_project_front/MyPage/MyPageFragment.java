@@ -9,9 +9,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,22 +20,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import com.example.team11_project_front.API.deleteUserApi;
+import com.example.team11_project_front.API.logoutApi;
 import com.example.team11_project_front.API.refreshApi;
+
 import com.example.team11_project_front.Data.DeleteUserResponse;
 import com.example.team11_project_front.Data.HospitalInfo;
-import com.example.team11_project_front.Data.JoinResponse;
 import com.example.team11_project_front.Data.LogoutResponse;
 import com.example.team11_project_front.Data.PetInfo;
+import com.example.team11_project_front.Data.PetlistResponse;
 import com.example.team11_project_front.Data.RefreshRequest;
 import com.example.team11_project_front.Data.RefreshResponse;
 import com.example.team11_project_front.LoginActivity;
-import com.example.team11_project_front.MainActivity;
 import com.example.team11_project_front.PetRegisterActivity;
 import com.example.team11_project_front.R;
-import com.example.team11_project_front.RegisterActivity;
 import com.example.team11_project_front.RetrofitClient;
-import com.example.team11_project_front.API.logoutApi;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,7 +48,6 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Url;
 
 
 public class MyPageFragment extends Fragment {
@@ -62,6 +59,8 @@ public class MyPageFragment extends Fragment {
     private deleteUserApi deleteUserApi;
     private Button addPet;
     Context mContext;
+    private com.example.team11_project_front.API.petlistApi petlistApi;
+
     Bitmap bitmap;
 
     String is_vet;
@@ -166,20 +165,57 @@ public class MyPageFragment extends Fragment {
     public void onResume() {
         super.onResume();
         //반려동물 정보 리스트
-        ListView listView = (ListView) view.findViewById(R.id.petList);
-        petInfos = new ArrayList<>();
 
-        //이 변수들에 서버에서 받아온 데이터 저장 후 petInfos에 추가하면 화면에 보여줌
-        String petName = "강아지";
-        String species = "종";
-        String gender = "성별";
-        String birth = "2022.04";
+        retrofitClient = RetrofitClient.getInstance();
+        petlistApi = retrofitClient.getRetrofitPetlistInterface();
 
-        PetInfo petInfo = new PetInfo(petName,birth,species,gender);
-        petInfos.add(petInfo);
 
-        PetAdapter adapter = new PetAdapter(getContext(), petInfos);
-        listView.setAdapter(adapter);
+
+
+
+        petlistApi.getPetlistResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<ArrayList<PetlistResponse>>() {
+            @Override
+            public void onResponse(Call<ArrayList<PetlistResponse>> call, Response<ArrayList<PetlistResponse>> response) {
+                ListView listView = (ListView) view.findViewById(R.id.petList);
+                if (response.isSuccessful() && response.body() != null) {
+                    ArrayList<PetlistResponse> petlistResponses = response.body();
+                    // PetlistResponse 객체를 PetInfo 객체로 변환하여 리스트에 추가
+                    Toast.makeText(getActivity(),  "리스트가 갱신되었습니다.", Toast.LENGTH_LONG).show();
+                    petInfos = new ArrayList<>();
+                    listView.setAdapter(null);
+
+                    for (PetlistResponse petlistResponse : petlistResponses) {
+                        String id = petlistResponse.getId();
+                        String petName = petlistResponse.getName();
+                        String species = petlistResponse.getSpecies();
+                        String gender = petlistResponse.getGender();
+                        String birth = petlistResponse.getBirth();
+                        PetInfo petInfo = new PetInfo(id,petName, birth, species, gender);
+                        petInfos.add(petInfo);
+                    }
+
+
+
+                    PetAdapter adapter = new PetAdapter(getContext(), petInfos);
+                    adapter.notifyDataSetChanged();
+                    listView.setAdapter(adapter);
+
+
+
+                }
+            }
+            public void onFailure(Call<ArrayList<PetlistResponse>> call, Throwable t) {
+                Toast.makeText(getActivity(),  "동물 정보를 제대로 가져오지 못 했습니다.", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+
+
+
+
+
+
 
         //병원정보 리스트
 
