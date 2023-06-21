@@ -178,6 +178,7 @@ public class QnaFragment extends Fragment {
                         public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
                             if(response.isSuccessful() && response.body() != null){
                                 setPreference("acessToken", response.body().getAccessToken());
+                                Toast.makeText(getActivity(), "토큰이 만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
                             }else{
                                 Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
                             }
@@ -202,6 +203,7 @@ public class QnaFragment extends Fragment {
                         qnAInfos.add(info);
                     });
                     QnAAdapter adapter = new QnAAdapter(getContext(), qnAInfos);
+                    adapter.notifyDataSetChanged();
                     listView.setAdapter(adapter);
                 }
             }
@@ -214,6 +216,7 @@ public class QnaFragment extends Fragment {
                 QnAInfo test = new QnAInfo("동해물과 백두산이 마르고 닳도록", "홍길동", "2023-06-20", "0", "photo", "하느님이 보우하사 우리나라 만세");
                 qnAInfos.add(test);
                 QnAAdapter adapter = new QnAAdapter(getContext(), qnAInfos);
+                adapter.notifyDataSetChanged();
                 listView.setAdapter(adapter);
             }
         });

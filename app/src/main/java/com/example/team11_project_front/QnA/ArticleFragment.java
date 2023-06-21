@@ -118,6 +118,7 @@ public class ArticleFragment extends Fragment {
                             public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
                                 if(response.isSuccessful() && response.body() != null){
                                     setPreference("acessToken", response.body().getAccessToken());
+                                    Toast.makeText(getActivity(), "토큰이 만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
                                 }else{
                                     Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
                                 }
