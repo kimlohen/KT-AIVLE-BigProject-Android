@@ -2,13 +2,13 @@ package com.example.team11_project_front;
 
 import com.example.team11_project_front.API.addPetApi;
 import com.example.team11_project_front.API.changePetApi;
+import com.example.team11_project_front.API.deletePetApi;
 import com.example.team11_project_front.API.deleteUserApi;
 import com.example.team11_project_front.API.emailApi;
 import com.example.team11_project_front.API.emailVerifyApi;
 import com.example.team11_project_front.API.joinApi;
 import com.example.team11_project_front.API.loginApi;
 import com.example.team11_project_front.API.logoutApi;
-import com.example.team11_project_front.API.petlistApi;
 import com.example.team11_project_front.API.qnaApi;
 import com.example.team11_project_front.API.refreshApi;
 
@@ -31,6 +31,7 @@ public class RetrofitClient {
     private static com.example.team11_project_front.API.refreshApi refreshApi;
     private static com.example.team11_project_front.API.changePetApi changePetApi;
     private static com.example.team11_project_front.API.petlistApi petlistApi;
+    private static com.example.team11_project_front.API.deletePetApi deletePetApi;
 
 
     //사용하고 있는 서버 BASE 주소
@@ -63,6 +64,7 @@ public class RetrofitClient {
         refreshApi = retrofit.create(refreshApi.class);
         changePetApi = retrofit.create(com.example.team11_project_front.API.changePetApi.class);
         petlistApi = retrofit.create(com.example.team11_project_front.API.petlistApi.class);
+        deletePetApi = retrofit.create(com.example.team11_project_front.API.deletePetApi.class);
 
     }
 
@@ -92,4 +94,5 @@ public class RetrofitClient {
     public static refreshApi getRefreshInterface() { return refreshApi; }
     public static changePetApi getRetrofitChangePetInterface() { return changePetApi; }
     public static com.example.team11_project_front.API.petlistApi getRetrofitPetlistInterface() { return petlistApi; }
+    public static deletePetApi getRetrofitDeletePetInterface() { return deletePetApi; }
 }
