@@ -27,6 +27,8 @@ public class QnaResponse {
     private String updated_at;
     @SerializedName("userid")
     private String userid;
+    @SerializedName("user_name")
+    private String user_name;
 
     public String getId() {
         return id;
@@ -114,6 +116,13 @@ public class QnaResponse {
 
     public void setAnswer_set(List<Answer_set> answer_set) {
         this.answer_set = answer_set;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 }
 

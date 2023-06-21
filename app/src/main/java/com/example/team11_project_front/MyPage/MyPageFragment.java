@@ -24,11 +24,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.team11_project_front.API.deleteUserApi;
+import com.example.team11_project_front.API.refreshApi;
 import com.example.team11_project_front.Data.DeleteUserResponse;
 import com.example.team11_project_front.Data.HospitalInfo;
 import com.example.team11_project_front.Data.JoinResponse;
 import com.example.team11_project_front.Data.LogoutResponse;
 import com.example.team11_project_front.Data.PetInfo;
+import com.example.team11_project_front.Data.RefreshRequest;
+import com.example.team11_project_front.Data.RefreshResponse;
 import com.example.team11_project_front.LoginActivity;
 import com.example.team11_project_front.MainActivity;
 import com.example.team11_project_front.PetRegisterActivity;
@@ -218,7 +221,26 @@ public class MyPageFragment extends Fragment {
         logoutApi.getLogoutResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<LogoutResponse>() {
             @Override
             public void onResponse(Call<LogoutResponse> call, Response<LogoutResponse> response) {
-                if (response.isSuccessful()){
+                if (response.code() == 401) {
+                    RefreshRequest refreshRequest = new RefreshRequest(getPreferenceString("refreshToken"));
+                    refreshApi refreshApi = RetrofitClient.getRefreshInterface();
+                    refreshApi.getRefreshResponse(refreshRequest).enqueue(new Callback<RefreshResponse>() {
+                        @Override
+                        public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
+                            if(response.isSuccessful() && response.body() != null){
+                                setPreference("acessToken", response.body().getAccessToken());
+                                Toast.makeText(getActivity(), "토큰이 만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RefreshResponse> call, Throwable t) {
+                            Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else if (response.isSuccessful()){
                     setPreference("acessToken","");
                     setPreference("refreshToken","");
                     setPreference("email", "");
@@ -262,8 +284,26 @@ public class MyPageFragment extends Fragment {
             public void onResponse(Call<DeleteUserResponse> call, Response<DeleteUserResponse> response) {
                 Log.d("retrofit", "Data fetch success");
 
-                //통신 성공
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.code() == 401) {
+                    RefreshRequest refreshRequest = new RefreshRequest(getPreferenceString("refreshToken"));
+                    refreshApi refreshApi = RetrofitClient.getRefreshInterface();
+                    refreshApi.getRefreshResponse(refreshRequest).enqueue(new Callback<RefreshResponse>() {
+                        @Override
+                        public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
+                            if(response.isSuccessful() && response.body() != null){
+                                setPreference("acessToken", response.body().getAccessToken());
+                                Toast.makeText(getActivity(), "토큰이 만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RefreshResponse> call, Throwable t) {
+                            Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else if (response.isSuccessful() && response.body() != null) { //통신 성공
                     setPreference("acessToken","");
                     setPreference("refreshToken","");
                     setPreference("email", "");
