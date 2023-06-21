@@ -1,5 +1,7 @@
 package com.example.team11_project_front;
 
+import androidx.annotation.NonNull;
+
 import com.example.team11_project_front.API.addPetApi;
 import com.example.team11_project_front.API.changePetApi;
 import com.example.team11_project_front.API.deleteUserApi;
@@ -13,7 +15,11 @@ import com.example.team11_project_front.API.refreshApi;
 import com.example.team11_project_front.API.naverLoginApi;
 import com.example.team11_project_front.API.pictureApi;
 
+import java.io.IOException;
+
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
