@@ -3,7 +3,11 @@
     package="com.example.team11_project_front"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".KakaoApplication"
@@ -51,6 +55,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".SkinDiagnosisActivity" />
+        <activity
+            android:name=".AnswerByGptActivity"
+            android:windowSoftInputMode="adjustPan">
+<!--            android:windowSoftInputMode="stateHidden|adjustNothing">>-->
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true" />
