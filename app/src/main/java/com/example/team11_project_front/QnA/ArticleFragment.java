@@ -2,6 +2,7 @@ package com.example.team11_project_front.QnA;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -48,7 +49,7 @@ import retrofit2.Response;
  * Use the {@link ArticleFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ArticleFragment extends Fragment {
+public class ArticleFragment extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -210,6 +211,7 @@ public class ArticleFragment extends Fragment {
             e.printStackTrace();
         }
         ansBtn = (Button) view.findViewById(R.id.ansBtn);
+
         String is_vet = getPreferenceString("is_vet");
         if(is_vet.equals("false")){
             ansBtn.setVisibility(View.GONE);
@@ -235,5 +237,12 @@ public class ArticleFragment extends Fragment {
     public String getPreferenceString(String key) {
         SharedPreferences pref = getActivity().getSharedPreferences("DATA_STORE", MODE_PRIVATE);
         return pref.getString(key, "");
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.ansBtn){
+            this.startActivity(new Intent("AnswerActivity"));
+        }
     }
 }
