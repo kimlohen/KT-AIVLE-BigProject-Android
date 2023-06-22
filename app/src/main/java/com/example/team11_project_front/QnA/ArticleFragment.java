@@ -62,7 +62,7 @@ public class ArticleFragment extends Fragment implements View.OnClickListener {
     private ArrayList<AnsInfo> ansInfos;
     private Button ansBtn;
     private Bitmap bitmap;
-    private String qId;
+    private String qId, pictureUrl, questionText;
 
     private RetrofitClient retrofitClient;
     private com.example.team11_project_front.API.qnaApi picture;
@@ -106,8 +106,8 @@ public class ArticleFragment extends Fragment implements View.OnClickListener {
         ListView listView = (ListView) view.findViewById(R.id.ansList);
 
         try {
-            String questionText = this.getArguments().getString("contents");
             String pictureID = this.getArguments().getString("photo");
+            questionText = this.getArguments().getString("contents");
             question.setText(questionText);
             retrofitClient = RetrofitClient.getInstance();
             pictureApi pictureApi = RetrofitClient.getRetrofitPictureInterface();
@@ -137,7 +137,7 @@ public class ArticleFragment extends Fragment implements View.OnClickListener {
                         });
                     } else if(response.isSuccessful() && response.body() != null){
                         PictureResponse result = response.body();
-                        String pictureUrl = result.getPhoto();
+                        pictureUrl = result.getPhoto();
                         Thread mThread = new Thread(){
                             @Override
                             public void run(){
@@ -178,6 +178,20 @@ public class ArticleFragment extends Fragment implements View.OnClickListener {
             question.setText("질문 내용을 불러오는데 실패하였습니다.");
         }
 
+
+        ansBtn = (Button) view.findViewById(R.id.ansBtn);
+
+        String is_vet = getPreferenceString("is_vet");
+        if(is_vet.equals("false")){
+            ansBtn.setVisibility(View.GONE);
+        }
+        return view;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        ListView listView = (ListView) view.findViewById(R.id.ansList);
         try {
             ansInfos = new ArrayList<>();
             retrofitClient = RetrofitClient.getInstance();
@@ -210,18 +224,6 @@ public class ArticleFragment extends Fragment implements View.OnClickListener {
         }catch (NullPointerException e){
             e.printStackTrace();
         }
-        ansBtn = (Button) view.findViewById(R.id.ansBtn);
-
-        String is_vet = getPreferenceString("is_vet");
-        if(is_vet.equals("false")){
-            ansBtn.setVisibility(View.GONE);
-        }
-        return view;
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
     }
 
 
@@ -242,7 +244,11 @@ public class ArticleFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.ansBtn){
-            this.startActivity(new Intent("AnswerActivity"));
+            Intent intent = new Intent("AnswerActivity");
+            intent.putExtra("qId", qId);
+            intent.putExtra("pictureUrl", pictureUrl);
+            intent.putExtra("questionText", questionText);
+            this.startActivity(intent);
         }
     }
 }

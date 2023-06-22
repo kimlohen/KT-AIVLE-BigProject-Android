@@ -17,6 +17,7 @@ import com.example.team11_project_front.API.refreshApi;
 import com.example.team11_project_front.API.naverLoginApi;
 import com.example.team11_project_front.API.pictureApi;
 import com.example.team11_project_front.API.ansApi;
+import com.example.team11_project_front.API.postAnsApi;
 
 import java.io.IOException;
 
@@ -45,6 +46,7 @@ public class RetrofitClient {
     private static com.example.team11_project_front.API.naverLoginApi naverLoginApi;
     private static com.example.team11_project_front.API.pictureApi pictureApi;
     private static com.example.team11_project_front.API.ansApi ansApi;
+    private static com.example.team11_project_front.API.postAnsApi postAnsApi;
     //사용하고 있는 서버 BASE 주소
     private static String baseUrl = "http://3.38.104.166/";
 
@@ -79,6 +81,7 @@ public class RetrofitClient {
         naverLoginApi = retrofit.create(naverLoginApi.class);
         pictureApi = retrofit.create(pictureApi.class);
         ansApi = retrofit.create(ansApi.class);
+        postAnsApi = retrofit.create(postAnsApi.class);
     }
 
     public static RetrofitClient getInstance() {
@@ -111,4 +114,5 @@ public class RetrofitClient {
     public static naverLoginApi getRetrofitNaverLoginInterface() { return naverLoginApi; }
     public static pictureApi getRetrofitPictureInterface() { return pictureApi; }
     public static ansApi getRetrofitAnswerInterface() { return ansApi; }
+    public static postAnsApi getRetrofitPostAnswerInterface() { return postAnsApi; }
 }
