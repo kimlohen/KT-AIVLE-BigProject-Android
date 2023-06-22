@@ -2,19 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_home"
-        android:icon="@drawable/home_icon"
-        android:title="Home" />
-    <item
         android:id="@+id/menu_qna"
         android:icon="@drawable/qna_icon"
         android:title="QnA" />
     <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/home_icon"
+        android:title="Home" />
+    <item
         android:id="@+id/menu_mypage"
         android:icon="@drawable/person_icon"
         android:title="MyPage" />
-    <item
-        android:id="@+id/menu_post"
-        android:icon="@drawable/list_icon"
-        android:title="Post" />
 </menu>

@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     private MyPageFragment myPageFragment = new MyPageFragment();
     private QnaFragment qnaFragment = new QnaFragment();
     private HomeFragment homeFragment = new HomeFragment();
-    private PostFragment postFragment = new PostFragment();
     private FragmentTransaction ft;
 
     @Override
@@ -49,11 +48,6 @@ public class MainActivity extends AppCompatActivity {
             }
             else if (itemId == R.id.menu_mypage) {
                 ft.replace(R.id.menu_frame_layout, myPageFragment);
-                ft.commit();
-                return true;
-            }
-            else if (itemId == R.id.menu_post) {
-                ft.replace(R.id.menu_frame_layout, postFragment);
                 ft.commit();
                 return true;
             }
