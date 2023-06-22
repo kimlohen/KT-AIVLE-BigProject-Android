@@ -176,6 +176,7 @@ public class QnaFragment extends Fragment {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 Intent intent = new Intent(getContext(), ArticleActivity.class);
                 /* putExtra의 첫 값은 식별 태그, 뒤에는 다음 화면에 넘길 값 */
+                intent.putExtra("qId", qnAInfos.get(position).getId());
                 intent.putExtra("title", qnAInfos.get(position).getTitle());
                 intent.putExtra("writer", qnAInfos.get(position).getWriter());
                 intent.putExtra("date", qnAInfos.get(position).getDate());
@@ -233,6 +234,7 @@ public class QnaFragment extends Fragment {
                 } else if (response.isSuccessful()){
                     List<QnaResponse> responses = response.body().getQnaResponses();
                     responses.forEach((element) -> {
+                        String qID = element.getId();
                         String title = element.getTitle();
                         String writer = element.getUser_name();
                         String contents = element.getContents();
@@ -240,7 +242,7 @@ public class QnaFragment extends Fragment {
                         String photo = element.getPhoto();
                         String date = element.getCreated_at();
 
-                        QnAInfo info = new QnAInfo(title, writer, date, ansNum, photo, contents);
+                        QnAInfo info = new QnAInfo(qID, title, writer, date, ansNum, photo, contents);
                         qnAInfos.add(info);
                     });
                     QnAAdapter adapter = new QnAAdapter(getContext(), qnAInfos);
@@ -255,12 +257,6 @@ public class QnaFragment extends Fragment {
             public void onFailure(Call<QnaListResponse> call, Throwable t) {
                 Log.e("qna", t.getMessage());
                 Toast.makeText(getActivity(), "서버에서 게시판 정보를 받아오지 못하였습니다.", Toast.LENGTH_LONG).show();
-
-                QnAInfo test = new QnAInfo("동해물과 백두산이 마르고 닳도록", "홍길동", "2023-06-20", "0", "photo", "하느님이 보우하사 우리나라 만세");
-                qnAInfos.add(test);
-                QnAAdapter adapter = new QnAAdapter(getContext(), qnAInfos);
-                adapter.notifyDataSetChanged();
-                listView.setAdapter(adapter);
             }
         });}
 

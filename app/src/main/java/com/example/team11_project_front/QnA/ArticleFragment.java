@@ -19,10 +19,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.team11_project_front.API.ansApi;
 import com.example.team11_project_front.API.pictureApi;
 import com.example.team11_project_front.API.qnaApi;
 import com.example.team11_project_front.API.refreshApi;
 import com.example.team11_project_front.Data.AnsInfo;
+import com.example.team11_project_front.Data.AnsResponse;
 import com.example.team11_project_front.Data.PictureResponse;
 import com.example.team11_project_front.Data.RefreshRequest;
 import com.example.team11_project_front.Data.RefreshResponse;
@@ -35,6 +37,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,6 +61,7 @@ public class ArticleFragment extends Fragment {
     private ArrayList<AnsInfo> ansInfos;
     private Button ansBtn;
     private Bitmap bitmap;
+    private String qId;
 
     private RetrofitClient retrofitClient;
     private com.example.team11_project_front.API.qnaApi picture;
@@ -184,6 +188,35 @@ public class ArticleFragment extends Fragment {
         super.onResume();
         ListView listView = (ListView) view.findViewById(R.id.ansList);
         ansInfos = new ArrayList<>();
+        retrofitClient = RetrofitClient.getInstance();
+        ansApi ansApi = RetrofitClient.getRetrofitAnswerInterface();
+        String qId = this.getArguments().getString("qId");
+        ansApi.getQnaResponse("Bearer " + getPreferenceString("acessToken"), qId).enqueue(new Callback<List<AnsResponse>>() {
+            @Override
+            public void onResponse(Call<List<AnsResponse>> call, Response<List<AnsResponse>> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    List<AnsResponse> responses = response.body();
+                    responses.forEach((element)->{
+                        String ansId = element.getAnswer_id();
+                        String userId = element.getUser_id();
+                        String title = element.getTitle();
+                        String contents = element.getContents();
+                        String questionId = element.getQ_id();
+                        // AnsInfo info = new AnsInfo(writer, date, content, "");
+                        // ansInfos.add(info);
+                    });
+//                    AnsAdapter adapter = new AnsAdapter(getContext(), ansInfos);
+//                    listView.setAdapter(adapter);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<AnsResponse>> call, Throwable t) {
+
+            }
+        });
+
         String writer = "홍길동";
         String date = "2023-06-16";
         String content = "안녕하세요. 수의사 홍길동입니다. 질문에 대해 답변드리겠습니다.";
