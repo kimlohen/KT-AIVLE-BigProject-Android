@@ -10,7 +10,7 @@ import retrofit2.http.Header;
 
 public interface petlistApi {
 
-    @GET("/accounts/api/pet")
+    @GET("/accounts/api/pet/")
     Call<ArrayList<PetlistResponse>> getPetlistResponse(@Header("Authorization") String auth);
 
 }

@@ -71,8 +71,9 @@ public class RetrofitClient {
         deleteUserApi = retrofit.create(deleteUserApi.class);
         qnaApi = retrofit.create(qnaApi.class);
         refreshApi = retrofit.create(refreshApi.class);
-        petlistApi = retrofit.create(com.example.team11_project_front.API.petlistApi.class);
+        petlistApi = retrofit.create(petlistApi.class);
         changePetApi = retrofit.create(changePetApi.class);
+        deletePetApi = retrofit.create(deletePetApi.class);
         naverLoginApi = retrofit.create(naverLoginApi.class);
         pictureApi = retrofit.create(pictureApi.class);
     }
@@ -102,7 +103,7 @@ public class RetrofitClient {
     public static qnaApi getRetrofitQnaInterface() { return qnaApi; }
     public static refreshApi getRefreshInterface() { return refreshApi; }
     public static changePetApi getRetrofitChangePetInterface() { return changePetApi; }
-    public static com.example.team11_project_front.API.petlistApi getRetrofitPetlistInterface() { return petlistApi; }
+    public static petlistApi getRetrofitPetlistInterface() { return petlistApi; }
     public static deletePetApi getRetrofitDeletePetInterface() { return deletePetApi; }
     public static naverLoginApi getRetrofitNaverLoginInterface() { return naverLoginApi; }
     public static pictureApi getRetrofitPictureInterface() { return pictureApi; }
