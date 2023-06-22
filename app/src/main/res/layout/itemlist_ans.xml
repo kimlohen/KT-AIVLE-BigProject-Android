@@ -33,7 +33,7 @@
             android:textAlignment="textEnd" />
 
         <TextView
-            android:id="@+id/talBtn"
+            android:id="@+id/callBtn"
             android:layout_width="40dp"
             android:layout_height="23dp"
             android:layout_marginTop="10dp"

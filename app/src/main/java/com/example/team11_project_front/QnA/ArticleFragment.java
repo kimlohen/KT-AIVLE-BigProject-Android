@@ -197,16 +197,15 @@ public class ArticleFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null){
                     List<AnsResponse> responses = response.body();
                     responses.forEach((element)->{
-                        String ansId = element.getAnswer_id();
-                        String userId = element.getUser_id();
-                        String title = element.getTitle();
+                        String hospital_num = "tel:"+element.getHos_info().getOfficenumber();
+                        String user_name = element.getUser_name();
                         String contents = element.getContents();
-                        String questionId = element.getQ_id();
-                        // AnsInfo info = new AnsInfo(writer, date, content, "");
-                        // ansInfos.add(info);
+                        String date = element.getCreated_at();
+                        AnsInfo info = new AnsInfo(user_name, date, contents, hospital_num);
+                        ansInfos.add(info);
                     });
-//                    AnsAdapter adapter = new AnsAdapter(getContext(), ansInfos);
-//                    listView.setAdapter(adapter);
+                    AnsAdapter adapter = new AnsAdapter(getContext(), ansInfos);
+                    listView.setAdapter(adapter);
                 }
 
             }
@@ -220,7 +219,7 @@ public class ArticleFragment extends Fragment {
         String writer = "홍길동";
         String date = "2023-06-16";
         String content = "안녕하세요. 수의사 홍길동입니다. 질문에 대해 답변드리겠습니다.";
-        AnsInfo ansInfo = new AnsInfo(writer, date, content, "");
+        AnsInfo ansInfo = new AnsInfo(writer, date, content, "tel:01000000000");
         ansInfos.add(ansInfo);
         AnsAdapter adapter = new AnsAdapter(getContext(), ansInfos);
         listView.setAdapter(adapter);
