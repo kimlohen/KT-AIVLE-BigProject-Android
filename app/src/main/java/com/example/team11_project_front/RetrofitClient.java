@@ -16,6 +16,7 @@ import com.example.team11_project_front.API.naverLoginApi;
 import com.example.team11_project_front.API.pictureApi;
 import com.example.team11_project_front.API.ansApi;
 import com.example.team11_project_front.API.hospitalApi;
+import com.example.team11_project_front.API.getHospitalApi;
 
 
 import okhttp3.OkHttpClient;
@@ -42,6 +43,7 @@ public class RetrofitClient {
     private static com.example.team11_project_front.API.pictureApi pictureApi;
     private static com.example.team11_project_front.API.ansApi ansApi;
     private static hospitalApi hosplitalApi;
+    private static getHospitalApi getHospitalApi;
     //사용하고 있는 서버 BASE 주소
     private static String baseUrl = "http://3.38.104.166/";
 
@@ -77,6 +79,7 @@ public class RetrofitClient {
         pictureApi = retrofit.create(pictureApi.class);
         ansApi = retrofit.create(ansApi.class);
         hosplitalApi = retrofit.create(hospitalApi.class);
+        getHospitalApi = retrofit.create(getHospitalApi.class);
     }
 
     public static RetrofitClient getInstance() {
@@ -110,4 +113,5 @@ public class RetrofitClient {
     public static pictureApi getRetrofitPictureInterface() { return pictureApi; }
     public static ansApi getRetrofitAnswerInterface() { return ansApi; }
     public static hospitalApi getRetrofitHospitalInterface() { return hosplitalApi; }
+    public static getHospitalApi getRetrofitGetHospitalInterface() { return getHospitalApi; }
 }

@@ -253,7 +253,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                         builder.setTitle("알림")
-                                .setMessage("예기치 못한 오류가 발생하였습니다.\n 고객센터에 문의바랍니다.")
+                                .setMessage("예기치 못한 오류가 발생하였습니다.\n 관리자에게 문의바랍니다.")
                                 .setPositiveButton("확인", null)
                                 .create()
                                 .show();
@@ -274,7 +274,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                 builder.setTitle("알림")
-                        .setMessage("예기치 못한 오류가 발생하였습니다.\n 고객센터에 문의바랍니다.")
+                        .setMessage("예기치 못한 오류가 발생하였습니다.\n 관리자에게 문의바랍니다.")
                         .setPositiveButton("확인", null)
                         .create()
                         .show();
@@ -464,8 +464,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                                 String refreshToken = result.getRefreshToken();
                                                 String email = result.getUser().getEmail();
                                                 String first_name = result.getUser().getFirst_name();
-                                                String profile_img = result.getUser().getIs_vet();
-                                                String is_vet = result.getUser().getProfile_img();
+                                                String profile_img = result.getUser().getProfile_img();
+                                                String is_vet = result.getUser().getIs_vet();
 
                                                 if (acessToken != null) {
                                                     //다른 통신을 하기 위해 token 저장
@@ -494,7 +494,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                         public void onFailure(Call<JoinResponse> call, Throwable t) {
                                             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                             builder.setTitle("알림")
-                                                    .setMessage("회원가입 중 예기치 못한 오류가 발생하였습니다.\n 고객센터에 문의바랍니다.")
+                                                    .setMessage("회원가입 중 예기치 못한 오류가 발생하였습니다.\n 관리자에게 문의바랍니다.")
                                                     .setPositiveButton("확인", null)
                                                     .create()
                                                     .show();
@@ -555,7 +555,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                                                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                                     builder.setTitle("알림")
-                                                            .setMessage("예기치 못한 오류가 발생하였습니다.\n 고객센터에 문의바랍니다.")
+                                                            .setMessage("예기치 못한 오류가 발생하였습니다.\n 관리자에게 문의바랍니다.")
                                                             .setPositiveButton("확인", null)
                                                             .create()
                                                             .show();
@@ -576,7 +576,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                         public void onFailure(Call<LoginResponse> call, Throwable t) {
                                             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                             builder.setTitle("알림")
-                                                    .setMessage("예기치 못한 오류가 발생하였습니다.\n 고객센터에 문의바랍니다.")
+                                                    .setMessage("예기치 못한 오류가 발생하였습니다.\n 관리자에게 문의바랍니다.")
                                                     .setPositiveButton("확인", null)
                                                     .create()
                                                     .show();

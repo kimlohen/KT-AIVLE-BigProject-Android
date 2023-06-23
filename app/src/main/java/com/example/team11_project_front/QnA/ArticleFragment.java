@@ -114,23 +114,23 @@ public class ArticleFragment extends Fragment {
                 public void onResponse(Call<PictureResponse> call, Response<PictureResponse> response) {
                     Log.d("retrofit", "Data fetch success");
                     if (response.code() == 401) {
-                        RefreshRequest refreshRequest = new RefreshRequest(getPreferenceString("refreshToken"));
-                        refreshApi refreshApi = RetrofitClient.getRefreshInterface();
-                        refreshApi.getRefreshResponse(refreshRequest).enqueue(new Callback<RefreshResponse>() {
-                            @Override
-                            public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
-                                if(response.isSuccessful() && response.body() != null){
-                                    setPreference("acessToken", response.body().getAccessToken());
-                                    Toast.makeText(getActivity(), "토큰이 만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
-                                }else{
-                                    Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
-                                }
-                            }
+                                RefreshRequest refreshRequest = new RefreshRequest(getPreferenceString("refreshToken"));
+                                refreshApi refreshApi = RetrofitClient.getRefreshInterface();
+                                refreshApi.getRefreshResponse(refreshRequest).enqueue(new Callback<RefreshResponse>() {
+                                    @Override
+                                    public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
+                                        if(response.isSuccessful() && response.body() != null){
+                                            setPreference("acessToken", response.body().getAccessToken());
+                                            Toast.makeText(getActivity(), "토큰이 만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+                                        }else{
+                                            Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
 
-                            @Override
-                            public void onFailure(Call<RefreshResponse> call, Throwable t) {
-                                Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
-                            }
+                                    @Override
+                                    public void onFailure(Call<RefreshResponse> call, Throwable t) {
+                                        Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                                    }
                         });
                     } else if(response.isSuccessful() && response.body() != null){
                         PictureResponse result = response.body();
