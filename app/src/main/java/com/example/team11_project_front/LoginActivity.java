@@ -154,7 +154,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         } else if (id == R.id.naverLoginBtn){
             Intent intent = new Intent(v.getContext(), WebViewActivity.class); // 네이버 기능 구현하면
-            intent.putExtra("url", "3.38.104.166" + "/accounts/naver/login");
+            intent.putExtra("url", "3.38.191.199" + "/accounts/naver/login");
             resultLauncher.launch(intent);
         } else if (id == R.id.initPW) {
             Intent intent = new Intent(v.getContext(), initPWActivity.class); // 비밀번호 찾기 페이지 만들면 변경

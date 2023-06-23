@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
@@ -102,6 +103,28 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }
         );
+
+        registerBtn.setOnHoverListener(new View.OnHoverListener() {
+            @Override
+            public boolean onHover(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_HOVER_ENTER:
+                        // 마우스가 버튼 위로 들어왔을 때의 동작
+                        registerBtn.setBackgroundColor(Color.BLACK);
+                        registerBtn.setTextColor(Color.WHITE);
+                        break;
+                    case MotionEvent.ACTION_HOVER_EXIT:
+                        // 마우스가 버튼에서 벗어났을 때의 동작
+                        registerBtn.setBackgroundColor(Color.LTGRAY); // 기본 배경색으로 변경하려면 이전 배경색을 지웁니다.
+                        registerBtn.setTextColor(Color.BLACK); // 기본 글자색으로 변경하려면 이전 글자색을 지웁니다.
+                        break;
+                }
+                return false;
+            }
+        });
+
+
+
 
     }
 
