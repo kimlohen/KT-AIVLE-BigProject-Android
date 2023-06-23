@@ -202,11 +202,9 @@ public class MyPageFragment extends Fragment {
                         PetInfo petInfo = new PetInfo(id, petName, birth,  species,gender);
                         petInfos.add(petInfo);
                     }
-                  
                     PetAdapter adapter = new PetAdapter(getContext(), petInfos);
                     adapter.notifyDataSetChanged();
                     listView.setAdapter(adapter);
-
 
                 }
             }
@@ -216,27 +214,27 @@ public class MyPageFragment extends Fragment {
             }
         });
 
-
         //병원정보 리스트
-
+        ListView hospital_list = (ListView) view.findViewById(R.id.hospital_list);
+        hospitalInfos = new ArrayList<>();
+        hospital_list.setAdapter(null);
         if (is_vet.equals("true")) {
-
-            hospitallistApi.getHospitallistResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<ArrayList<HospitallistResponse>>() {
-
-        //병원정보 리스트
-
             //이 변수들에 서버에서 받아온 데이터 저장 후 hospitalInfos에 추가하면 화면에 보여줌
+            String hos_id = getPreferenceString("hos_id");
             String name = getPreferenceString("hos_name");
             String location = getPreferenceString("hos_address");
             String prof = getPreferenceString("hos_officenumber");
             String intro = getPreferenceString("hos_introduction");
             String hos_profile = getPreferenceString("hos_profile_img");
 
-            HospitalInfo info = new HospitalInfo(name, location, prof, intro, hos_profile);
+            HospitalInfo info = new HospitalInfo(hos_id, name, location, prof, intro, hos_profile);
             hospitalInfos.add(info);
-
         }
-    }
+        HospitalAdapter hospitalAdapter = new HospitalAdapter(getContext(), hospitalInfos);
+        hospitalAdapter.notifyDataSetChanged();
+        hospital_list.setAdapter(hospitalAdapter);
+
+}
 
 
     // 데이터를 내부 저장소에 저장하기

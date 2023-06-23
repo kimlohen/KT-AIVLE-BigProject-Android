@@ -104,7 +104,7 @@ public class HospitalAdapter extends BaseAdapter {
                 String Htel = list.get(i).getTel();
                 String Haddress = list.get(i).getAddress();
                 String Hintro = list.get(i).getIntroduction();
-                String Hphoto = list.get(i).getPhoto();
+                String Hphoto = list.get(i).getHos_profile_img();
                 Intent intent = new Intent(mContext, ChangeHospitalActivity.class);
 
                 intent.putExtra("id", Hid);

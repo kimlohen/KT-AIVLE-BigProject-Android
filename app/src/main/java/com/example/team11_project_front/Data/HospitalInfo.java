@@ -7,7 +7,8 @@ public class HospitalInfo {
     private String tel;
     private String introduction;
     private String hos_profile_img;
-    public HospitalInfo(String name, String location, String part, String introduction, String hos_profile_img) {
+    public HospitalInfo(String id, String name, String tel, String address, String introduction, String hos_profile_img) {
+        this.id = id;
         this.name = name;
         this.tel = tel;
         this.address = address;
@@ -15,6 +16,9 @@ public class HospitalInfo {
         this.hos_profile_img = hos_profile_img;
     }
 
+    public String getId() {
+        return id;
+    }
     public void setId(String id) {
         this.id = id;
     }
@@ -37,27 +41,14 @@ public class HospitalInfo {
     public String getIntroduction() {
         return introduction;
     }
-
-    public void setIntroduction(String photo) {
-        this.photo = photo;
-    }
-
     public String getTel() {
         return tel;
     }
-
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
     public void setTel(String tel) {
         this.tel = tel;
-    }
-
-
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
     }
     public String getHos_profile_img() {
         return hos_profile_img;
