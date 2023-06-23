@@ -136,13 +136,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(v.getContext(), RegisterActivity.class); // 회원가입 페이지 만들면 변경
             resultLauncher.launch(intent);
         } else if (id == R.id.googleLoginBtn){
-            Intent intent = new Intent(v.getContext(), WebViewActivity.class); // 구글 기능 구현하면
+            Intent intent = new Intent(v.getContext(), MainActivity.class); // 구글 기능 구현하면
             intent.putExtra("url", "");
             resultLauncher.launch(intent);
         } else if (id == R.id.kakaoLoginBtn){
-            Intent intent = new Intent(v.getContext(), MainActivity.class); // 카카오 기능 구현하면
-            intent.putExtra("url", "");
-            resultLauncher.launch(intent);
+            if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this)) {
+                UserApiClient.getInstance().loginWithKakaoTalk(LoginActivity.this, callback);
+            }else {
+                UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callback);
+            }
         } else if (id == R.id.naverLoginBtn){
             Intent intent = new Intent(v.getContext(), WebViewActivity.class); // 네이버 기능 구현하면
             intent.putExtra("url", "3.38.104.166" + "/accounts/naver/login");
@@ -236,7 +238,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             setPreference("autoLoginPw", "");
                         }
 
-                        Toast.makeText(LoginActivity.this, userID + "님 환영합니다.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, first_name + "님 환영합니다.", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.putExtra("userId", userID);
                         startActivity(intent);
@@ -342,6 +344,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String acessToken = result.getAcessToken();
                     String refreshToken = result.getRefreshToken();
 
+                    String email = result.getUser().getEmail();
+                    String first_name = result.getUser().getFirst_name();
+                    String is_vet = result.getUser().getIs_vet();
+                    String profile_img = result.getUser().getProfile_img();
+
 
                     if (acessToken != null) {
                         String userID = getPreferenceString("autoLoginId");
@@ -350,6 +357,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         //다른 통신을 하기 위해 token 저장
                         setPreference("acessToken",acessToken);
                         setPreference("refreshToken",refreshToken);
+                        setPreference("email", email);
+                        setPreference("first_name", first_name);
+                        setPreference("is_vet", is_vet);
+                        setPreference("profile_img", profile_img);
 
                         //자동 로그인 여부
                         if (checkBox.isChecked()) {
@@ -360,9 +371,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             setPreference("autoLoginPw", "");
                         }
 
-                        Toast.makeText(LoginActivity.this, userID + "님 환영합니다.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, first_name + "님 환영합니다.", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        intent.putExtra("userId", userID);
                         startActivity(intent);
                         LoginActivity.this.finish();
 

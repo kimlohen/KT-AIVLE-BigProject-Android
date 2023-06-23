@@ -44,12 +44,14 @@
         android:layout_weight="1"></View>
 
     <TextView
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2023-02-07"
-        android:id="@+id/date"
-        android:textColor="#808080"
+        android:layout_marginTop="15dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="15dp"/>
+        android:maxLength="10"
+        android:maxLines="1"
+        android:text="2023-02-07"
+        android:textColor="#808080" />
 
 </LinearLayout>

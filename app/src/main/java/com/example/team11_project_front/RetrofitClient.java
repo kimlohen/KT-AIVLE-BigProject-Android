@@ -9,6 +9,8 @@ import com.example.team11_project_front.API.emailVerifyApi;
 import com.example.team11_project_front.API.joinApi;
 import com.example.team11_project_front.API.loginApi;
 import com.example.team11_project_front.API.logoutApi;
+import com.example.team11_project_front.API.naverLoginApi;
+import com.example.team11_project_front.API.pictureApi;
 import com.example.team11_project_front.API.qnaApi;
 import com.example.team11_project_front.API.refreshApi;
 
@@ -36,8 +38,10 @@ public class RetrofitClient {
     private static com.example.team11_project_front.API.hospitallistApi hospitallistApi;
 
 
+    private static com.example.team11_project_front.API.naverLoginApi naverLoginApi;
+    private static com.example.team11_project_front.API.pictureApi pictureApi;
     //사용하고 있는 서버 BASE 주소
-    private static String baseUrl = "http://3.38.104.166/";
+    private static String baseUrl = "http://43.202.5.122/";
 
 
     private RetrofitClient() {
@@ -99,4 +103,6 @@ public class RetrofitClient {
     public static com.example.team11_project_front.API.petlistApi getRetrofitPetlistInterface() { return petlistApi; }
     public static deletePetApi getRetrofitDeletePetInterface() { return deletePetApi; }
     public static com.example.team11_project_front.API.hospitallistApi getRetrofitHospitallistInterface() { return hospitallistApi; }
+    public static com.example.team11_project_front.API.naverLoginApi getRetrofitNaverLoginInterface() { return naverLoginApi; }
+    public static com.example.team11_project_front.API.pictureApi getRetrofitPictureInterface() { return pictureApi; }
 }
