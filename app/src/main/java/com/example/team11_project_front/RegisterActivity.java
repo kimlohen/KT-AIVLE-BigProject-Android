@@ -26,9 +26,12 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.team11_project_front.API.emailVerifyApi;
+import com.example.team11_project_front.API.hospitalApi;
 import com.example.team11_project_front.API.joinApi;
 import com.example.team11_project_front.Data.EmailRequest;
 import com.example.team11_project_front.Data.EmailResponse;
+import com.example.team11_project_front.Data.HospitalRequest;
+import com.example.team11_project_front.Data.HospitalResponse;
 import com.example.team11_project_front.Data.JoinRequest;
 import com.example.team11_project_front.Data.JoinResponse;
 
@@ -383,13 +386,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String name = nameEdit.getText().toString().trim();
         String pw = pwEdit.getText().toString().trim();
         String pw2 = pwEdit2.getText().toString().trim();
-        String hospitalName = hospitalNameEdit.getText().toString().trim();
-        String hospitalCode = hospitalCodeEdit.getText().toString().trim();
 
-        JoinRequest joinRequest = new JoinRequest(name, email, sha256(pw), sha256(pw2));
+        JoinRequest joinRequest = new JoinRequest(name, email, sha256(pw), sha256(pw2), "false");
 
         if (veterinarianBtn.isChecked()){
-            joinRequest = new JoinRequest(name, email,  sha256(pw), sha256(pw2), hospitalName, hospitalCode);
+            joinRequest = new JoinRequest(name, email,  sha256(pw), sha256(pw2), "true");
         }
 
         retrofitClient = RetrofitClient.getInstance();
@@ -424,6 +425,26 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         setPreference("first_name", first_name);
                         setPreference("is_vet", is_vet);
                         setPreference("profile_img", profile_img);
+                    }
+
+                    if(veterinarianBtn.isChecked()){
+                        HospitalRequest hospitalRequest = new HospitalRequest("", "", "", "");
+                        hospitalApi hospitalApi = RetrofitClient.getRetrofitHospitalInterface();
+                        hospitalApi.getJoinResponse(hospitalRequest).enqueue(new Callback<HospitalResponse>() {
+                            @Override
+                            public void onResponse(Call<HospitalResponse> call, Response<HospitalResponse> response) {
+                                if(response.isSuccessful() && response.body() != null){
+                                    Toast.makeText(RegisterActivity.this, "병원등록이 완료되었습니다.", Toast.LENGTH_LONG).show();
+                                }else{
+                                    Toast.makeText(RegisterActivity.this, "병원등록에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<HospitalResponse> call, Throwable t) {
+                                Toast.makeText(RegisterActivity.this, "병원등록에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                            }
+                        });
+
                     }
 
                     //회원가입 전송

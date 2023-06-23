@@ -44,8 +44,10 @@ public class ArticleActivity extends AppCompatActivity {
 
         Bundle bundle = new Bundle();
 
+        String qId = intent.getStringExtra("qId");
         String contents = intent.getStringExtra("contents");
         String photo = intent.getStringExtra("photo");
+        bundle.putString("qId", qId);
         bundle.putString("contents", contents);
         bundle.putString("photo", photo);
         ArticleFragment articleFragment = new ArticleFragment();

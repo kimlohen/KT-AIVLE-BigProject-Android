@@ -1,6 +1,7 @@
 package com.example.team11_project_front.Data;
 
 public class QnAInfo {
+    private String id;
     private String title;
     private String writer;
     private String date;
@@ -8,7 +9,7 @@ public class QnAInfo {
     private String photo;
     private String content;
 
-    public QnAInfo(String title, String writer, String date, String ansNum, String photo, String content) {
+    public QnAInfo(String id, String title, String writer, String date, String ansNum, String photo, String content) {
         this.title = title;
         this.writer = writer;
         this.date = date;
@@ -57,6 +58,10 @@ public class QnAInfo {
     public void setContent(String content) {
         this.content = content;
     }
-
-
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
 }
