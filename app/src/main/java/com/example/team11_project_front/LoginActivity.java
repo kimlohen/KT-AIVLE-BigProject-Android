@@ -216,7 +216,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String email = result.getUser().getEmail();
                     String first_name = result.getUser().getFirst_name();
                     String is_vet = result.getUser().getIs_vet();
-                    String profile_img = result.getUser().getProfile_img();
+                    String profile_img = result.getUser().getAvatar();
+                    if(result.getUser().getProfile_img() != null) {
+                        profile_img = result.getUser().getProfile_img();
+                    }
 
                     if (acessToken != null) {
                         String userID = idEdit.getText().toString();
@@ -354,7 +357,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String email = result.getUser().getEmail();
                     String first_name = result.getUser().getFirst_name();
                     String is_vet = result.getUser().getIs_vet();
-                    String profile_img = result.getUser().getProfile_img();
+                    String profile_img = result.getUser().getAvatar();
+                    if(result.getUser().getProfile_img() != null) {
+                        profile_img = result.getUser().getProfile_img();
+                    }
 
 
                     if (acessToken != null) {

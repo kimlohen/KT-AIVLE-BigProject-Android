@@ -59,6 +59,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private ImageView backBtn;
     private Button registerBtn, verifyBtn;
     private boolean verifyMail = false;
+    private String hospitalName, hospitalOfficeNumber, hospitalAddress, hospitalIntroduction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,10 +146,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // 추가 정보 처리를 위한 로직 작성
-                String hospitalName = hospitalNameEdit.getText().toString();
-                String hospitalOfficeNumber = hospitalOfficeNumberEdit.getText().toString();
-                String hospitalAddress = hospitalAddressEdit.getText().toString();
-                String hospitalIntroduction = hospitalIntroductionEdit.getText().toString();
+                hospitalName = hospitalNameEdit.getText().toString();
+                hospitalOfficeNumber = hospitalOfficeNumberEdit.getText().toString();
+                hospitalAddress = hospitalAddressEdit.getText().toString();
+                hospitalIntroduction = hospitalIntroductionEdit.getText().toString();
 
                 // 입력된 정보를 사용하여 필요한 작업 수행
                 // ...
@@ -382,17 +383,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         .setPositiveButton("확인", null)
                         .create()
                         .show();
-            }else if (veterinarianBtn.isChecked() && (hospitalName.trim().length() == 0 || hospitalName == null)) {
+            }else if (veterinarianBtn.isChecked() && !(hospitalAddress != null && hospitalIntroduction != null && hospitalOfficeNumber != null && hospitalName != null)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                 builder.setTitle("알림")
-                        .setMessage("병원명을 입력바랍니다.")
-                        .setPositiveButton("확인", null)
-                        .create()
-                        .show();
-            }else if (veterinarianBtn.isChecked() && (hospitalCode.trim().length() == 0 || hospitalCode == null)) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                builder.setTitle("알림")
-                        .setMessage("병원코드 입력바랍니다.")
+                        .setMessage("병원정보를 입력바랍니다.")
                         .setPositiveButton("확인", null)
                         .create()
                         .show();
@@ -434,8 +428,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                     String email = result.getUser().getEmail();
                     String first_name = result.getUser().getFirst_name();
-                    String profile_img = result.getUser().getIs_vet();
-                    String is_vet = result.getUser().getProfile_img();
+                    String profile_img = result.getUser().getAvatar();
+                    if(result.getUser().getProfile_img() != null) {
+                        profile_img = result.getUser().getProfile_img();
+                    }
+                    String is_vet = result.getUser().getIs_vet();
 
                     if (acessToken != null) {
                         String userID = mailEdit.getText().toString();
@@ -451,9 +448,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     }
 
                     if(veterinarianBtn.isChecked()){
-                        HospitalRequest hospitalRequest = new HospitalRequest("", "", "", "");
+                        HospitalRequest hospitalRequest = new HospitalRequest(hospitalName, hospitalAddress, hospitalOfficeNumber, hospitalIntroduction);
                         hospitalApi hospitalApi = RetrofitClient.getRetrofitHospitalInterface();
-                        hospitalApi.getJoinResponse(hospitalRequest).enqueue(new Callback<HospitalResponse>() {
+                        hospitalApi.getJoinResponse("Bearer " + acessToken, hospitalRequest).enqueue(new Callback<HospitalResponse>() {
                             @Override
                             public void onResponse(Call<HospitalResponse> call, Response<HospitalResponse> response) {
                                 if(response.isSuccessful() && response.body() != null){

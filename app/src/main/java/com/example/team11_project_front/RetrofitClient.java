@@ -17,7 +17,6 @@ import com.example.team11_project_front.API.petlistApi;
 import com.example.team11_project_front.API.pictureApi;
 import com.example.team11_project_front.API.qnaApi;
 import com.example.team11_project_front.API.refreshApi;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
