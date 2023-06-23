@@ -1,23 +1,33 @@
 package com.example.team11_project_front.Data;
 
-public class HospitalInfo {
+import com.google.gson.annotations.SerializedName;
+
+public class HospitallistResponse {
+    @SerializedName("id")
     private String id;
+    @SerializedName("hos_name")
     private String name;
+    @SerializedName("address")
     private String address;
+    @SerializedName("officenumber")
     private String tel;
+    @SerializedName("introduction")
     private String introduction;
-    private String hos_profile_img;
-    public HospitalInfo(String name, String location, String part, String introduction, String hos_profile_img) {
-        this.name = name;
-        this.tel = tel;
-        this.address = address;
-        this.introduction = introduction;
-        this.hos_profile_img = hos_profile_img;
+    @SerializedName("hos_profile_img")
+    private String photo;
+
+
+
+
+
+    public String getId() {
+        return id;
     }
 
     public void setId(String id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
@@ -34,14 +44,6 @@ public class HospitalInfo {
         this.address = address;
     }
 
-    public String getIntroduction() {
-        return introduction;
-    }
-
-    public void setIntroduction(String photo) {
-        this.photo = photo;
-    }
-
     public String getTel() {
         return tel;
     }
@@ -50,7 +52,13 @@ public class HospitalInfo {
         this.tel = tel;
     }
 
+    public String getIntroduction() {
+        return introduction;
+    }
 
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
 
     public String getPhoto() {
         return photo;
@@ -59,10 +67,6 @@ public class HospitalInfo {
     public void setPhoto(String photo) {
         this.photo = photo;
     }
-    public String getHos_profile_img() {
-        return hos_profile_img;
-    }
-    public void setHos_profile_img(String hos_profile_img) {
-        this.hos_profile_img = hos_profile_img;
-    }
+
+
 }

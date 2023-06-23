@@ -1,17 +1,14 @@
 package com.example.team11_project_front;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -22,6 +19,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.team11_project_front.API.emailVerifyApi;
 import com.example.team11_project_front.API.hospitalApi;
@@ -50,11 +53,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private joinApi joinApi;
     private emailVerifyApi emailVerifyApi;
     private Switch veterinarianBtn;
+    private boolean isSwitchChecked = false;
     private EditText pwEdit, pwEdit2, nameEdit, mailEdit, hospitalNameEdit, hospitalCodeEdit;
     private CheckBox serviceOkBtn;
     private ImageView backBtn;
     private Button registerBtn, verifyBtn;
     private boolean verifyMail = false;
+    private String hospitalName, hospitalOfficeNumber, hospitalAddress, hospitalIntroduction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,11 +86,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    hospitalNameEdit.setVisibility(View.VISIBLE);
-                    hospitalCodeEdit.setVisibility(View.VISIBLE);
+                    showAdditionalInfoDialog();
                 } else {
-                    hospitalNameEdit.setVisibility(View.GONE);
-                    hospitalCodeEdit.setVisibility(View.GONE);
+                    isSwitchChecked = false;
                 }
             }
         });
@@ -101,6 +104,85 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 }
         );
 
+        registerBtn.setOnHoverListener(new View.OnHoverListener() {
+            @Override
+            public boolean onHover(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_HOVER_ENTER:
+                        // 마우스가 버튼 위로 들어왔을 때의 동작
+                        registerBtn.setBackgroundColor(Color.BLACK);
+                        registerBtn.setTextColor(Color.WHITE);
+                        break;
+                    case MotionEvent.ACTION_HOVER_EXIT:
+                        // 마우스가 버튼에서 벗어났을 때의 동작
+                        registerBtn.setBackgroundColor(Color.LTGRAY); // 기본 배경색으로 변경하려면 이전 배경색을 지웁니다.
+                        registerBtn.setTextColor(Color.BLACK); // 기본 글자색으로 변경하려면 이전 글자색을 지웁니다.
+                        break;
+                }
+                return false;
+            }
+        });
+
+
+
+
+    }
+
+    private void showAdditionalInfoDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("추가 정보 입력")
+                .setMessage("수의사 관련 정보를 입력하세요.");
+
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_additional_info, null);
+        builder.setView(dialogView);
+
+        final EditText hospitalNameEdit = dialogView.findViewById(R.id.hospitalNameEdit);
+        final EditText hospitalOfficeNumberEdit = dialogView.findViewById(R.id.hospitalOfficeNumberEdit);
+        final EditText hospitalAddressEdit = dialogView.findViewById(R.id.hospitalAddressEdit);
+        final EditText hospitalIntroductionEdit = dialogView.findViewById(R.id.hospitalIntroductionEdit);
+
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 추가 정보 처리를 위한 로직 작성
+                hospitalName = hospitalNameEdit.getText().toString();
+                hospitalOfficeNumber = hospitalOfficeNumberEdit.getText().toString();
+                hospitalAddress = hospitalAddressEdit.getText().toString();
+                hospitalIntroduction = hospitalIntroductionEdit.getText().toString();
+
+                // 입력된 정보를 사용하여 필요한 작업 수행
+                // ...
+
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                veterinarianBtn.setChecked(false);
+                isSwitchChecked = false;
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                isSwitchChecked = true;
+            }
+        });
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (!isSwitchChecked) {
+                    veterinarianBtn.setChecked(false);
+                }
+            }
+        });
+        dialog.show();
     }
 
     //키보드 숨기기
@@ -301,17 +383,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         .setPositiveButton("확인", null)
                         .create()
                         .show();
-            }else if (veterinarianBtn.isChecked() && (hospitalName.trim().length() == 0 || hospitalName == null)) {
+            }else if (veterinarianBtn.isChecked() && !(hospitalAddress != null && hospitalIntroduction != null && hospitalOfficeNumber != null && hospitalName != null)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                 builder.setTitle("알림")
-                        .setMessage("병원명을 입력바랍니다.")
-                        .setPositiveButton("확인", null)
-                        .create()
-                        .show();
-            }else if (veterinarianBtn.isChecked() && (hospitalCode.trim().length() == 0 || hospitalCode == null)) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                builder.setTitle("알림")
-                        .setMessage("병원코드 입력바랍니다.")
+                        .setMessage("병원정보를 입력바랍니다.")
                         .setPositiveButton("확인", null)
                         .create()
                         .show();
@@ -373,9 +448,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     }
 
                     if(veterinarianBtn.isChecked()){
-                        HospitalRequest hospitalRequest = new HospitalRequest("", "", "", "");
+                        HospitalRequest hospitalRequest = new HospitalRequest(hospitalName, hospitalAddress, hospitalOfficeNumber, hospitalIntroduction);
                         hospitalApi hospitalApi = RetrofitClient.getRetrofitHospitalInterface();
-                        hospitalApi.getJoinResponse(hospitalRequest).enqueue(new Callback<HospitalResponse>() {
+                        hospitalApi.getJoinResponse("Bearer " + acessToken, hospitalRequest).enqueue(new Callback<HospitalResponse>() {
                             @Override
                             public void onResponse(Call<HospitalResponse> call, Response<HospitalResponse> response) {
                                 if(response.isSuccessful() && response.body() != null){

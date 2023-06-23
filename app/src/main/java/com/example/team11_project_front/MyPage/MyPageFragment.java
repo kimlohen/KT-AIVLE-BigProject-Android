@@ -23,11 +23,12 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.team11_project_front.API.deleteUserApi;
+import com.example.team11_project_front.API.hospitallistApi;
 import com.example.team11_project_front.API.logoutApi;
 import com.example.team11_project_front.API.refreshApi;
-
 import com.example.team11_project_front.Data.DeleteUserResponse;
 import com.example.team11_project_front.Data.HospitalInfo;
+import com.example.team11_project_front.Data.HospitallistResponse;
 import com.example.team11_project_front.Data.LogoutResponse;
 import com.example.team11_project_front.Data.PetInfo;
 import com.example.team11_project_front.Data.PetlistResponse;
@@ -60,6 +61,9 @@ public class MyPageFragment extends Fragment {
     private Button addPet;
     Context mContext;
     private com.example.team11_project_front.API.petlistApi petlistApi;
+    private hospitallistApi hospitallistApi;
+
+    private Button profile_update;
 
     Bitmap bitmap;
 
@@ -86,6 +90,7 @@ public class MyPageFragment extends Fragment {
         TextView tv_hospital = (TextView) view.findViewById(R.id.hospitalText);
         ImageView iv_profile = (ImageView) view.findViewById(R.id.profile);
         addPet = (Button) view.findViewById(R.id.addPetBtn);
+        profile_update = (Button) view.findViewById(R.id.profile_update);
 
         if (is_vet.equals("true")){
             type = "수의사";
@@ -150,13 +155,21 @@ public class MyPageFragment extends Fragment {
             public void onClick(View view){ deleteUser(); }
         });
 
+
+
         addPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), PetRegisterActivity.class);
                 startActivity(intent);
+
             }
         });
+
+
+
+
+
 
         return view;
     }
@@ -176,7 +189,7 @@ public class MyPageFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     ArrayList<PetlistResponse> petlistResponses = response.body();
                     // PetlistResponse 객체를 PetInfo 객체로 변환하여 리스트에 추가
-                    Toast.makeText(getActivity(),  "리스트가 갱신되었습니다.", Toast.LENGTH_LONG).show();
+
                     petInfos = new ArrayList<>();
                     listView.setAdapter(null);
 
@@ -186,31 +199,31 @@ public class MyPageFragment extends Fragment {
                         String species = petlistResponse.getSpecies();
                         String gender = petlistResponse.getGender();
                         String birth = petlistResponse.getBirth();
-                        PetInfo petInfo = new PetInfo(id,petName, birth, species, gender);
+                        PetInfo petInfo = new PetInfo(id, petName, birth,  species,gender);
                         petInfos.add(petInfo);
                     }
-
+                  
                     PetAdapter adapter = new PetAdapter(getContext(), petInfos);
                     adapter.notifyDataSetChanged();
                     listView.setAdapter(adapter);
 
 
-
                 }
             }
+
             public void onFailure(Call<ArrayList<PetlistResponse>> call, Throwable t) {
-                Toast.makeText(getActivity(),  "동물 정보를 제대로 가져오지 못 했습니다.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "동물 정보를 제대로 가져오지 못 했습니다.", Toast.LENGTH_LONG).show();
             }
         });
 
 
-
-
         //병원정보 리스트
 
-        if(is_vet.equals("true")){
-            ListView lv = (ListView) view.findViewById(R.id.hospital_list);
-            hospitalInfos = new ArrayList<>();
+        if (is_vet.equals("true")) {
+
+            hospitallistApi.getHospitallistResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<ArrayList<HospitallistResponse>>() {
+
+        //병원정보 리스트
 
             //이 변수들에 서버에서 받아온 데이터 저장 후 hospitalInfos에 추가하면 화면에 보여줌
             String name = getPreferenceString("hos_name");
@@ -222,10 +235,9 @@ public class MyPageFragment extends Fragment {
             HospitalInfo info = new HospitalInfo(name, location, prof, intro, hos_profile);
             hospitalInfos.add(info);
 
-            HospitalAdapter hospitalAdapter = new HospitalAdapter(getContext(), hospitalInfos);
-            lv.setAdapter(hospitalAdapter);
         }
     }
+
 
     // 데이터를 내부 저장소에 저장하기
     public void setPreference(String key, String value){

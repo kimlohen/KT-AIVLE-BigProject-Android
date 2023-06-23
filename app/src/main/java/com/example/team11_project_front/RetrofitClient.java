@@ -3,15 +3,20 @@ package com.example.team11_project_front;
 import androidx.annotation.NonNull;
 
 import com.example.team11_project_front.API.addPetApi;
+import com.example.team11_project_front.API.ansApi;
 import com.example.team11_project_front.API.changePetApi;
 import com.example.team11_project_front.API.deletePetApi;
 import com.example.team11_project_front.API.deleteUserApi;
 import com.example.team11_project_front.API.emailApi;
 import com.example.team11_project_front.API.emailVerifyApi;
+import com.example.team11_project_front.API.getHospitalApi;
+import com.example.team11_project_front.API.hospitalApi;
 import com.example.team11_project_front.API.joinApi;
 import com.example.team11_project_front.API.loginApi;
 import com.example.team11_project_front.API.logoutApi;
+import com.example.team11_project_front.API.naverLoginApi;
 import com.example.team11_project_front.API.petlistApi;
+import com.example.team11_project_front.API.pictureApi;
 import com.example.team11_project_front.API.qnaApi;
 import com.example.team11_project_front.API.refreshApi;
 import com.example.team11_project_front.API.naverLoginApi;
@@ -20,7 +25,6 @@ import com.example.team11_project_front.API.ansApi;
 import com.example.team11_project_front.API.hospitalApi;
 import com.example.team11_project_front.API.getHospitalApi;
 import com.example.team11_project_front.API.postAnsApi;
-
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -42,6 +46,10 @@ public class RetrofitClient {
     private static com.example.team11_project_front.API.changePetApi changePetApi;
     private static com.example.team11_project_front.API.petlistApi petlistApi;
     private static com.example.team11_project_front.API.deletePetApi deletePetApi;
+
+    private static com.example.team11_project_front.API.hospitallistApi hospitallistApi;
+
+
     private static com.example.team11_project_front.API.naverLoginApi naverLoginApi;
     private static com.example.team11_project_front.API.pictureApi pictureApi;
     private static com.example.team11_project_front.API.ansApi ansApi;
@@ -76,6 +84,10 @@ public class RetrofitClient {
         deleteUserApi = retrofit.create(deleteUserApi.class);
         qnaApi = retrofit.create(qnaApi.class);
         refreshApi = retrofit.create(refreshApi.class);
+        changePetApi = retrofit.create(com.example.team11_project_front.API.changePetApi.class);
+        petlistApi = retrofit.create(com.example.team11_project_front.API.petlistApi.class);
+        deletePetApi = retrofit.create(com.example.team11_project_front.API.deletePetApi.class);
+        hospitallistApi = retrofit.create(com.example.team11_project_front.API.hospitallistApi.class);
         petlistApi = retrofit.create(petlistApi.class);
         changePetApi = retrofit.create(changePetApi.class);
         deletePetApi = retrofit.create(deletePetApi.class);
@@ -114,6 +126,7 @@ public class RetrofitClient {
     public static changePetApi getRetrofitChangePetInterface() { return changePetApi; }
     public static petlistApi getRetrofitPetlistInterface() { return petlistApi; }
     public static deletePetApi getRetrofitDeletePetInterface() { return deletePetApi; }
+    public static com.example.team11_project_front.API.hospitallistApi getRetrofitHospitallistInterface() { return hospitallistApi; }
     public static naverLoginApi getRetrofitNaverLoginInterface() { return naverLoginApi; }
     public static pictureApi getRetrofitPictureInterface() { return pictureApi; }
     public static ansApi getRetrofitAnswerInterface() { return ansApi; }
