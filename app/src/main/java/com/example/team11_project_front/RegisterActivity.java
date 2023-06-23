@@ -1,17 +1,13 @@
 package com.example.team11_project_front;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -22,6 +18,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.team11_project_front.API.emailVerifyApi;
 import com.example.team11_project_front.API.hospitalApi;
@@ -50,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private joinApi joinApi;
     private emailVerifyApi emailVerifyApi;
     private Switch veterinarianBtn;
+    private boolean isSwitchChecked = false;
     private EditText pwEdit, pwEdit2, nameEdit, mailEdit, hospitalNameEdit, hospitalCodeEdit;
     private CheckBox serviceOkBtn;
     private ImageView backBtn;
@@ -81,11 +84,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    hospitalNameEdit.setVisibility(View.VISIBLE);
-                    hospitalCodeEdit.setVisibility(View.VISIBLE);
+                    showAdditionalInfoDialog();
                 } else {
-                    hospitalNameEdit.setVisibility(View.GONE);
-                    hospitalCodeEdit.setVisibility(View.GONE);
+                    isSwitchChecked = false;
                 }
             }
         });
@@ -101,6 +102,63 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 }
         );
 
+    }
+
+    private void showAdditionalInfoDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("추가 정보 입력")
+                .setMessage("수의사 관련 정보를 입력하세요.");
+
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_additional_info, null);
+        builder.setView(dialogView);
+
+        final EditText hospitalNameEdit = dialogView.findViewById(R.id.hospitalNameEdit);
+        final EditText hospitalOfficeNumberEdit = dialogView.findViewById(R.id.hospitalOfficeNumberEdit);
+        final EditText hospitalAddressEdit = dialogView.findViewById(R.id.hospitalAddressEdit);
+        final EditText hospitalIntroductionEdit = dialogView.findViewById(R.id.hospitalIntroductionEdit);
+
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 추가 정보 처리를 위한 로직 작성
+                String hospitalName = hospitalNameEdit.getText().toString();
+                String hospitalOfficeNumber = hospitalOfficeNumberEdit.getText().toString();
+                String hospitalAddress = hospitalAddressEdit.getText().toString();
+                String hospitalIntroduction = hospitalIntroductionEdit.getText().toString();
+
+                // 입력된 정보를 사용하여 필요한 작업 수행
+                // ...
+
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                veterinarianBtn.setChecked(false);
+                isSwitchChecked = false;
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                isSwitchChecked = true;
+            }
+        });
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (!isSwitchChecked) {
+                    veterinarianBtn.setChecked(false);
+                }
+            }
+        });
+        dialog.show();
     }
 
     //키보드 숨기기

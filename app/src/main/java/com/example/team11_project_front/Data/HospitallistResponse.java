@@ -1,21 +1,24 @@
 package com.example.team11_project_front.Data;
 
-public class HospitalInfo {
+import com.google.gson.annotations.SerializedName;
+
+public class HospitallistResponse {
+    @SerializedName("id")
     private String id;
+    @SerializedName("hos_name")
     private String name;
+    @SerializedName("address")
     private String address;
+    @SerializedName("officenumber")
     private String tel;
+    @SerializedName("introduction")
     private String introduction;
+    @SerializedName("hos_profile_img")
     private String photo;
 
-    public HospitalInfo(String id, String name, String address, String tel, String introduction,String photo) {
-        this.id = id;
-        this.name = name;
-        this.tel = tel;
-        this.address = address;
-        this.introduction = introduction;
-        this.photo = photo;
-    }
+
+
+
 
     public String getId() {
         return id;
@@ -24,6 +27,7 @@ public class HospitalInfo {
     public void setId(String id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
@@ -40,14 +44,6 @@ public class HospitalInfo {
         this.address = address;
     }
 
-    public String getIntroduction() {
-        return introduction;
-    }
-
-    public void setIntroduction(String photo) {
-        this.photo = photo;
-    }
-
     public String getTel() {
         return tel;
     }
@@ -56,7 +52,13 @@ public class HospitalInfo {
         this.tel = tel;
     }
 
+    public String getIntroduction() {
+        return introduction;
+    }
 
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
 
     public String getPhoto() {
         return photo;
@@ -65,5 +67,6 @@ public class HospitalInfo {
     public void setPhoto(String photo) {
         this.photo = photo;
     }
+
 
 }

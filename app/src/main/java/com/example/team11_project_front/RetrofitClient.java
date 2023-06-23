@@ -18,7 +18,6 @@ import com.example.team11_project_front.API.ansApi;
 import com.example.team11_project_front.API.hospitalApi;
 import com.example.team11_project_front.API.getHospitalApi;
 
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -39,6 +38,10 @@ public class RetrofitClient {
     private static com.example.team11_project_front.API.changePetApi changePetApi;
     private static com.example.team11_project_front.API.petlistApi petlistApi;
     private static com.example.team11_project_front.API.deletePetApi deletePetApi;
+
+    private static com.example.team11_project_front.API.hospitallistApi hospitallistApi;
+
+
     private static com.example.team11_project_front.API.naverLoginApi naverLoginApi;
     private static com.example.team11_project_front.API.pictureApi pictureApi;
     private static com.example.team11_project_front.API.ansApi ansApi;
@@ -72,6 +75,10 @@ public class RetrofitClient {
         deleteUserApi = retrofit.create(deleteUserApi.class);
         qnaApi = retrofit.create(qnaApi.class);
         refreshApi = retrofit.create(refreshApi.class);
+        changePetApi = retrofit.create(com.example.team11_project_front.API.changePetApi.class);
+        petlistApi = retrofit.create(com.example.team11_project_front.API.petlistApi.class);
+        deletePetApi = retrofit.create(com.example.team11_project_front.API.deletePetApi.class);
+        hospitallistApi = retrofit.create(com.example.team11_project_front.API.hospitallistApi.class);
         petlistApi = retrofit.create(petlistApi.class);
         changePetApi = retrofit.create(changePetApi.class);
         deletePetApi = retrofit.create(deletePetApi.class);
@@ -109,6 +116,7 @@ public class RetrofitClient {
     public static changePetApi getRetrofitChangePetInterface() { return changePetApi; }
     public static petlistApi getRetrofitPetlistInterface() { return petlistApi; }
     public static deletePetApi getRetrofitDeletePetInterface() { return deletePetApi; }
+    public static hospitallistApi getRetrofitHospitallistInterface() { return hospitallistApi; }
     public static naverLoginApi getRetrofitNaverLoginInterface() { return naverLoginApi; }
     public static pictureApi getRetrofitPictureInterface() { return pictureApi; }
     public static ansApi getRetrofitAnswerInterface() { return ansApi; }

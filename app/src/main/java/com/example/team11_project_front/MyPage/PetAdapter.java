@@ -73,9 +73,33 @@ public class PetAdapter extends BaseAdapter {
 
         petImage.setImageResource(R.drawable.person_icon);
         name.setText(list.get(i).getName());
-        species.setText(list.get(i).getSpecies());
         birth.setText(list.get(i).getBirth());
-        gender.setText(list.get(i).getGender());
+
+        String CheckGender = list.get(i).getGender();
+
+
+        if(CheckGender.equals("M")) {
+            gender.setText("수컷");
+            
+        }
+        else if(CheckGender.equals("F")) {
+            gender.setText("암컷");
+        }
+        else {
+            gender.setText(CheckGender);
+        }
+        String CheckSpecies = list.get(i).getSpecies();
+        if(CheckSpecies.equals("Cat")) {
+            species.setText("고양이");
+
+        }
+        else if(CheckSpecies.equals("Dog")) {
+            species.setText("강아지");
+        }
+        else {
+            species.setText(CheckSpecies);
+        }
+
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override

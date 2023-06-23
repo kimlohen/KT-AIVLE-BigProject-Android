@@ -28,6 +28,7 @@ import com.example.team11_project_front.API.refreshApi;
 
 import com.example.team11_project_front.Data.DeleteUserResponse;
 import com.example.team11_project_front.Data.HospitalInfo;
+import com.example.team11_project_front.Data.HospitallistResponse;
 import com.example.team11_project_front.Data.LogoutResponse;
 import com.example.team11_project_front.Data.PetInfo;
 import com.example.team11_project_front.Data.PetlistResponse;
@@ -60,6 +61,7 @@ public class MyPageFragment extends Fragment {
     private Button addPet;
     Context mContext;
     private com.example.team11_project_front.API.petlistApi petlistApi;
+    private com.example.team11_project_front.API.hospitallistApi hospitallistApi;
 
     Bitmap bitmap;
 
@@ -168,9 +170,7 @@ public class MyPageFragment extends Fragment {
 
         retrofitClient = RetrofitClient.getInstance();
         petlistApi = retrofitClient.getRetrofitPetlistInterface();
-
-
-
+        hospitallistApi = retrofitClient.getRetrofitHospitallistInterface();
 
 
         petlistApi.getPetlistResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<ArrayList<PetlistResponse>>() {
@@ -180,7 +180,7 @@ public class MyPageFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     ArrayList<PetlistResponse> petlistResponses = response.body();
                     // PetlistResponse 객체를 PetInfo 객체로 변환하여 리스트에 추가
-                    Toast.makeText(getActivity(),  "리스트가 갱신되었습니다.", Toast.LENGTH_LONG).show();
+
                     petInfos = new ArrayList<>();
                     listView.setAdapter(null);
 
@@ -190,50 +190,69 @@ public class MyPageFragment extends Fragment {
                         String species = petlistResponse.getSpecies();
                         String gender = petlistResponse.getGender();
                         String birth = petlistResponse.getBirth();
-                        PetInfo petInfo = new PetInfo(id,petName, birth, species, gender);
+                        PetInfo petInfo = new PetInfo(id, petName, birth,  species,gender);
                         petInfos.add(petInfo);
                     }
-
+                  
                     PetAdapter adapter = new PetAdapter(getContext(), petInfos);
                     adapter.notifyDataSetChanged();
                     listView.setAdapter(adapter);
 
 
-
                 }
             }
+
             public void onFailure(Call<ArrayList<PetlistResponse>> call, Throwable t) {
-                Toast.makeText(getActivity(),  "동물 정보를 제대로 가져오지 못 했습니다.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "동물 정보를 제대로 가져오지 못 했습니다.", Toast.LENGTH_LONG).show();
             }
         });
 
 
-
-
-
-
-
-
-
         //병원정보 리스트
 
-        if(is_vet.equals("true")){
-            ListView lv = (ListView) view.findViewById(R.id.hospital_list);
-            hospitalInfos = new ArrayList<>();
+        if (is_vet.equals("true")) {
 
-            //이 변수들에 서버에서 받아온 데이터 저장 후 hospitalInfos에 추가하면 화면에 보여줌
-            String name = "병원이름";
-            String location = "병원위치";
-            String prof = "전문영역";
-            String intro = "한줄 소개";
+            hospitallistApi.getHospitallistResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<ArrayList<HospitallistResponse>>() {
 
-            HospitalInfo info = new HospitalInfo(name, location, prof, intro);
-            hospitalInfos.add(info);
 
-            HospitalAdapter hospitalAdapter = new HospitalAdapter(getContext(), hospitalInfos);
-            lv.setAdapter(hospitalAdapter);
+                public void onResponse(Call<ArrayList<HospitallistResponse>> call, Response<ArrayList<HospitallistResponse>> response) {
+                    ListView lv = (ListView) view.findViewById(R.id.hospital_list);
+
+                    if (response.isSuccessful() && response.body() != null) {
+                        ArrayList<HospitallistResponse> hospitallistResponses = response.body();
+                        // PetlistResponse 객체를 PetInfo 객체로 변환하여 리스트에 추가
+                        Toast.makeText(getActivity(), "병원 리스트가 갱신되었습니다.", Toast.LENGTH_LONG).show();
+                        hospitalInfos = new ArrayList<>();
+                        lv.setAdapter(null);
+
+                        for (HospitallistResponse hospitallistResponse : hospitallistResponses) {
+                            String id = hospitallistResponse.getId();
+                            String name = hospitallistResponse.getName();
+                            String address = hospitallistResponse.getAddress();
+                            String tel = hospitallistResponse.getTel();
+                            String intro = hospitallistResponse.getIntroduction();
+                            String photo = hospitallistResponse.getPhoto();
+                            HospitalInfo info = new HospitalInfo(id, name, address, tel, intro, photo);
+                            hospitalInfos.add(info);
+                        }
+
+
+                        HospitalAdapter hospitalAdapter = new HospitalAdapter(getContext(), hospitalInfos);
+                        hospitalAdapter.notifyDataSetChanged();
+                        lv.setAdapter(hospitalAdapter);
+
+
+                    }
+                }
+
+                public void onFailure(Call<ArrayList<HospitallistResponse>> call, Throwable t) {
+                    Toast.makeText(getActivity(), "병원 정보를 제대로 가져오지 못 했습니다.", Toast.LENGTH_LONG).show();
+                }
+            });
+
         }
     }
+
 
     // 데이터를 내부 저장소에 저장하기
     public void setPreference(String key, String value){
