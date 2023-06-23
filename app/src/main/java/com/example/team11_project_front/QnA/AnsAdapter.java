@@ -1,6 +1,9 @@
 package com.example.team11_project_front.QnA;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -44,10 +47,18 @@ public class AnsAdapter extends BaseAdapter {
         TextView writer = (TextView) view.findViewById(R.id.ansName);
         TextView date =(TextView) view.findViewById(R.id.ansDate);
         TextView ansText = (TextView) view.findViewById(R.id.ansText);
+        TextView callBtn = (TextView) view.findViewById(R.id.callBtn);
 
         writer.setText(list.get(i).getWriter());
         date.setText(list.get(i).getDate());
         ansText.setText(list.get(i).getContent());
+
+        callBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(new Intent("android.intent.action.DIAL", Uri.parse(list.get(i).getConnect())));
+            }
+        });
 
         return view;
     }

@@ -16,12 +16,13 @@ import com.example.team11_project_front.QnA.QnaFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-
     private FragmentManager fm = getSupportFragmentManager();
     private BottomNavigationView bottomNavigationView;
     private MyPageFragment myPageFragment = new MyPageFragment();
@@ -48,12 +49,13 @@ public class MainActivity extends AppCompatActivity {
         if(getPreferenceString("is_vet").equals("true")){
             retrofitClient = RetrofitClient.getInstance();
             getHospitalApi = RetrofitClient.getRetrofitGetHospitalInterface();
-            getHospitalApi.getHospitalResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<HospitalResponse>() {
+            getHospitalApi.getHospitalResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<List<HospitalResponse>>() {
                 @Override
-                public void onResponse(Call<HospitalResponse> call, Response<HospitalResponse> response) {
+                public void onResponse(Call<List<HospitalResponse>> call, Response<List<HospitalResponse>> response) {
                     if(response.isSuccessful() && response.body() != null){
-                        HospitalResponse res = response.body();
-                        setPreference("hos_id", res.getId());
+                        List<HospitalResponse> responses = response.body();
+                        HospitalResponse res = responses.get(0);
+                        setPreference("hos_id", res.getHos_id());
                         setPreference("hos_name", res.getHos_name());
                         setPreference("hos_address", res.getAddress());
                         setPreference("hos_officenumber", res.getOfficenumber());
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<HospitalResponse> call, Throwable t) {
+                public void onFailure(Call<List<HospitalResponse>> call, Throwable t) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setTitle("알림")
                             .setMessage("예기치 못한 오류가 발생하였습니다.\n 관리자에게 문의바랍니다.")

@@ -153,8 +153,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 updateKakaoLoginUi();
             }
         } else if (id == R.id.naverLoginBtn){
-            Intent intent = new Intent(v.getContext(), WebViewActivity.class); // 네이버 기능 구현하면
-            intent.putExtra("url", "3.38.191.199" + "/accounts/naver/login");
+            Intent intent = new Intent(v.getContext(), MainActivity.class); // 네이버 기능 구현하면
+            intent.putExtra("url", "");
             resultLauncher.launch(intent);
         } else if (id == R.id.initPW) {
             Intent intent = new Intent(v.getContext(), initPWActivity.class); // 비밀번호 찾기 페이지 만들면 변경
@@ -216,9 +216,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String email = result.getUser().getEmail();
                     String first_name = result.getUser().getFirst_name();
                     String is_vet = result.getUser().getIs_vet();
-                    String profile_img = result.getUser().getAvatar();
-                    if(result.getUser().getProfile_img() != null) {
-                        profile_img = result.getUser().getProfile_img();
+                    String profile_img = result.getUser().getProfile_img();
+                    if(profile_img == null){
+                        profile_img = result.getUser().getAvatar();
                     }
 
                     if (acessToken != null) {
@@ -357,9 +357,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String email = result.getUser().getEmail();
                     String first_name = result.getUser().getFirst_name();
                     String is_vet = result.getUser().getIs_vet();
-                    String profile_img = result.getUser().getAvatar();
-                    if(result.getUser().getProfile_img() != null) {
-                        profile_img = result.getUser().getProfile_img();
+                    String profile_img = result.getUser().getProfile_img();
+                    if(profile_img == null){
+                        profile_img = result.getUser().getAvatar();
                     }
 
 
@@ -473,6 +473,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                                 String email = result.getUser().getEmail();
                                                 String first_name = result.getUser().getFirst_name();
                                                 String profile_img = result.getUser().getProfile_img();
+                                                if(profile_img == null){
+                                                    profile_img = result.getUser().getAvatar();
+                                                }
                                                 String is_vet = result.getUser().getIs_vet();
 
                                                 if (acessToken != null) {
@@ -534,7 +537,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                                 String first_name = result.getUser().getFirst_name();
                                                 String is_vet = result.getUser().getIs_vet();
                                                 String profile_img = result.getUser().getProfile_img();
-
+                                                if(profile_img == null){
+                                                    profile_img = result.getUser().getAvatar();
+                                                }
                                                 if (acessToken != null) {
 
                                                     //다른 통신을 하기 위해 token 저장

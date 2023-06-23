@@ -1,5 +1,7 @@
 package com.example.team11_project_front;
 
+import androidx.annotation.NonNull;
+
 import com.example.team11_project_front.API.addPetApi;
 import com.example.team11_project_front.API.ansApi;
 import com.example.team11_project_front.API.changePetApi;
@@ -17,6 +19,13 @@ import com.example.team11_project_front.API.petlistApi;
 import com.example.team11_project_front.API.pictureApi;
 import com.example.team11_project_front.API.qnaApi;
 import com.example.team11_project_front.API.refreshApi;
+import com.example.team11_project_front.API.naverLoginApi;
+import com.example.team11_project_front.API.pictureApi;
+import com.example.team11_project_front.API.ansApi;
+import com.example.team11_project_front.API.hospitalApi;
+import com.example.team11_project_front.API.getHospitalApi;
+import com.example.team11_project_front.API.postAnsApi;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -46,6 +55,7 @@ public class RetrofitClient {
     private static com.example.team11_project_front.API.ansApi ansApi;
     private static hospitalApi hosplitalApi;
     private static getHospitalApi getHospitalApi;
+    private static com.example.team11_project_front.API.postAnsApi postAnsApi;
     //사용하고 있는 서버 BASE 주소
     private static String baseUrl = "http://3.38.191.199/";
 
@@ -86,6 +96,7 @@ public class RetrofitClient {
         ansApi = retrofit.create(ansApi.class);
         hosplitalApi = retrofit.create(hospitalApi.class);
         getHospitalApi = retrofit.create(getHospitalApi.class);
+        postAnsApi = retrofit.create(postAnsApi.class);
     }
 
     public static RetrofitClient getInstance() {
@@ -121,4 +132,5 @@ public class RetrofitClient {
     public static ansApi getRetrofitAnswerInterface() { return ansApi; }
     public static hospitalApi getRetrofitHospitalInterface() { return hosplitalApi; }
     public static getHospitalApi getRetrofitGetHospitalInterface() { return getHospitalApi; }
+    public static postAnsApi getRetrofitPostAnswerInterface() { return postAnsApi; }
 }

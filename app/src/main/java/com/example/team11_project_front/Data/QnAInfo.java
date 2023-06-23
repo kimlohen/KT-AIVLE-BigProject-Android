@@ -10,6 +10,7 @@ public class QnAInfo {
     private String content;
 
     public QnAInfo(String id, String title, String writer, String date, String ansNum, String photo, String content) {
+        this.id = id;
         this.title = title;
         this.writer = writer;
         this.date = date;

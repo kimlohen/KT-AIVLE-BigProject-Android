@@ -181,8 +181,6 @@ public class MyPageFragment extends Fragment {
 
         retrofitClient = RetrofitClient.getInstance();
         petlistApi = retrofitClient.getRetrofitPetlistInterface();
-        hospitallistApi = retrofitClient.getRetrofitHospitallistInterface();
-
 
         petlistApi.getPetlistResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<ArrayList<PetlistResponse>>() {
             @Override
@@ -225,41 +223,17 @@ public class MyPageFragment extends Fragment {
 
             hospitallistApi.getHospitallistResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<ArrayList<HospitallistResponse>>() {
 
+        //병원정보 리스트
 
-                public void onResponse(Call<ArrayList<HospitallistResponse>> call, Response<ArrayList<HospitallistResponse>> response) {
-                    ListView lv = (ListView) view.findViewById(R.id.hospital_list);
+            //이 변수들에 서버에서 받아온 데이터 저장 후 hospitalInfos에 추가하면 화면에 보여줌
+            String name = getPreferenceString("hos_name");
+            String location = getPreferenceString("hos_address");
+            String prof = getPreferenceString("hos_officenumber");
+            String intro = getPreferenceString("hos_introduction");
+            String hos_profile = getPreferenceString("hos_profile_img");
 
-                    if (response.isSuccessful() && response.body() != null) {
-                        ArrayList<HospitallistResponse> hospitallistResponses = response.body();
-                        // PetlistResponse 객체를 PetInfo 객체로 변환하여 리스트에 추가
-                        Toast.makeText(getActivity(), "병원 리스트가 갱신되었습니다.", Toast.LENGTH_LONG).show();
-                        hospitalInfos = new ArrayList<>();
-                        lv.setAdapter(null);
-
-                        for (HospitallistResponse hospitallistResponse : hospitallistResponses) {
-                            String id = hospitallistResponse.getId();
-                            String name = hospitallistResponse.getName();
-                            String address = hospitallistResponse.getAddress();
-                            String tel = hospitallistResponse.getTel();
-                            String intro = hospitallistResponse.getIntroduction();
-                            String photo = hospitallistResponse.getPhoto();
-                            HospitalInfo info = new HospitalInfo(id, name, address, tel, intro, photo);
-                            hospitalInfos.add(info);
-                        }
-
-
-                        HospitalAdapter hospitalAdapter = new HospitalAdapter(getContext(), hospitalInfos);
-                        hospitalAdapter.notifyDataSetChanged();
-                        lv.setAdapter(hospitalAdapter);
-
-
-                    }
-                }
-
-                public void onFailure(Call<ArrayList<HospitallistResponse>> call, Throwable t) {
-                    Toast.makeText(getActivity(), "병원 정보를 제대로 가져오지 못 했습니다.", Toast.LENGTH_LONG).show();
-                }
-            });
+            HospitalInfo info = new HospitalInfo(name, location, prof, intro, hos_profile);
+            hospitalInfos.add(info);
 
         }
     }
