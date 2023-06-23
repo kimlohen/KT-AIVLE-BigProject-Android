@@ -14,6 +14,8 @@ public class User
     private String is_vet;
     @SerializedName("profile_img")
     private String profile_img;
+    @SerializedName("avatar")
+    private String avatar;
 
     public void setPk (String pk)
     {
@@ -31,11 +33,9 @@ public class User
     {
         this.is_vet = is_vet;
     }
-
     public void setProfile_img(String profile_img) {
         this.profile_img = profile_img;
     }
-
     public String getPk ()
     {
         return pk;
@@ -51,5 +51,11 @@ public class User
     }
     public String getProfile_img() {
         return profile_img;
+    }
+    public String getAvatar() {
+        return avatar;
+    }
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

@@ -7,14 +7,17 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.team11_project_front.API.postAnsApi;
 import com.example.team11_project_front.Data.AnsResponse;
+import com.example.team11_project_front.Data.PostAnsRequest;
 import com.example.team11_project_front.R;
 import com.example.team11_project_front.RetrofitClient;
 
@@ -32,7 +35,8 @@ public class AnswerActivity extends AppCompatActivity {
     private RetrofitClient retrofitClient;
     private postAnsApi postAnsApi;
     private ImageView iv_disease, backBtn;
-    private TextView questionText, answerText;
+    private TextView questionText;
+    private EditText answerText;
     private Button submitBtn;
     private Bitmap bitmap;
     @Override
@@ -43,7 +47,7 @@ public class AnswerActivity extends AppCompatActivity {
         iv_disease = (ImageView) findViewById(R.id.diseaseImg2);
         backBtn = (ImageView) findViewById(R.id.backBtn4);
         questionText = (TextView) findViewById(R.id.questionText);
-        answerText = (TextView) findViewById(R.id.answerText);
+        answerText = (EditText) findViewById(R.id.answerText);
         submitBtn = (Button) findViewById(R.id.answerSubmit);
 
         questionText.setText(getIntent().getStringExtra("questionText"));
@@ -60,7 +64,10 @@ public class AnswerActivity extends AppCompatActivity {
             public void onClick(View v){
                 retrofitClient = RetrofitClient.getInstance();
                 postAnsApi = RetrofitClient.getRetrofitPostAnswerInterface();
-                postAnsApi.getQnaResponse("Bearer " + getPreferenceString("acessToken"), getIntent().getStringExtra("qId"), answerText.getText().toString()).enqueue(new Callback<AnsResponse>() {
+                Log.e("qId", getIntent().getStringExtra("qId") + "");
+                String answer = answerText.getText().toString();
+                PostAnsRequest postAnsRequest = new PostAnsRequest(answer);
+                postAnsApi.getQnaResponse("Bearer " + getPreferenceString("acessToken"), getIntent().getStringExtra("qId"), postAnsRequest).enqueue(new Callback<AnsResponse>() {
                     @Override
                     public void onResponse(Call<AnsResponse> call, Response<AnsResponse> response) {
                         if(response.isSuccessful()){

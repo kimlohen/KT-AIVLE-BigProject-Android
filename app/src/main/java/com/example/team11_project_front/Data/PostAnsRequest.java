@@ -12,4 +12,7 @@ public class PostAnsRequest {
     public void setContents(String contents) {
         this.contents = contents;
     }
+    public PostAnsRequest(String contents){
+        this.contents = contents;
+    }
 }

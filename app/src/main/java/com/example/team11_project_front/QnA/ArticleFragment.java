@@ -29,6 +29,8 @@ import com.example.team11_project_front.Data.AnsResponse;
 import com.example.team11_project_front.Data.PictureResponse;
 import com.example.team11_project_front.Data.RefreshRequest;
 import com.example.team11_project_front.Data.RefreshResponse;
+import com.example.team11_project_front.LoginActivity;
+import com.example.team11_project_front.MainActivity;
 import com.example.team11_project_front.R;
 import com.example.team11_project_front.RetrofitClient;
 
@@ -49,7 +51,7 @@ import retrofit2.Response;
  * Use the {@link ArticleFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ArticleFragment extends Fragment implements View.OnClickListener {
+public class ArticleFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -106,6 +108,7 @@ public class ArticleFragment extends Fragment implements View.OnClickListener {
         ListView listView = (ListView) view.findViewById(R.id.ansList);
 
         try {
+            qId = this.getArguments().getString("qId");
             String pictureID = this.getArguments().getString("photo");
             questionText = this.getArguments().getString("contents");
             question.setText(questionText);
@@ -180,6 +183,16 @@ public class ArticleFragment extends Fragment implements View.OnClickListener {
 
 
         ansBtn = (Button) view.findViewById(R.id.ansBtn);
+        ansBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(view.getContext(), AnswerActivity.class);
+                intent.putExtra("questionText", questionText);
+                intent.putExtra("pictureUrl", pictureUrl);
+                intent.putExtra("qId", qId);
+                startActivity(intent);
+            }
+        });
 
         String is_vet = getPreferenceString("is_vet");
         if(is_vet.equals("false")){
@@ -196,7 +209,6 @@ public class ArticleFragment extends Fragment implements View.OnClickListener {
             ansInfos = new ArrayList<>();
             retrofitClient = RetrofitClient.getInstance();
             ansApi ansApi = RetrofitClient.getRetrofitAnswerInterface();
-            String qId = this.getArguments().getString("qId");
             ansApi.getQnaResponse("Bearer " + getPreferenceString("acessToken"), qId).enqueue(new Callback<List<AnsResponse>>() {
                 @Override
                 public void onResponse(Call<List<AnsResponse>> call, Response<List<AnsResponse>> response) {
@@ -213,19 +225,15 @@ public class ArticleFragment extends Fragment implements View.OnClickListener {
                         AnsAdapter adapter = new AnsAdapter(getContext(), ansInfos);
                         listView.setAdapter(adapter);
                     }
-
                 }
-
                 @Override
                 public void onFailure(Call<List<AnsResponse>> call, Throwable t) {
-
                 }
             });
         }catch (NullPointerException e){
             e.printStackTrace();
         }
     }
-
 
     // 데이터를 내부 저장소에 저장하기
     public void setPreference(String key, String value){
@@ -239,16 +247,5 @@ public class ArticleFragment extends Fragment implements View.OnClickListener {
     public String getPreferenceString(String key) {
         SharedPreferences pref = getActivity().getSharedPreferences("DATA_STORE", MODE_PRIVATE);
         return pref.getString(key, "");
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.ansBtn){
-            Intent intent = new Intent("AnswerActivity");
-            intent.putExtra("qId", qId);
-            intent.putExtra("pictureUrl", pictureUrl);
-            intent.putExtra("questionText", questionText);
-            this.startActivity(intent);
-        }
     }
 }

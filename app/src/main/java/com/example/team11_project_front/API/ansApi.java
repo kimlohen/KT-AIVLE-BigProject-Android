@@ -12,6 +12,6 @@ import retrofit2.http.Path;
 
 public interface ansApi {
     //@통신 방식("통신 API명")
-    @GET("/posts/api/question/{id}/answer")
+    @GET("/posts/api/question/{id}/answer/")
     Call<List<AnsResponse>> getQnaResponse(@Header("Authorization") String auth, @Path("id") String qId);
 }

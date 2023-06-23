@@ -169,10 +169,6 @@ public class MyPageFragment extends Fragment {
         retrofitClient = RetrofitClient.getInstance();
         petlistApi = retrofitClient.getRetrofitPetlistInterface();
 
-
-
-
-
         petlistApi.getPetlistResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<ArrayList<PetlistResponse>>() {
             @Override
             public void onResponse(Call<ArrayList<PetlistResponse>> call, Response<ArrayList<PetlistResponse>> response) {
@@ -210,11 +206,6 @@ public class MyPageFragment extends Fragment {
 
 
 
-
-
-
-
-
         //병원정보 리스트
 
         if(is_vet.equals("true")){
@@ -222,10 +213,10 @@ public class MyPageFragment extends Fragment {
             hospitalInfos = new ArrayList<>();
 
             //이 변수들에 서버에서 받아온 데이터 저장 후 hospitalInfos에 추가하면 화면에 보여줌
-            String name = "병원이름";
-            String location = "병원위치";
-            String prof = "전문영역";
-            String intro = "한줄 소개";
+            String name = getPreferenceString("hos_name");
+            String location = getPreferenceString("hos_address");
+            String prof = getPreferenceString("hos_officenumber");
+            String intro = getPreferenceString("hos_introduction");
 
             HospitalInfo info = new HospitalInfo(name, location, prof, intro);
             hospitalInfos.add(info);

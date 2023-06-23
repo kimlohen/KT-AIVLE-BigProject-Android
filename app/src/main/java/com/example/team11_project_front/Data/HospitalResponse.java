@@ -7,15 +7,16 @@ public class HospitalResponse {
     private String hos_id;
     @SerializedName("hos_name")
     private String hos_name;
-    @SerializedName("addresss")
-    private String addresss;
+    @SerializedName("address")
+    private String address;
     @SerializedName("officenumber")
     private String officenumber;
     @SerializedName("introduction")
     private String introduction;
-    @SerializedName("host_profile_img")
-    private String host_profile_img;
-
+    @SerializedName("hos_profile_img")
+    private String hos_profile_img;
+    @SerializedName("user_id")
+    private String user_id;
     public String getHos_id() {
         return hos_id;
     }
@@ -28,11 +29,11 @@ public class HospitalResponse {
     public void setHos_name(String hos_name) {
         this.hos_name = hos_name;
     }
-    public String getAddresss() {
-        return addresss;
+    public String getAddress() {
+        return address;
     }
-    public void setAddresss(String addresss) {
-        this.addresss = addresss;
+    public void setAddress(String address) {
+        this.address = address;
     }
     public String getOfficenumber() {
         return officenumber;
@@ -46,11 +47,17 @@ public class HospitalResponse {
     public void setIntroduction(String introduction) {
         this.introduction = introduction;
     }
-    public String getHost_profile_img() {
-        return host_profile_img;
+    public String getHos_profile_img() {
+        return hos_profile_img;
     }
-    public void setHost_profile_img(String host_profile_img) {
-        this.host_profile_img = host_profile_img;
+    public void setHos_profile_img(String hos_profile_img) {
+        this.hos_profile_img = hos_profile_img;
+    }
+    public String getUser_id() {
+        return user_id;
+    }
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 }
 

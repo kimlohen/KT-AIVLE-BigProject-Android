@@ -49,7 +49,7 @@ public class RetrofitClient {
     private static getHospitalApi getHospitalApi;
     private static com.example.team11_project_front.API.postAnsApi postAnsApi;
     //사용하고 있는 서버 BASE 주소
-    private static String baseUrl = "http://3.38.104.166/";
+    private static String baseUrl = "http://3.38.191.199/";
 
 
     private RetrofitClient() {

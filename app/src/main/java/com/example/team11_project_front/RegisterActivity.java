@@ -354,6 +354,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     String email = result.getUser().getEmail();
                     String first_name = result.getUser().getFirst_name();
                     String profile_img = result.getUser().getIs_vet();
+                    if(profile_img == null){
+                        profile_img = result.getUser().getAvatar();
+                    }
                     String is_vet = result.getUser().getProfile_img();
 
                     if (acessToken != null) {

@@ -111,12 +111,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <EditText
                 android:id="@+id/answerText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="8dp"
-                android:text="답변" />
+                android:hint="답변을 입력해주세요"
+                android:paddingLeft="8dp" />
         </LinearLayout>
     </ScrollView>
 
