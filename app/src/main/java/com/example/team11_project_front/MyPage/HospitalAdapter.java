@@ -1,6 +1,8 @@
 package com.example.team11_project_front.MyPage;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -12,11 +14,17 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.example.team11_project_front.Data.HospitalInfo;
 import com.example.team11_project_front.R;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class HospitalAdapter extends BaseAdapter {
     Context mContext;
     ArrayList<HospitalInfo> list;
+    Bitmap bitmap;
 
     public HospitalAdapter(Context context, ArrayList<HospitalInfo> data) {
         mContext = context;
@@ -49,8 +57,33 @@ public class HospitalAdapter extends BaseAdapter {
 
         AppCompatButton update = (AppCompatButton) view.findViewById(R.id.ho_update);
 
+        Thread mthread = new Thread(){
+            @Override
+            public void run(){
+                try{
+                    URL url = new URL(list.get(i).getHos_profile_img());
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
 
-        image.setImageResource(R.drawable.person_icon);
+                    InputStream is = conn.getInputStream();
+                    bitmap = BitmapFactory.decodeStream(is);
+                }catch (MalformedURLException e){
+                    e.printStackTrace();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        mthread.start();
+        try{
+            mthread.join();
+            image.setImageBitmap(bitmap.createScaledBitmap(bitmap, 120, 120, false));
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+
         name.setText(list.get(i).getName());
         prof.setText(list.get(i).getPart());
         location.setText(list.get(i).getLocation());

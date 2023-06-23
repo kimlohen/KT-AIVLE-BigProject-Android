@@ -5,11 +5,13 @@ public class HospitalInfo {
     private String location;
     private String part;
     private String introduction;
-    public HospitalInfo(String name, String location, String part, String introduction) {
+    private String hos_profile_img;
+    public HospitalInfo(String name, String location, String part, String introduction, String hos_profile_img) {
         this.name = name;
         this.location =location;
         this.part = part;
         this.introduction = introduction;
+        this.hos_profile_img = hos_profile_img;
     }
 
     public String getName() {
@@ -42,5 +44,11 @@ public class HospitalInfo {
 
     public void setIntroduction(String introduction) {
         this.introduction = introduction;
+    }
+    public String getHos_profile_img() {
+        return hos_profile_img;
+    }
+    public void setHos_profile_img(String hos_profile_img) {
+        this.hos_profile_img = hos_profile_img;
     }
 }
