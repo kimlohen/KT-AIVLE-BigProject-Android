@@ -2,6 +2,7 @@ package com.example.team11_project_front.QnA;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -48,7 +49,7 @@ import retrofit2.Response;
  * Use the {@link ArticleFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ArticleFragment extends Fragment {
+public class ArticleFragment extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,7 +62,7 @@ public class ArticleFragment extends Fragment {
     private ArrayList<AnsInfo> ansInfos;
     private Button ansBtn;
     private Bitmap bitmap;
-    private String qId;
+    private String qId, pictureUrl, questionText;
 
     private RetrofitClient retrofitClient;
     private com.example.team11_project_front.API.qnaApi picture;
@@ -102,9 +103,11 @@ public class ArticleFragment extends Fragment {
 
         TextView question = view.findViewById(R.id.question);
         ImageView iv_disease = view.findViewById(R.id.diseaseImg);
+        ListView listView = (ListView) view.findViewById(R.id.ansList);
+
         try {
-            String questionText = this.getArguments().getString("contents");
             String pictureID = this.getArguments().getString("photo");
+            questionText = this.getArguments().getString("contents");
             question.setText(questionText);
             retrofitClient = RetrofitClient.getInstance();
             pictureApi pictureApi = RetrofitClient.getRetrofitPictureInterface();
@@ -134,7 +137,7 @@ public class ArticleFragment extends Fragment {
                         });
                     } else if(response.isSuccessful() && response.body() != null){
                         PictureResponse result = response.body();
-                        String pictureUrl = result.getPhoto();
+                        pictureUrl = result.getPhoto();
                         Thread mThread = new Thread(){
                             @Override
                             public void run(){
@@ -175,7 +178,9 @@ public class ArticleFragment extends Fragment {
             question.setText("질문 내용을 불러오는데 실패하였습니다.");
         }
 
+
         ansBtn = (Button) view.findViewById(R.id.ansBtn);
+
         String is_vet = getPreferenceString("is_vet");
         if(is_vet.equals("false")){
             ansBtn.setVisibility(View.GONE);
@@ -187,43 +192,38 @@ public class ArticleFragment extends Fragment {
     public void onResume(){
         super.onResume();
         ListView listView = (ListView) view.findViewById(R.id.ansList);
-        ansInfos = new ArrayList<>();
-        retrofitClient = RetrofitClient.getInstance();
-        ansApi ansApi = RetrofitClient.getRetrofitAnswerInterface();
-        String qId = this.getArguments().getString("qId");
-        ansApi.getQnaResponse("Bearer " + getPreferenceString("acessToken"), qId).enqueue(new Callback<List<AnsResponse>>() {
-            @Override
-            public void onResponse(Call<List<AnsResponse>> call, Response<List<AnsResponse>> response) {
-                if (response.isSuccessful() && response.body() != null){
-                    List<AnsResponse> responses = response.body();
-                    responses.forEach((element)->{
-                        String ansId = element.getAnswer_id();
-                        String userId = element.getUser_id();
-                        String title = element.getTitle();
-                        String contents = element.getContents();
-                        String questionId = element.getQ_id();
-                        // AnsInfo info = new AnsInfo(writer, date, content, "");
-                        // ansInfos.add(info);
-                    });
-//                    AnsAdapter adapter = new AnsAdapter(getContext(), ansInfos);
-//                    listView.setAdapter(adapter);
+        try {
+            ansInfos = new ArrayList<>();
+            retrofitClient = RetrofitClient.getInstance();
+            ansApi ansApi = RetrofitClient.getRetrofitAnswerInterface();
+            String qId = this.getArguments().getString("qId");
+            ansApi.getQnaResponse("Bearer " + getPreferenceString("acessToken"), qId).enqueue(new Callback<List<AnsResponse>>() {
+                @Override
+                public void onResponse(Call<List<AnsResponse>> call, Response<List<AnsResponse>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        List<AnsResponse> responses = response.body();
+                        responses.forEach((element) -> {
+                            String hospital_num = "tel:" + element.getHos_info().getOfficenumber();
+                            String user_name = element.getUser_name();
+                            String contents = element.getContents();
+                            String date = element.getCreated_at();
+                            AnsInfo info = new AnsInfo(user_name, date, contents, hospital_num);
+                            ansInfos.add(info);
+                        });
+                        AnsAdapter adapter = new AnsAdapter(getContext(), ansInfos);
+                        listView.setAdapter(adapter);
+                    }
+
                 }
 
-            }
+                @Override
+                public void onFailure(Call<List<AnsResponse>> call, Throwable t) {
 
-            @Override
-            public void onFailure(Call<List<AnsResponse>> call, Throwable t) {
-
-            }
-        });
-
-        String writer = "홍길동";
-        String date = "2023-06-16";
-        String content = "안녕하세요. 수의사 홍길동입니다. 질문에 대해 답변드리겠습니다.";
-        AnsInfo ansInfo = new AnsInfo(writer, date, content, "");
-        ansInfos.add(ansInfo);
-        AnsAdapter adapter = new AnsAdapter(getContext(), ansInfos);
-        listView.setAdapter(adapter);
+                }
+            });
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
 
@@ -239,5 +239,16 @@ public class ArticleFragment extends Fragment {
     public String getPreferenceString(String key) {
         SharedPreferences pref = getActivity().getSharedPreferences("DATA_STORE", MODE_PRIVATE);
         return pref.getString(key, "");
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.ansBtn){
+            Intent intent = new Intent("AnswerActivity");
+            intent.putExtra("qId", qId);
+            intent.putExtra("pictureUrl", pictureUrl);
+            intent.putExtra("questionText", questionText);
+            this.startActivity(intent);
+        }
     }
 }
