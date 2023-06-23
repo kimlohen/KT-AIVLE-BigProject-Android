@@ -25,7 +25,6 @@ import androidx.fragment.app.Fragment;
 import com.example.team11_project_front.API.deleteUserApi;
 import com.example.team11_project_front.API.logoutApi;
 import com.example.team11_project_front.API.refreshApi;
-
 import com.example.team11_project_front.Data.DeleteUserResponse;
 import com.example.team11_project_front.Data.HospitalInfo;
 import com.example.team11_project_front.Data.HospitallistResponse;
@@ -63,6 +62,8 @@ public class MyPageFragment extends Fragment {
     private com.example.team11_project_front.API.petlistApi petlistApi;
     private com.example.team11_project_front.API.hospitallistApi hospitallistApi;
 
+    private Button profile_update;
+
     Bitmap bitmap;
 
     String is_vet;
@@ -88,6 +89,7 @@ public class MyPageFragment extends Fragment {
         TextView tv_hospital = (TextView) view.findViewById(R.id.hospitalText);
         ImageView iv_profile = (ImageView) view.findViewById(R.id.profile);
         addPet = (Button) view.findViewById(R.id.addPetBtn);
+        profile_update = (Button) view.findViewById(R.id.profile_update);
 
         if (is_vet.equals("true")){
             type = "수의사";
@@ -152,13 +154,21 @@ public class MyPageFragment extends Fragment {
             public void onClick(View view){ deleteUser(); }
         });
 
+
+
         addPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), PetRegisterActivity.class);
                 startActivity(intent);
+
             }
         });
+
+
+
+
+
 
         return view;
     }
