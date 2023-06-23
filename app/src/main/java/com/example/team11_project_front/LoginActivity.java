@@ -448,7 +448,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 EmailResponse result = response.body();
                                 String success = result.getSuccess();
                                 if (success.equals("true")) { // 카카오로 처음 로그인
-                                    JoinRequest joinRequest = new JoinRequest(name, finalEmail, finalPw, finalPw);
+                                    JoinRequest joinRequest = new JoinRequest(name, finalEmail, finalPw, finalPw, "false");
                                     joinApi joinApi = RetrofitClient.getRetrofitJoinInterface();
                                     joinApi.getJoinResponse(joinRequest).enqueue(new Callback<JoinResponse>() {
                                         @Override
