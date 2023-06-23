@@ -48,7 +48,7 @@ public class HospitalAdapter extends BaseAdapter {
         View view = View.inflate(mContext, R.layout.itemlist_hospital_info, null);
         ImageView image = (ImageView) view.findViewById(R.id.hospitalImage);
         TextView name = (TextView) view.findViewById(R.id.hospitalName);
-        TextView prof = (TextView) view.findViewById(R.id.prof);
+        TextView prof = (TextView) view.findViewById(R.id.pNumber);
         TextView introduction = (TextView) view.findViewById(R.id.introduction);
         TextView address = (TextView) view.findViewById(R.id.location);
 
