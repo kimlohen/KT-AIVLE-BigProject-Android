@@ -17,6 +17,7 @@ import com.example.team11_project_front.API.pictureApi;
 import com.example.team11_project_front.API.ansApi;
 import com.example.team11_project_front.API.hospitalApi;
 import com.example.team11_project_front.API.getHospitalApi;
+import com.example.team11_project_front.API.hospitallistApi;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

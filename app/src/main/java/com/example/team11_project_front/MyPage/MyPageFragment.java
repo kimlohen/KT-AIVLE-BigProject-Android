@@ -23,6 +23,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.team11_project_front.API.deleteUserApi;
+import com.example.team11_project_front.API.hospitallistApi;
 import com.example.team11_project_front.API.logoutApi;
 import com.example.team11_project_front.API.refreshApi;
 
@@ -61,7 +62,7 @@ public class MyPageFragment extends Fragment {
     private Button addPet;
     Context mContext;
     private com.example.team11_project_front.API.petlistApi petlistApi;
-    private com.example.team11_project_front.API.hospitallistApi hospitallistApi;
+    private hospitallistApi hospitallistApi;
 
     Bitmap bitmap;
 

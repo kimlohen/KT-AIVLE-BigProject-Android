@@ -14,7 +14,15 @@ public class User
     private String is_vet;
     @SerializedName("profile_img")
     private String profile_img;
+    @SerializedName("avatar")
+    private String avatar;
 
+    public String getAvatar() {
+        return avatar;
+    }
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
     public void setPk (String pk)
     {
         this.pk = pk;
