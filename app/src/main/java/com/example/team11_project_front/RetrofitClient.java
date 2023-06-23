@@ -33,9 +33,11 @@ public class RetrofitClient {
     private static com.example.team11_project_front.API.petlistApi petlistApi;
     private static com.example.team11_project_front.API.deletePetApi deletePetApi;
 
+    private static com.example.team11_project_front.API.hospitallistApi hospitallistApi;
+
 
     //사용하고 있는 서버 BASE 주소
-    private static String baseUrl = "http://43.202.5.122/";
+    private static String baseUrl = "http://3.38.104.166/";
 
 
     private RetrofitClient() {
@@ -65,6 +67,7 @@ public class RetrofitClient {
         changePetApi = retrofit.create(com.example.team11_project_front.API.changePetApi.class);
         petlistApi = retrofit.create(com.example.team11_project_front.API.petlistApi.class);
         deletePetApi = retrofit.create(com.example.team11_project_front.API.deletePetApi.class);
+        hospitallistApi = retrofit.create(com.example.team11_project_front.API.hospitallistApi.class);
 
     }
 
@@ -95,4 +98,5 @@ public class RetrofitClient {
     public static changePetApi getRetrofitChangePetInterface() { return changePetApi; }
     public static com.example.team11_project_front.API.petlistApi getRetrofitPetlistInterface() { return petlistApi; }
     public static deletePetApi getRetrofitDeletePetInterface() { return deletePetApi; }
+    public static com.example.team11_project_front.API.hospitallistApi getRetrofitHospitallistInterface() { return hospitallistApi; }
 }

@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ChangeHospitalActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChangePetActivity"
             android:exported="false" />
         <activity

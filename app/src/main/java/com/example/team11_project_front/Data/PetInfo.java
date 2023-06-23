@@ -3,16 +3,19 @@ package com.example.team11_project_front.Data;
 public class PetInfo {
     private String name;
     private String birth;
-    private String species;
+
     private String gender;
+
+    private String species;
     private String id;
 
     public PetInfo(String id, String name, String birth, String species, String gender) {
         this.id = id;
         this.name = name;
         this.birth = birth;
-        this.species = species;
         this.gender = gender;
+        this.species = species;
+
     }
 
     public String getId() { return id;}
