@@ -10,12 +10,14 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp">
         <TextView
+            style="@style/Text.NormalStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="이거 여드림인가요?"
             android:textSize="15dp"
             android:id="@+id/title"/>
         <TextView
+            style="@style/Text.NormalStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="까미"
@@ -28,6 +30,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"></View>
     <TextView
+        style="@style/Text.NormalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2023-02-07"

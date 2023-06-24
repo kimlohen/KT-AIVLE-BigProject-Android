@@ -31,11 +31,12 @@
 
         <TextView
             android:id="@+id/textView"
+            style="@style/Text.NormalStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="동병물원 정보 수정 "
+            android:text="동물병원 정보 수정 "
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -62,6 +63,7 @@
 
         <EditText
             android:id="@+id/HospitalName"
+            style="@style/Text.NormalStyle"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"
@@ -72,6 +74,7 @@
 
         <EditText
             android:id="@+id/HospitalTel"
+            style="@style/Text.NormalStyle"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"
@@ -82,6 +85,7 @@
 
         <EditText
             android:id="@+id/HospitalLoc"
+            style="@style/Text.NormalStyle"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"
@@ -92,6 +96,7 @@
 
         <EditText
             android:id="@+id/HospitalIntro"
+            style="@style/Text.NormalStyle"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"

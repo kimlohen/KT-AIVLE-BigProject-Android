@@ -27,6 +27,7 @@
 
     <TextView
         android:id="@+id/joinText"
+        style="@style/Text.NormalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center|center_vertical"
@@ -41,6 +42,7 @@
 
     <EditText
         android:id="@+id/nameEdit"
+        style="@style/Text.NormalStyle"
         android:layout_width="240dp"
         android:layout_height="40dp"
         android:background="@drawable/edittext_rectangle"
@@ -59,6 +61,7 @@
 
     <EditText
         android:id="@+id/mailEdit"
+        style="@style/Text.NormalStyle"
         android:layout_width="160dp"
         android:layout_height="40dp"
         android:background="@drawable/edittext_rectangle"
@@ -75,6 +78,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/verifyBtn"
+        style="@style/Text.NormalStyle"
         android:layout_width="70dp"
         android:layout_height="40dp"
         android:layout_marginTop="28dp"
@@ -88,6 +92,7 @@
 
     <EditText
         android:id="@+id/pwEdit"
+        style="@style/Text.NormalStyle"
         android:layout_width="240dp"
         android:layout_height="40dp"
         android:background="@drawable/edittext_rectangle"
@@ -104,6 +109,7 @@
 
     <EditText
         android:id="@+id/pwEdit2"
+        style="@style/Text.NormalStyle"
         android:layout_width="240dp"
         android:layout_height="40dp"
         android:background="@drawable/edittext_rectangle"
@@ -120,6 +126,7 @@
 
     <Switch
         android:id="@+id/veterinarianBtn"
+        style="@style/Text.NormalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="  수의사  "
@@ -130,52 +137,22 @@
         app:layout_constraintTop_toBottomOf="@+id/pwEdit2"
         app:layout_constraintVertical_bias="0.03" />
 
-    <EditText
-        android:id="@+id/hospitalNameEdit"
-        android:layout_width="240dp"
-        android:layout_height="40dp"
-        android:background="@drawable/edittext_rectangle"
-        android:hint="병원명"
-        android:inputType="text"
-        android:visibility="gone"
-        android:paddingLeft="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/veterinarianBtn"
-        app:layout_constraintVertical_bias="0.02" />
-
-    <EditText
-        android:id="@+id/hospitalCodeEdit"
-        android:layout_width="240dp"
-        android:layout_height="40dp"
-        android:background="@drawable/edittext_rectangle"
-        android:hint="병원 코드"
-        android:inputType="text"
-        android:visibility="gone"
-        android:paddingLeft="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hospitalNameEdit"
-        app:layout_constraintVertical_bias="0.05" />
-
     <CheckBox
         android:id="@+id/serviceOkBtn"
+        style="@style/Text.NormalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="서비스 약관 동의"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.308"
+        app:layout_constraintHorizontal_bias="0.315"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hospitalCodeEdit"
-        app:layout_constraintVertical_bias="0.055" />
+        app:layout_constraintTop_toBottomOf="@+id/veterinarianBtn"
+        app:layout_constraintVertical_bias="0.05" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/registerBtn"
+        style="@style/Text.NormalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onclick"

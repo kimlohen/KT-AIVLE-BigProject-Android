@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="Text.NormalStyle" parent="android:TextAppearance">
+    <item name="android:textStyle">normal</item>
+    <item name="android:fontFamily">@font/custom_font_family</item>
+    <item name="android:includeFontPadding">false</item>
+</style>
 
+    <style name="Text.BoldStyle" parent="android:TextAppearance">
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/custom_font_family</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
 </resources>

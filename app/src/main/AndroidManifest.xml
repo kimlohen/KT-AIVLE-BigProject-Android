@@ -34,9 +34,6 @@
             android:name=".ChangePetActivity"
             android:exported="false" />
         <activity
-            android:name=".WebViewActivity"
-            android:exported="false" />
-        <activity
             android:name=".QnA.ArticleActivity"
             android:exported="false" />
         <activity

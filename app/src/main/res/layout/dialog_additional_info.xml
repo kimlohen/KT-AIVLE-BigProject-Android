@@ -6,6 +6,7 @@
 
     <EditText
         android:id="@+id/hospitalNameEdit"
+        style="@style/Text.NormalStyle"
         android:layout_width="240dp"
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
@@ -14,6 +15,7 @@
 
     <EditText
         android:id="@+id/hospitalOfficeNumberEdit"
+        style="@style/Text.NormalStyle"
         android:layout_width="240dp"
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
@@ -22,6 +24,7 @@
 
     <EditText
         android:id="@+id/hospitalAddressEdit"
+        style="@style/Text.NormalStyle"
         android:layout_width="240dp"
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
@@ -30,6 +33,7 @@
 
     <EditText
         android:id="@+id/hospitalIntroductionEdit"
+        style="@style/Text.NormalStyle"
         android:layout_width="240dp"
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"

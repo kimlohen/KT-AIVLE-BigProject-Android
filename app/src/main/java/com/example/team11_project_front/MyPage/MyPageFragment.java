@@ -165,12 +165,6 @@ public class MyPageFragment extends Fragment {
 
             }
         });
-
-
-
-
-
-
         return view;
     }
 
@@ -309,9 +303,7 @@ public class MyPageFragment extends Fragment {
                         .show();
             }
         });
-
     }
-
     void deleteUser(){
         retrofitClient = RetrofitClient.getInstance();
         deleteUserApi = RetrofitClient.getRetrofitDeleteUserInterface();
@@ -355,7 +347,6 @@ public class MyPageFragment extends Fragment {
                     getActivity().finish();
                 }
             }
-
             @Override
             public void onFailure(Call<DeleteUserResponse> call, Throwable t) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -367,5 +358,4 @@ public class MyPageFragment extends Fragment {
             }
         });
     }
-
 }

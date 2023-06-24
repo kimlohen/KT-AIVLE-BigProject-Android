@@ -8,6 +8,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/answerSubmit"
+        style="@style/Text.NormalStyle"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="답변 제출"
@@ -48,6 +49,7 @@
 
     <TextView
         android:id="@+id/explanationTitleGPT2"
+        style="@style/Text.NormalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="질문 내용"
@@ -59,6 +61,7 @@
 
     <TextView
         android:id="@+id/myAnsTitle"
+        style="@style/Text.NormalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="나의 답변"
@@ -87,6 +90,7 @@
 
             <TextView
                 android:id="@+id/questionText"
+                style="@style/Text.NormalStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="8dp"
@@ -113,6 +117,7 @@
 
             <EditText
                 android:id="@+id/answerText"
+                style="@style/Text.NormalStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="답변을 입력해주세요"

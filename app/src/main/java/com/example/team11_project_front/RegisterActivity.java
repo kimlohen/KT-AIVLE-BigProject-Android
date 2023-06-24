@@ -72,8 +72,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         mailEdit = (EditText) findViewById(R.id.mailEdit);
         pwEdit = (EditText) findViewById(R.id.pwEdit);
         pwEdit2 = (EditText) findViewById(R.id.pwEdit2);
-        hospitalNameEdit = (EditText) findViewById(R.id.hospitalNameEdit);
-        hospitalCodeEdit = (EditText) findViewById(R.id.hospitalCodeEdit);
         serviceOkBtn = (CheckBox) findViewById(R.id.serviceOkBtn);
         registerBtn = (Button) findViewById(R.id.registerBtn);
         verifyBtn = (Button) findViewById(R.id.verifyBtn);

@@ -14,6 +14,7 @@
 
         <TextView
             android:id="@+id/addPetTitle"
+            style="@style/Text.NormalStyle"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_weight="1"
@@ -31,6 +32,7 @@
 
         <EditText
             android:id="@+id/currentPwd"
+            style="@style/Text.NormalStyle"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"
@@ -41,6 +43,7 @@
 
         <EditText
             android:id="@+id/changedPwd"
+            style="@style/Text.NormalStyle"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"
@@ -51,6 +54,7 @@
 
         <EditText
             android:id="@+id/changedPwdChk"
+            style="@style/Text.NormalStyle"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"
@@ -61,6 +65,7 @@
 
         <TextView
             android:id="@+id/messageChk01"
+            style="@style/Text.NormalStyle"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:text="  비밀번호가 일치하지 않습니다."

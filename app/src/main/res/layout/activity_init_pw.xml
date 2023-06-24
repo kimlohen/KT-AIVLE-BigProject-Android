@@ -8,6 +8,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/sendMailBtn"
+        style="@style/Text.NormalStyle"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="초기화 이메일 보내기"
@@ -20,6 +21,7 @@
 
     <TextView
         android:id="@+id/Title"
+        style="@style/Text.NormalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/find_pw"
@@ -49,6 +51,7 @@
 
     <EditText
         android:id="@+id/editEmail"
+        style="@style/Text.NormalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/edittext"

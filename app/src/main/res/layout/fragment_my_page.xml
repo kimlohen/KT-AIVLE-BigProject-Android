@@ -28,6 +28,7 @@
 
         <TextView
             android:id="@+id/profileName"
+            style="@style/Text.NormalStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="false"
@@ -46,6 +47,7 @@
 
         <TextView
             android:id="@+id/type"
+            style="@style/Text.NormalStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
@@ -59,6 +61,7 @@
 
         <TextView
             android:id="@+id/email"
+            style="@style/Text.NormalStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
@@ -72,6 +75,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/profile_update"
+            style="@style/Text.NormalStyle"
             android:layout_width="130dp"
             android:layout_height="40dp"
             android:background="@drawable/button_style"
@@ -85,6 +89,7 @@
 
         <TextView
             android:id="@+id/textView4"
+            style="@style/Text.NormalStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="반려동물"
@@ -98,6 +103,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/addPetBtn"
+            style="@style/Text.NormalStyle"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@drawable/add_icon"
@@ -132,6 +138,7 @@
 
         <TextView
             android:id="@+id/hospitalText"
+            style="@style/Text.NormalStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="병원정보"
@@ -181,6 +188,7 @@
                 android:layout_marginTop="15dp"
                 android:clickable="true">
                 <TextView
+                    style="@style/Text.NormalStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="게시글 작성 내역"
@@ -213,6 +221,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    style="@style/Text.NormalStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -247,6 +256,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    style="@style/Text.NormalStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"

@@ -24,6 +24,7 @@
 
             <TextView
                 android:id="@+id/q_a_title"
+                style="@style/Text.NormalStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -58,6 +59,7 @@
 
             <TextView
                 android:id="@+id/beforeBtn"
+                style="@style/Text.NormalStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
@@ -73,6 +75,7 @@
 
             <TextView
                 android:id="@+id/page1"
+                style="@style/Text.NormalStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
@@ -87,6 +90,7 @@
 
             <TextView
                 android:id="@+id/page2"
+                style="@style/Text.NormalStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
@@ -101,6 +105,7 @@
 
             <TextView
                 android:id="@+id/page3"
+                style="@style/Text.NormalStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
@@ -115,6 +120,7 @@
 
             <TextView
                 android:id="@+id/page4"
+                style="@style/Text.NormalStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
@@ -129,6 +135,7 @@
 
             <TextView
                 android:id="@+id/page5"
+                style="@style/Text.NormalStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
@@ -143,6 +150,7 @@
 
             <TextView
                 android:id="@+id/afterBtn"
+                style="@style/Text.NormalStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="center"

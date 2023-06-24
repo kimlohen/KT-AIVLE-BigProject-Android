@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Team11-Project-front</string>
+    <string name="app_name">강아지킴</string>
     <!-- TODO: Remove or change this placeholder text -->
 
     <string name="my_pet_prompt">나의 반려동물</string>
@@ -12,8 +12,6 @@
     <string name="diagnosis_skin">피부질환 진단하기</string>
     <string name="post_qna">질문 등록</string>
     <string name="return_home">돌아가기</string>
-
-    <string name="logo">Logo</string>
     <string name="id_plain_text">ID</string>
     <string name="pw_plain_text">PW</string>
     <string name="find_message">비밀번호를 잊으셨나요?</string>

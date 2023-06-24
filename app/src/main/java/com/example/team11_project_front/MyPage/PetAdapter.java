@@ -39,8 +39,6 @@ public class PetAdapter extends BaseAdapter {
         mContext = context;
         list = data;
 
-
-
     }
 
     @Override
@@ -74,9 +72,7 @@ public class PetAdapter extends BaseAdapter {
         petImage.setImageResource(R.drawable.person_icon);
         name.setText(list.get(i).getName());
         birth.setText(list.get(i).getBirth());
-
         String CheckGender = list.get(i).getGender();
-
 
         if(CheckGender.equals("M")) {
             gender.setText("수컷");
@@ -89,11 +85,10 @@ public class PetAdapter extends BaseAdapter {
             gender.setText(CheckGender);
         }
         String CheckSpecies = list.get(i).getSpecies();
-        if(CheckSpecies.equals("Cat")) {
+        if(CheckSpecies.equals("Cat")||CheckSpecies.equals("cat")) {
             species.setText("고양이");
-
         }
-        else if(CheckSpecies.equals("Dog")) {
+        else if(CheckSpecies.equals("Dog")||CheckSpecies.equals("dog")) {
             species.setText("강아지");
         }
         else {

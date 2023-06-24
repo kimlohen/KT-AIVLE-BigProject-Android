@@ -8,6 +8,7 @@
 
     <EditText
         android:id="@+id/editID"
+        style="@style/Text.NormalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/edittext"
@@ -20,10 +21,11 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoImage"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintVertical_bias="0.05" />
 
     <EditText
         android:id="@+id/editPW"
+        style="@style/Text.NormalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/edittext"
@@ -40,6 +42,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/loginBtn"
+        style="@style/Text.NormalStyle"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="로그인"
@@ -52,10 +55,11 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/joinBtn"
+        style="@style/Text.NormalStyle"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="회원가입"
         android:backgroundTint="@color/snow"
+        android:text="회원가입"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,18 +70,20 @@
 
     <ImageView
         android:id="@+id/logoImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/logo"
+        android:layout_width="300dp"
+        android:layout_height="120dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/logo_dog_title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintVertical_bias="0.05" />
 
     <CheckBox
         android:id="@+id/autoLogin"
+        style="@style/Text.NormalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="로그인 상태 유지"
@@ -90,6 +96,7 @@
 
     <TextView
         android:id="@+id/findID"
+        style="@style/Text.NormalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/find_message"
@@ -103,6 +110,7 @@
 
     <TextView
         android:id="@+id/initPW"
+        style="@style/Text.NormalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -116,19 +124,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/joinBtn"
         app:layout_constraintVertical_bias="0.05" />
-
-    <TextView
-        android:id="@+id/logoText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/logo"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoImage"
-        app:layout_constraintVertical_bias="0.01" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/googleLoginBtn"
@@ -145,10 +140,10 @@
         android:id="@+id/kakaoLoginBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="0dp"
         android:clickable="true"
         android:focusable="auto"
         android:foreground="?android:attr/selectableItemBackground"
+        android:padding="0dp"
         android:src="@drawable/kakao_login_medium_narrow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -161,10 +156,10 @@
         android:id="@+id/naverLoginBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="0dp"
         android:clickable="true"
         android:focusable="auto"
         android:foreground="?android:attr/selectableItemBackground"
+        android:padding="0dp"
         android:src="@drawable/naver_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
