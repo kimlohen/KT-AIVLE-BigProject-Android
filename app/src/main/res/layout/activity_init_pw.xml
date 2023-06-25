@@ -17,7 +17,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editEmail"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.2"
+        android:backgroundTint="@color/btn" />
 
     <TextView
         android:id="@+id/Title"

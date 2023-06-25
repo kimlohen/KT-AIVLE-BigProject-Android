@@ -80,6 +80,7 @@
             android:layout_height="40dp"
             android:background="@drawable/button_style"
             android:text="개인정보 수정"
+            android:backgroundTint="@color/btn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.903"

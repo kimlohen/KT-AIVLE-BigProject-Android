@@ -3,4 +3,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="snow">#FFFFFAFA</color>
+    <color name="btn">#FFF1A983</color>
+    <color name="ad_back">#81A180</color>
 </resources>

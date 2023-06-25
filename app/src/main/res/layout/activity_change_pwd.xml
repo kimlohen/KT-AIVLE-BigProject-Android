@@ -78,7 +78,8 @@
             android:layout_height="wrap_content"
             android:onClick="onclickPwdChk01"
             android:text="비밀번호 변경"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:backgroundTint="@color/btn" />
     </LinearLayout>
 
 

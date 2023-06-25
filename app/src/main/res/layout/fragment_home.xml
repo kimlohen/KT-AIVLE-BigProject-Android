@@ -44,18 +44,19 @@
         android:layout_margin="16dp"
         android:text="@string/skin_diagnosis"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:backgroundTint="@color/btn"
+        app:layout_constraintBottom_toTopOf="@+id/ad_layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.05"
+        app:layout_constraintVertical_bias="0.5"
         tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="413dp"
-        android:layout_height="246dp"
+        android:layout_height="200dp"
         android:src="@drawable/main_img"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,17 +69,16 @@
         android:id="@+id/ad_layout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/ic_launcher_background"
-        app:layout_constraintTop_toBottomOf="@+id/btn_skin_diagnosis"
-        tools:layout_editor_absoluteX="2dp">
+        android:background="@color/ad_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="26dp">
 
         <TextView
             android:id="@+id/today_hos_text"
             style="@style/Text.NormalStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="활발히 답변주시는 병원"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -132,12 +132,13 @@
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:layout_gravity="center|right"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginStart="26dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/btn"
             android:text="연락하기"
             android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/today_hos_img"
-            app:layout_constraintTop_toBottomOf="@+id/today_hos_intro"
             tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

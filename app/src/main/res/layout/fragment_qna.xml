@@ -24,7 +24,7 @@
 
             <TextView
                 android:id="@+id/q_a_title"
-                style="@style/Text.NormalStyle"
+                style="@style/Text.BoldStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
