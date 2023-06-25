@@ -87,9 +87,11 @@ public class PetAdapter extends BaseAdapter {
         String CheckSpecies = list.get(i).getSpecies();
         if(CheckSpecies.equals("Cat")||CheckSpecies.equals("cat")) {
             species.setText("고양이");
+            petImage.setImageResource(R.drawable.cat_profile);
         }
         else if(CheckSpecies.equals("Dog")||CheckSpecies.equals("dog")) {
             species.setText("강아지");
+            petImage.setImageResource(R.drawable.dog_profile);
         }
         else {
             species.setText(CheckSpecies);

@@ -10,6 +10,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.team11_project_front.API.getHospitalAdApi;
+import com.example.team11_project_front.Data.HospitalAdResponse;
 import com.example.team11_project_front.Data.HospitalResponse;
 import com.example.team11_project_front.MyPage.MyPageFragment;
 import com.example.team11_project_front.QnA.QnaFragment;
@@ -45,9 +47,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(new ItemSelectedListener());
 
         getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame_layout, homeFragment).commit();
-
+        retrofitClient = RetrofitClient.getInstance();
         if(getPreferenceString("is_vet").equals("true")){
-            retrofitClient = RetrofitClient.getInstance();
             getHospitalApi = RetrofitClient.getRetrofitGetHospitalInterface();
             getHospitalApi.getHospitalResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<List<HospitalResponse>>() {
                 @Override
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onFailure(Call<List<HospitalResponse>> call, Throwable t) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setTitle("알림")
-                            .setMessage("예기치 못한 오류가 발생하였습니다.\n 관리자에게 문의바랍니다.")
+                            .setMessage("내 병원 정보를 받아오는데 실패하였습니다.\n 관리자에게 문의바랍니다.")
                             .setPositiveButton("확인", null)
                             .create()
                             .show();
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             setPreference("hos_introduction", "");
             setPreference("hos_profile_img", "");
         }
+
     }
 
     class ItemSelectedListener implements NavigationBarView.OnItemSelectedListener {

@@ -221,7 +221,7 @@ public class MyPageFragment extends Fragment {
             String intro = getPreferenceString("hos_introduction");
             String hos_profile = getPreferenceString("hos_profile_img");
 
-            HospitalInfo info = new HospitalInfo(hos_id, name, location, prof, intro, hos_profile);
+            HospitalInfo info = new HospitalInfo(hos_id, name, prof, location, intro, hos_profile);
             hospitalInfos.add(info);
         }
         HospitalAdapter hospitalAdapter = new HospitalAdapter(getContext(), hospitalInfos);

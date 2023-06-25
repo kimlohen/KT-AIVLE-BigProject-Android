@@ -28,7 +28,7 @@
 
         <TextView
             android:id="@+id/profileName"
-            style="@style/Text.NormalStyle"
+            style="@style/Text.BoldStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="false"
@@ -130,10 +130,10 @@
             app:layout_constraintVertical_bias="0.017">
 
             <ListView
+                android:id="@+id/petList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/itemlist_pet_info"
-                android:id="@+id/petList"/>
+                tools:listitem="@layout/itemlist_pet_info" />
         </LinearLayout>
 
         <TextView
@@ -180,26 +180,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
             app:layout_constraintVertical_bias="0.338">
+
             <LinearLayout
                 android:id="@+id/posted"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal"
+                android:layout_height="40dp"
                 android:layout_marginTop="15dp"
-                android:clickable="true">
+                android:clickable="true"
+                android:orientation="horizontal">
+
                 <TextView
                     style="@style/Text.NormalStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="게시글 작성 내역"
-                    android:textSize="18dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:text="게시글 작성 내역"
+                    android:textSize="18dp" />
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -207,15 +210,14 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/right_icon"
-                />
+                    android:background="@drawable/right_icon" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/logout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="5dp"
                 android:clickable="true"
                 android:orientation="horizontal">
@@ -249,9 +251,8 @@
             <LinearLayout
                 android:id="@+id/deleteUser"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="20dp"
                 android:clickable="true"
                 android:orientation="horizontal">
 
