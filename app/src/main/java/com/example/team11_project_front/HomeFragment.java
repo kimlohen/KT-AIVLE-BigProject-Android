@@ -96,7 +96,7 @@ public class HomeFragment extends Fragment {
                     String ad_hos_addr = res.getHospital().getAddress();
                     String ad_hos_profile = res.getHospital().getHos_profile_img();
                     String ad_hos_intro = res.getHospital().getIntroduction();
-                    String ad_hos_call = res.getHospital().getOfficenumber();
+                    String ad_hos_call = "tel:" + res.getHospital().getOfficenumber();
 
                     tv_ad_hos_name = (TextView) view.findViewById(R.id.today_hos_name);
                     tv_ad_hos_addr = (TextView) view.findViewById(R.id.today_hos_addr);
