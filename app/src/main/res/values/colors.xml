@@ -4,5 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="snow">#FFFFFAFA</color>
     <color name="btn">#FFF1A983</color>
+    <color name="background">#FFF0FFFF</color>
+    <color name="aquamarine">#FF7FFFD4</color>
     <color name="ad_back">#81A180</color>
 </resources>

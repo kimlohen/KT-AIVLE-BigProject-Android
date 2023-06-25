@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background"
     tools:context=".ChangeHospitalActivity">
 
 
@@ -111,6 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="병원정보 수정"
+            android:textColor="@color/white"
             android:backgroundTint="@color/btn" />
 
     </LinearLayout>

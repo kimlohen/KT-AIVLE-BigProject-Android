@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".QnA.ArticleFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -170,6 +171,7 @@
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:text="답변하기"
+            android:textColor="@color/white"
             android:backgroundTint="@color/btn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

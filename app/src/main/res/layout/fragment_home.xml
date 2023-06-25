@@ -5,6 +5,7 @@
     android:id="@+id/fragment_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -44,6 +45,7 @@
         android:layout_margin="16dp"
         android:text="@string/skin_diagnosis"
         android:textSize="20sp"
+        android:textColor="@color/white"
         android:backgroundTint="@color/btn"
         app:layout_constraintBottom_toTopOf="@+id/ad_layout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,20 +71,41 @@
         android:id="@+id/ad_layout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@color/ad_back"
+        android:background="#CCD9CC"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="26dp">
 
         <TextView
             android:id="@+id/today_hos_text"
-            style="@style/Text.NormalStyle"
+            style="@style/Text.BoldStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="활발히 답변주시는 병원"
+            android:layout_marginTop="12dp"
+            android:text="열심답변 병원"
+            android:textAlignment="center"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/today_hos_title_img"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/qna_icon"
+            app:layout_constraintEnd_toStartOf="@+id/today_hos_text"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/today_hos_text"
+            tools:layout_editor_absoluteX="0dp" />
 
         <ImageView
             android:id="@+id/today_hos_img"
@@ -122,7 +145,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
             android:layout_marginTop="8dp"
-            android:textSize="20sp"
+            android:textSize="14dp"
             app:layout_constraintStart_toEndOf="@+id/today_hos_img"
             app:layout_constraintTop_toBottomOf="@+id/today_hos_addr" />
 
@@ -134,6 +157,7 @@
             android:layout_gravity="center|right"
             android:layout_marginStart="26dp"
             android:layout_marginBottom="16dp"
+            android:textColor="@color/white"
             android:backgroundTint="@color/btn"
             android:text="연락하기"
             android:textSize="20sp"

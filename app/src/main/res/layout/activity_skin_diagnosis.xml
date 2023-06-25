@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SkinDiagnosisActivity"
+    android:background="@color/background"
     android:paddingTop="20dp">
 
     <!-- TODO: Update blank fragment layout -->
@@ -89,6 +90,7 @@
         android:layout_marginTop="50dp"
         android:text="@string/take_pic"
         android:textSize="20sp"
+        android:textColor="@color/white"
         android:backgroundTint="@color/btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,6 +109,7 @@
         android:layout_margin="16dp"
         android:text="@string/select_pic"
         android:textSize="20sp"
+        android:textColor="@color/white"
         android:backgroundTint="@color/btn"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background"
     tools:context=".ChangePwdActivity">
 
     <LinearLayout
@@ -79,6 +80,7 @@
             android:onClick="onclickPwdChk01"
             android:text="비밀번호 변경"
             android:textStyle="bold"
+            android:textColor="@color/white"
             android:backgroundTint="@color/btn" />
     </LinearLayout>
 
