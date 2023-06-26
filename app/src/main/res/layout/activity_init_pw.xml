@@ -38,10 +38,10 @@
 
     <ImageView
         android:id="@+id/backBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center"
-        android:background="@drawable/right_icon"
+        android:background="@drawable/backicon"
         android:clickable="true"
         android:focusable="auto"
         android:foreground="?android:attr/selectableItemBackground"

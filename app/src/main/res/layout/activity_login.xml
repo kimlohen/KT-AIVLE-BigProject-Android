@@ -22,7 +22,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoImage"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintVertical_bias="0.1" />
 
     <EditText
         android:id="@+id/editPW"
@@ -46,15 +46,15 @@
         style="@style/Text.NormalStyle"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="로그인"
         android:backgroundTint="@color/btn"
+        android:text="로그인"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editPW"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.3" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/joinBtn"
@@ -62,14 +62,14 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
-        android:textColor="@color/btn"
         android:text="회원가입"
+        android:textColor="@color/btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginBtn"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintVertical_bias="0.1" />
 
     <ImageView
         android:id="@+id/logoImage"
@@ -82,7 +82,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintVertical_bias="0.12" />
 
     <CheckBox
         android:id="@+id/autoLogin"
@@ -127,49 +127,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/joinBtn"
         app:layout_constraintVertical_bias="0.05" />
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/googleLoginBtn"
-        android:layout_width="190dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/joinBtn"
-        app:layout_constraintVertical_bias="0.3"></com.google.android.gms.common.SignInButton>
-
-    <ImageButton
-        android:id="@+id/kakaoLoginBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="auto"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:padding="0dp"
-        android:src="@drawable/kakao_login_medium_narrow"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/googleLoginBtn"
-        app:layout_constraintVertical_bias="0.1" />
-
-    <ImageButton
-        android:id="@+id/naverLoginBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="auto"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:padding="0dp"
-        android:src="@drawable/naver_logo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/kakaoLoginBtn"
-        app:layout_constraintVertical_bias="0.2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

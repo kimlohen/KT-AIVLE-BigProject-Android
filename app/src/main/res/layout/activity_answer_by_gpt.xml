@@ -10,23 +10,25 @@ android:paddingTop="20dp">
 
 <!-- TODO: Update blank fragment layout -->
 
-<ImageView
-    android:id="@+id/backBtn"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:background="@drawable/backicon"
-    android:clickable="true"
-    android:focusable="auto"
-    android:foreground="?android:attr/selectableItemBackground"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.1"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.05" />
+    <ImageView
+        android:id="@+id/backBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/backicon"
+        android:clickable="true"
+        android:focusable="auto"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0" />
 
-<View
+    <View
     android:id="@+id/divider3"
     android:layout_width="match_parent"
     android:layout_height="2dp"
@@ -57,13 +59,11 @@ android:paddingTop="20dp">
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:layout_gravity="center"
         android:layout_margin="25dp"
         android:src="@drawable/placeholder_image2"
-        app:layout_constraintBottom_toTopOf="@+id/btn_post_qna"
         app:layout_constraintTop_toBottomOf="@+id/divider3"
-        app:layout_constraintVertical_bias="1.2"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="148dp" />
 
