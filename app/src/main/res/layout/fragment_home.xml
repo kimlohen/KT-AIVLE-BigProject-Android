@@ -20,22 +20,6 @@
     <!--        android:prompt="@string/my_pet_prompt"-->
     <!--        />-->
 
-    <Spinner
-        android:id="@+id/spinner"
-        style="@style/Text.NormalStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxEms="10"
-        android:maxLines="1"
-        android:prompt="@string/my_pet_prompt"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05" />
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_skin_diagnosis"
         style="@style/Text.NormalStyle"
@@ -159,7 +143,7 @@
             android:layout_marginBottom="16dp"
             android:textColor="@color/white"
             android:backgroundTint="@color/btn"
-            android:text="연락하기"
+            android:text="전화상담"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/today_hos_img"

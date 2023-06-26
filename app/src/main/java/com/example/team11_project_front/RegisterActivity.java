@@ -262,7 +262,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     if(success.equals("true")){
                         AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                         builder.setTitle("알림")
-                                .setMessage("이메일 인증에 성공하였습니다.")
+                                .setMessage("해당 이메일을 사용 가능합니다.")
                                 .setPositiveButton("확인", null)
                                 .create()
                                 .show();

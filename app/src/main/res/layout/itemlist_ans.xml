@@ -52,7 +52,7 @@
             android:focusable="auto"
             android:foreground="?android:attr/selectableItemBackground"
             android:paddingTop="4dp"
-            android:text="연락하기"
+            android:text="전화상담"
             android:textAlignment="center" />
 
     </LinearLayout>

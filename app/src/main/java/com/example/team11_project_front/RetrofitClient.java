@@ -1,5 +1,7 @@
 package com.example.team11_project_front;
 
+import android.graphics.Picture;
+
 import androidx.annotation.NonNull;
 
 import com.example.team11_project_front.API.addPetApi;
@@ -21,6 +23,9 @@ import com.example.team11_project_front.API.qnaApi;
 import com.example.team11_project_front.API.refreshApi;
 import com.example.team11_project_front.API.postAnsApi;
 import com.example.team11_project_front.API.getHospitalAdApi;
+import com.example.team11_project_front.API.picturePostApi;
+
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -50,6 +55,7 @@ public class RetrofitClient {
     private static getHospitalApi getHospitalApi;
     private static getHospitalAdApi getHospitalAdApi;
     private static com.example.team11_project_front.API.postAnsApi postAnsApi;
+    private static picturePostApi picturePostApi;
     //사용하고 있는 서버 BASE 주소
     private static String baseUrl = "http://3.38.191.199/";
 
@@ -60,6 +66,9 @@ public class RetrofitClient {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
+                .connectTimeout(100, TimeUnit.SECONDS)
+                .readTimeout(100,TimeUnit.SECONDS)
+                .writeTimeout(100, TimeUnit.SECONDS)
                 .build();
 
         //retrofit 설정
@@ -92,6 +101,7 @@ public class RetrofitClient {
         getHospitalApi = retrofit.create(getHospitalApi.class);
         getHospitalAdApi = retrofit.create(getHospitalAdApi.class);
         postAnsApi = retrofit.create(postAnsApi.class);
+        picturePostApi = retrofit.create(picturePostApi.class);
     }
 
     public static RetrofitClient getInstance() {
@@ -129,4 +139,5 @@ public class RetrofitClient {
     public static getHospitalApi getRetrofitGetHospitalInterface() { return getHospitalApi; }
     public static getHospitalAdApi getRetrofitGetHospitalAdInterface() { return getHospitalAdApi; }
     public static postAnsApi getRetrofitPostAnswerInterface() { return postAnsApi; }
+    public static picturePostApi getRetrofitPostPictureInterface() { return picturePostApi; }
 }

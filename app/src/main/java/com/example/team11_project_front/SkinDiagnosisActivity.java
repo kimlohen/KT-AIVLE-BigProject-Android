@@ -1,10 +1,16 @@
 package com.example.team11_project_front;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 
 import android.telecom.InCallService;
@@ -14,6 +20,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.net.Uri;
@@ -26,14 +33,23 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.team11_project_front.API.petlistApi;
+import com.example.team11_project_front.Data.PetInfo;
+import com.example.team11_project_front.Data.PetlistResponse;
+import com.example.team11_project_front.MyPage.PetAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SkinDiagnosisActivity extends AppCompatActivity {
-
-    private static final int REQUEST_IMAGE_CAPTURE = 2;
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageView placeholder_image;
     private Uri selectedImageUri;
@@ -42,8 +58,9 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
     private androidx.appcompat.widget.AppCompatButton btn_take_pic;
     private androidx.appcompat.widget.AppCompatButton btn_register_pic;
     private Spinner spinner;
-    private Camera camera;
     private InCallService.VideoCall preview;
+    private Bitmap bitmap;
+    private boolean havePicture = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,21 +77,40 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
         spinner = findViewById(R.id.spinner);
 
         // Spinner에 표시할 항목 배열
-        String[] petOptions = {"라옹", "레오", "라임"};
+
+        ArrayList petOptions = new ArrayList<>();
+        ArrayList petIdx = new ArrayList<>();
+        RetrofitClient retrofitClient = RetrofitClient.getInstance();
+        petlistApi petlistApi = retrofitClient.getRetrofitPetlistInterface();
+
+        petlistApi.getPetlistResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<ArrayList<PetlistResponse>>() {
+            @Override
+            public void onResponse(Call<ArrayList<PetlistResponse>> call, Response<ArrayList<PetlistResponse>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ArrayList<PetlistResponse> petlistResponses = response.body();
+                    for (PetlistResponse petlistResponse : petlistResponses) {
+                        String id = petlistResponse.getId();
+                        String petName = petlistResponse.getName();
+                        petOptions.add(petName);
+                        petIdx.add(id);
+                    }
+                }
+            }
+
+            public void onFailure(Call<ArrayList<PetlistResponse>> call, Throwable t) {
+                Toast.makeText(SkinDiagnosisActivity.this, "동물 정보를 제대로 가져오지 못 했습니다.", Toast.LENGTH_LONG).show();
+            }
+        });
 
         // ArrayAdapter를 사용하여 항목 배열을 Spinner에 연결
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, petOptions);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, petOptions);
         spinner.setAdapter(adapter);
-
 
         // 사진 선택
         btn_select_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openGallery();
-                Animation anim = AnimationUtils.loadAnimation(SkinDiagnosisActivity.this, R.animator.button_scale);
-                btn_select_pic.startAnimation(anim);
             }
         });
 
@@ -96,11 +132,14 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
         btn_register_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectedImageUri != null) {
-                    // Toast.makeText(SkinDiagnosisActivity.this, "Image URI: " + selectedImageUri.toString(), Toast.LENGTH_SHORT).show();
+                if (havePicture) {
+                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                    String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Image", null);
 
                     Intent intent = new Intent(SkinDiagnosisActivity.this, AnswerByGptActivity.class);
-                    intent.putExtra("selectedImageUri", selectedImageUri.toString());
+                    intent.putExtra("image", path);
+                    intent.putExtra("pet_id", "43");
                     startActivity(intent);
                     // 이미지 선택되지 않았을 때 nextBtn 클릭하여 다음 activity로 넘어가지 못함
                 } else {
@@ -108,66 +147,81 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
                 }
             }
         });
-
-        // 이 부분으로 onClick 메소드 실행시 버튼 클릭하면 튕겨서 주석처리 했습니다
-        // 사진 등록 버튼 클릭 (다음 activity로 intent 전달)
-//        androidx.appcompat.widget.AppCompatButton btn_register_pic = findViewById(R.id.btn_register_pic);
-//        btn_register_pic.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (selectedImageUri != null) {
-//                    Bitmap bitmap = null;
-//                    try {
-//                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
-//                    } catch (IOException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//                    byte[] byteArray = stream.toByteArray();
-//
-//                    Intent intent = new Intent(SkinDiagnosisActivity.this, AnswerByGptActivity.class);
-//                    intent.putExtra("image", byteArray);
-//
-//                    startActivity(intent);
-//                } else {
-//                    Toast.makeText(SkinDiagnosisActivity.this, "이미지를 선택하세요.", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
     }
+    ActivityResultLauncher<Intent> activityResultPicture = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode() == RESULT_OK && result.getData() != null){
+                        Bundle extras = result.getData().getExtras();
+                        bitmap = (Bitmap) extras.get("data");
+                        bitmap.createScaledBitmap(bitmap, 400, 400, false);
+                        placeholder_image.setImageBitmap(bitmap);
+                        havePicture = true;
+                    }
+                }
+            });
+    ActivityResultLauncher<Intent> activityResultStorage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode() == RESULT_OK && result.getData() != null){
+                        Uri uri = result.getData().getData();
+                        try{
+                            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                            bitmap.createScaledBitmap(bitmap, 400, 400, false);
+                            placeholder_image.setImageBitmap(bitmap);
+                            havePicture = true;
+                        }catch(FileNotFoundException e){
+                            e.printStackTrace();
+                        }catch (IOException e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
 
     private void openGallery() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        activityResultStorage.launch(intent);
     }
 
     private void takePicture() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-        } else {
-            // Toast.makeText(this, "Camera app not found", Toast.LENGTH_SHORT).show();
-            Snackbar.make(placeholder_image, "카메라를 사용할 수 없습니다.", Snackbar.LENGTH_SHORT).show();
+        activityResultPicture.launch(intent);
+    }
 
+    // 데이터를 내부 저장소에 저장하기
+    public void setPreference(String key, String value){
+        SharedPreferences pref = getSharedPreferences("DATA_STORE", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+    // 내부 저장소에 저장된 데이터 가져오기
+    public String getPreferenceString(String key) {
+        SharedPreferences pref = getSharedPreferences("DATA_STORE", MODE_PRIVATE);
+        return pref.getString(key, "");
+    }
+
+    private static String[] Add(String[] originArray, String Val) {
+        // 순서 1. (원본 배열의 크기 + 1)를 크기를 가지는 배열을 생성
+        String[] newArray = new String[originArray.length + 1];
+
+        // 순서 2. 새로운 배열에 값을 순차적으로 할당
+        for(int index = 0; index < originArray.length; index++) {
+            newArray[index] = originArray[index];
         }
+
+        // 순서 3. 새로운 배열의 마지막 위치에 추가하려는 값을 할당
+        newArray[originArray.length] = Val;
+
+        // 순서 4. 새로운 배열을 반환
+        return newArray;
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            selectedImageUri = data.getData();
-            placeholder_image.setImageURI(selectedImageUri);
-        }
-    }
-
-    private Uri saveImageBitmap(Bitmap imageBitmap) {
-        // 이미지를 파일로 저장, 해당 파일의 Uri를 반환
-        // e.g. 이미지 파일을 앱의 내부 저장소 또는 외부 저장소에 저장
-        return null;
-    }
 }
