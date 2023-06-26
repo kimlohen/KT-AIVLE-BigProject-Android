@@ -55,15 +55,15 @@
         app:layout_constraintTop_toBottomOf="@+id/summaryTitle"
         app:layout_constraintVertical_bias="0.03" />
 
-    <TextView
-        android:id="@+id/summaryTitle"
+    <Spinner
+        android:id="@+id/spinner"
         style="@style/Text.NormalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxEms="10"
         android:maxLines="1"
-        android:text="피부질환 진단하기"
+        android:prompt="@string/my_pet_prompt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -97,7 +97,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9"
+        app:layout_constraintVertical_bias="0.85"
         tools:ignore="MissingConstraints" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -116,8 +116,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintVertical_bias="0.9"
+        app:layout_constraintVertical_bias="0.85"
         tools:ignore="MissingConstraints" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_register_pic"
+        style="@style/Text.NormalStyle"
+        android:layout_width="380dp"
+        android:layout_height="80dp"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        android:text="@string/register_pic"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/btn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintVertical_bias="0.99"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

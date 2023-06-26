@@ -73,7 +73,7 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openGallery();
-                Animation anim = AnimationUtils.loadAnimation(SkinDiagnosisActivity.this, R.anim.button_scale);
+                Animation anim = AnimationUtils.loadAnimation(SkinDiagnosisActivity.this, R.animator.button_scale);
                 btn_select_pic.startAnimation(anim);
             }
         });
