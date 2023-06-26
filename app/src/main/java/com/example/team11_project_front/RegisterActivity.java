@@ -18,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -54,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private emailVerifyApi emailVerifyApi;
     private Switch veterinarianBtn;
     private boolean isSwitchChecked = false;
-    private EditText pwEdit, pwEdit2, nameEdit, mailEdit, hospitalNameEdit, hospitalCodeEdit;
+    private EditText pwEdit, pwEdit2, nameEdit, mailEdit;
     private CheckBox serviceOkBtn;
     private ImageView backBtn;
     private Button registerBtn, verifyBtn;
@@ -75,10 +76,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         serviceOkBtn = (CheckBox) findViewById(R.id.serviceOkBtn);
         registerBtn = (Button) findViewById(R.id.registerBtn);
         verifyBtn = (Button) findViewById(R.id.verifyBtn);
+        TextView membershipLink = (TextView) findViewById(R.id.membershipLink);
 
         backBtn.setOnClickListener(this);
         registerBtn.setOnClickListener(this);
         verifyBtn.setOnClickListener(this);
+        membershipLink.setOnClickListener(this);
 
         veterinarianBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -121,9 +124,30 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
+        membershipLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMembershipDialog();
+            }
+        });
 
 
+    }
+    private void showMembershipDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("약관");
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_membership_condition, null);
+        builder.setView(dialogView);
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
 
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void showAdditionalInfoDialog() {
@@ -191,8 +215,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         imm.hideSoftInputFromWindow(mailEdit.getWindowToken(), 0);
         imm.hideSoftInputFromWindow(pwEdit.getWindowToken(), 0);
         imm.hideSoftInputFromWindow(pwEdit2.getWindowToken(), 0);
-        imm.hideSoftInputFromWindow(hospitalCodeEdit.getWindowToken(), 0);
-        imm.hideSoftInputFromWindow(hospitalNameEdit.getWindowToken(), 0);
     }
 
     //화면 터치 시 키보드 내려감
@@ -284,8 +306,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             String name = nameEdit.getText().toString();
             String pw = pwEdit.getText().toString();
             String pw2 = pwEdit2.getText().toString();
-            String hospitalName = hospitalNameEdit.getText().toString();
-            String hospitalCode = hospitalCodeEdit.getText().toString();
 
             if (name.trim().length() == 0 || name == null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
