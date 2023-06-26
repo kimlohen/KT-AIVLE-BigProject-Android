@@ -56,15 +56,15 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Spinner spinner = view.findViewById(R.id.spinner);
-
-        // Spinner에 표시할 항목 배열
-        String[] petOptions = {"라옹", "레오", "라임"};
-
-        // ArrayAdapter를 사용하여 항목 배열을 Spinner에 연결
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, petOptions);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+//        Spinner spinner = view.findViewById(R.id.spinner);
+//
+//        // Spinner에 표시할 항목 배열
+//        String[] petOptions = {"라옹", "레오", "라임"};
+//
+//        // ArrayAdapter를 사용하여 항목 배열을 Spinner에 연결
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, petOptions);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinner.setAdapter(adapter);
 
         // Fragment -> Activity 화면 전환!
         // androidx.appcompat.widget.AppCompatButton button_skin = view.findViewById(R.id.btn_skin_diagnosis);
