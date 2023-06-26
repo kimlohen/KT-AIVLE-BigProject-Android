@@ -78,13 +78,22 @@ import com.example.team11_project_front.Data.PicturePostRequest;
 import com.example.team11_project_front.Data.PictureResponse;
 import com.example.team11_project_front.QnA.QnaFragment;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
+
+import javax.crypto.SecretKey;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -96,6 +105,13 @@ public class AnswerByGptActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_by_gpt);
+
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(120, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .build();
+                
 
         // 이미지 URI
         String path = getIntent().getStringExtra("image");
@@ -116,6 +132,10 @@ public class AnswerByGptActivity extends AppCompatActivity {
         }
 
         ImageView imageView = findViewById(R.id.imageView);
+        TextView tv_diseaseName = (TextView) findViewById(R.id.diseaseNameText);
+        TextView tv_date = (TextView) findViewById(R.id.diagonistDateText);
+        TextView tv_gpt = (TextView) findViewById(R.id.explanationGPT);
+
         Bitmap scaled_bitmap = bitmap.createScaledBitmap(bitmap, 200, 200, false);
         imageView.setImageBitmap(scaled_bitmap);
 
@@ -136,13 +156,63 @@ public class AnswerByGptActivity extends AppCompatActivity {
             public void onResponse(Call<PictureResponse> call, Response<PictureResponse> response) {
                 if(response.isSuccessful() && response.body() != null){
                     PictureResponse res = response.body();
-                    String res_d = res.getModel_result();
+                    String res_d = res.getModel_result(); // disease name
+                    String res_p = res.getModel_conf(); // probability
                     String res_t = res.getCreated_at().split("T")[0];
 
-                    TextView tv_diseaseName = (TextView) findViewById(R.id.diseaseNameText);
                     tv_diseaseName.setText(res_d);
-                    TextView tv_date = (TextView) findViewById(R.id.diagonistDateText);
                     tv_date.setText(res_t);
+                    String question = "반려견 피부질환 AI model이 " + res_p + "%의 Confidence로 " + res_d + "을/를 예상하고있어.\n이 병명에 대해서 간단한 설명을 해줘.";
+
+                    JSONArray arr = new JSONArray();
+                    JSONObject baseAi = new JSONObject();
+                    JSONObject userMsg = new JSONObject();
+                    try{
+                        baseAi.put("role", "user");
+                        baseAi.put("content", "You are a helpful and kind AI Assistant.");
+                        userMsg.put("role", "user");
+                        userMsg.put("content", question);
+                        arr.put(baseAi);
+                        arr.put(userMsg);
+                    }catch (JSONException e){
+                        throw new RuntimeException(e);
+                    }
+                    JSONObject object = new JSONObject();
+                    try{
+                        object.put("model", "gpt-3.5-turbo");
+                        object.put("messages", arr);
+                    } catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                    RequestBody body = RequestBody.create(MediaType.get("application/json"), object.toString());
+                    Request request = new Request.Builder()
+                            .url("https://api.openai.com/v1/chat/completions")
+                            .header("Authorization", "Bearer " + "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")
+                            .post(body)
+                            .build();
+                    client.newCall(request).enqueue(new okhttp3.Callback() {
+                        @Override
+                        public void onFailure(okhttp3.Call call, IOException e) {
+
+                        }
+
+                        @Override
+                        public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
+                            if(response.isSuccessful()){
+                                JSONObject jsonObject = null;
+                                try{
+                                    jsonObject = new JSONObject(response.body().string());
+                                    JSONArray jsonArray = jsonObject.getJSONArray("choices");
+                                    String result = jsonArray.getJSONObject(0).getJSONObject("message").getString("content");
+                                    tv_gpt.setText(result);
+                                }catch (JSONException e){
+                                    e.printStackTrace();
+                                }
+                            }else{
+
+                            }
+                        }
+                    });
                 }
             }
             @Override
