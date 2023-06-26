@@ -2,9 +2,9 @@ package com.example.team11_project_front.MyPage;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatButton;
 
-import com.bumptech.glide.Glide;
 import com.example.team11_project_front.ChangeHospitalActivity;
 import com.example.team11_project_front.Data.HospitalInfo;
 import com.example.team11_project_front.R;
@@ -73,6 +72,9 @@ public class HospitalAdapter extends BaseAdapter {
 
                     InputStream is = conn.getInputStream();
                     bitmap = BitmapFactory.decodeStream(is);
+
+                    // Set the bitmap to the ImageView
+
                 }catch (MalformedURLException e){
                     e.printStackTrace();
                 }catch (IOException e){
@@ -81,10 +83,13 @@ public class HospitalAdapter extends BaseAdapter {
             }
         };
 
+
+
+        // Start the thread to load the image
+        mthread.start();
+
         // 여기가 이미지 넣는 곳.
-        Glide.with(mContext)
-                .load(list.get(i).getPhoto())
-                .into(image);
+
         name.setText(list.get(i).getName());
         prof.setText(list.get(i).getTel());
         address.setText(list.get(i).getAddress());
@@ -99,20 +104,16 @@ public class HospitalAdapter extends BaseAdapter {
                 Intent intent = new Intent(mContext, ChangeHospitalActivity.class);
                 String Hid = list.get(i).getId();
                 String Hname = list.get(i).getName();
-                String Haddress = list.get(i).getAddress();
                 String Htel = list.get(i).getTel();
                 String Haddress = list.get(i).getAddress();
                 String Hintro = list.get(i).getIntroduction();
-                String Hphoto = list.get(i).getPhoto();
-                Intent intent = new Intent(mContext, ChangeHospitalActivity.class);
+
 
                 intent.putExtra("id", Hid);
                 intent.putExtra("name", Hname);
                 intent.putExtra("address", Haddress);
                 intent.putExtra("tel", Htel);
-                intent.putExtra("address", Haddress);
                 intent.putExtra("intro", Hintro);
-                intent.putExtra("photo", Hphoto);
                 mContext.startActivity(intent);
             }
         });
