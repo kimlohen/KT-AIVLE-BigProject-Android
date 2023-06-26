@@ -19,6 +19,11 @@
     <string name='back_text'>&gt;</string>
     <string name='front_text'>&lt;</string>
     <string name='q_a'>Q&amp;A</string>
+    <string name='default_web_client_id'>AIzaSyDNdlPTYQyoYBJM95vjiVy0hvOACm1LN6A</string>
+    <string name="success_login">구글 로그인 성공</string>
+    <string name="failed_login">구글 로그인 실패</string>
+    <string name="success_logout">로그아웃 되었습니다</string>
+    <string name="status_login">이미 로그인 되어있습니다</string>
     <string name='membership'>\'강아지킴\'은(는) 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.\n\n
 
 ○ 이 개인정보처리방침은 2023년 7월 1부터 적용됩니다.\n\n
