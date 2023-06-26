@@ -17,4 +17,27 @@
         <item name="android:fontFamily">@font/custom_font_family</item>
         <item name="android:includeFontPadding">false</item>
     </style>
+
+
+    <style name="AppAlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowTitleStyle">@style/AppAlertDialogTitle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AppAlertButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AppAlertButtonStyle</item>
+        <item name="buttonBarNeutralButtonStyle">@style/AppOtherAlertButtonStyle</item>
+    </style>
+
+    <style name="AppAlertDialogTitle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:fontFamily">@font/maplestory_light</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="AppAlertButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:fontFamily">@font/maplestory_light</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="AppOtherAlertButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:fontFamily">@font/maplestory_light</item>
+        <item name="android:textSize">10sp</item>
+    </style>
 </resources>

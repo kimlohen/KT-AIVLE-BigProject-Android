@@ -22,7 +22,6 @@ import retrofit2.Response;
 
 public class ChangePetActivity extends AppCompatActivity {
 
-
     private EditText editTextText;
     private EditText editTextText2;
     private Button aButton,bButton,cButton,dButton;
