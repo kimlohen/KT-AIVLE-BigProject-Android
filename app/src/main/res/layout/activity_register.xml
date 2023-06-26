@@ -56,23 +56,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.15" />
 
-    <TextView
-        android:id="@+id/joinText2"
-        style="@style/Text.NormalStyle"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center|center_vertical"
-        android:hint="비밀번호는 8~20자, 영문, 숫자, 특수문자를 포함해서 정해주세요.\n연속된 문자가 존재하는 경우에도 설정이 불가능합니다"
-        android:textSize="8sp"
-        android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pwEdit2"
-        app:layout_constraintVertical_bias="0" />
-
     <EditText
         android:id="@+id/nameEdit"
         style="@style/Text.NormalStyle"
@@ -117,8 +100,9 @@
         android:layout_marginTop="28dp"
         android:layout_marginBottom="24dp"
         android:text="중복 확인"
-        android:textColor="@color/white"
         android:textSize="12sp"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/btn_gray"
         app:layout_constraintBottom_toTopOf="@+id/pwEdit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
@@ -164,14 +148,13 @@
         style="@style/Text.NormalStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="  수의사  "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.28"
+        app:layout_constraintHorizontal_bias="0.275"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/joinText2"
-        app:layout_constraintVertical_bias="0" />
+        app:layout_constraintTop_toBottomOf="@+id/pwEdit2"
+        app:layout_constraintVertical_bias="0.03" />
 
     <CheckBox
         android:id="@+id/serviceOkBtn"
@@ -193,8 +176,8 @@
         android:layout_height="wrap_content"
         android:onClick="onclick"
         android:text="회원가입"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/btn"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/btn_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

@@ -108,8 +108,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="병원정보 수정"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/btn" />
+            android:textColor="@color/black"
+            android:backgroundTint="@color/btn_gray" />
 
     </LinearLayout>
 

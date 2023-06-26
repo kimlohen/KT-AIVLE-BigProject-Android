@@ -3,8 +3,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="snow">#FFFFFAFA</color>
-    <color name="btn">#FFF1A983</color>
-    <color name="background">#FFF0FFFF</color>
+<!--    <color name="btn">#FFF1A983</color>-->
+    <color name="btn">#FED8C2</color>
+    <color name="btn_gray">#F0F0F0</color>
+    <color name="background">#FFFFFFFF</color>
     <color name="aquamarine">#FF7FFFD4</color>
     <color name="ad_back">#81A180</color>
 </resources>
