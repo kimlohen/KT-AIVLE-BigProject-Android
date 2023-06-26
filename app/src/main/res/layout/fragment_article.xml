@@ -183,15 +183,16 @@
         <ListView
             android:id="@+id/ansList"
             android:layout_width="350dp"
-            android:layout_height="200dp"
+            android:layout_height="500dp"
             android:layout_marginTop="16dp"
             android:divider="#ffffff"
             android:dividerHeight="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:nestedScrollingEnabled="false"
+            android:paddingBottom="40dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ansBtn"
-            app:layout_constraintVertical_bias="0.25" />
+            app:layout_constraintTop_toBottomOf="@+id/ansBtn" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

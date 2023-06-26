@@ -137,7 +137,7 @@ public class AnswerByGptActivity extends AppCompatActivity {
                 if(response.isSuccessful() && response.body() != null){
                     PictureResponse res = response.body();
                     String res_d = res.getModel_result();
-                    String res_t = res.getCreated_at();
+                    String res_t = res.getCreated_at().split("T")[0];
 
                     TextView tv_diseaseName = (TextView) findViewById(R.id.diseaseNameText);
                     tv_diseaseName.setText(res_d);

@@ -11,6 +11,8 @@ public class PictureResponse {
     private String created_at;
     @SerializedName("model_result")
     private String model_result;
+    @SerializedName("model_conf")
+    private String model_conf;
     @SerializedName("userid")
     private String userid;
     @SerializedName("pet_id")
@@ -61,6 +63,12 @@ public class PictureResponse {
 
     public void setPet_id(String pet_id) {
         this.pet_id = pet_id;
+    }
+    public String getModel_conf() {
+        return model_conf;
+    }
+    public void setModel_conf(String model_conf) {
+        this.model_conf = model_conf;
     }
 }
 
