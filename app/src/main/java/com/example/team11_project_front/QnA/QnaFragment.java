@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +40,8 @@ import retrofit2.Response;
 public class QnaFragment extends Fragment {
     private View view;
     private ArrayList<QnAInfo> qnAInfos;
-    private TextView beforeBtn, page1, page2, page3, page4, page5, afterBtn;
+    private TextView beforeBtn, page1, page2, page3, page4, page5, afterBtn, searchText;
+    private Button searchBtn;
     private ListView listView;
     private RetrofitClient retrofitClient;
     private qnaApi qnaApi;
@@ -57,6 +59,8 @@ public class QnaFragment extends Fragment {
         page4 = (TextView) view.findViewById(R.id.page4);
         page5 = (TextView) view.findViewById(R.id.page5);
         afterBtn = (TextView) view.findViewById(R.id.afterBtn);
+        searchText = (TextView) view.findViewById(R.id.searchText);
+        searchBtn = (Button) view.findViewById(R.id.searchBtn);
 
         beforeBtn.setEnabled(false);
         beforeBtn.setVisibility(beforeBtn.INVISIBLE);

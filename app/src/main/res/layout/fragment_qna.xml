@@ -45,18 +45,49 @@
         <ListView
             android:id="@+id/qnaList"
             android:layout_width="360dp"
-            android:layout_height="500dp"
+            android:layout_height="420dp"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="60dp"
-        />
+            android:layout_marginTop="20dp">
+
+        </ListView>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
+            android:layout_height="80dp"
             android:orientation="horizontal"
-            android:translationY="-40dp">
+            android:paddingTop="20dp">
+
+            <EditText
+                android:id="@+id/searchText"
+                style="@style/Text.NormalStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/round_border"
+                android:ems="10"
+                android:hint="검색어를 입력해주세요."
+                android:inputType="text"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/searchBtn"
+                style="@style/Text.BoldStyle"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:backgroundTint="@color/btn_gray"
+                android:text="검색"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/beforeBtn"

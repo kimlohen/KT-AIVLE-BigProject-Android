@@ -59,11 +59,16 @@ public class AnsAdapter extends BaseAdapter {
         TextView hos_name = (TextView) view.findViewById(R.id.ansHosName);
         TextView hos_intro = (TextView) view.findViewById(R.id.ansIntro);
 
-        writer.setText(list.get(i).getWriter());
-        date.setText(list.get(i).getDate());
-        ansText.setText(list.get(i).getContent());
         hos_name.setText(list.get(i).getHos_name());
         hos_intro.setText(list.get(i).getHos_intro());
+        date.setText(list.get(i).getDate());
+        ansText.setText(list.get(i).getContent());
+        if(hos_name.getText().equals("ChatGPT")){
+            callBtn.setVisibility(View.GONE);
+            writer.setText("");
+        }else{
+            writer.setText(list.get(i).getWriter());
+        }
 
         Thread mThread = new Thread(){
             @Override
