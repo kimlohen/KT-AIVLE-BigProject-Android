@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.example.team11_project_front.API.addPetApi;
 import com.example.team11_project_front.API.ansApi;
+import com.example.team11_project_front.API.changeHospitalApi;
 import com.example.team11_project_front.API.changePetApi;
 import com.example.team11_project_front.API.deletePetApi;
 import com.example.team11_project_front.API.deleteUserApi;
@@ -48,12 +49,16 @@ public class RetrofitClient {
     private static com.example.team11_project_front.API.changePetApi changePetApi;
     private static com.example.team11_project_front.API.petlistApi petlistApi;
     private static com.example.team11_project_front.API.deletePetApi deletePetApi;
+
     private static com.example.team11_project_front.API.hospitallistApi hospitallistApi;
+
+
     private static com.example.team11_project_front.API.naverLoginApi naverLoginApi;
     private static com.example.team11_project_front.API.pictureApi pictureApi;
     private static com.example.team11_project_front.API.ansApi ansApi;
     private static hospitalApi hosplitalApi;
     private static getHospitalApi getHospitalApi;
+    private static changeHospitalApi changeHospitalApi;
     private static getHospitalAdApi getHospitalAdApi;
     private static com.example.team11_project_front.API.postAnsApi postAnsApi;
     private static picturePostApi picturePostApi;
@@ -100,6 +105,8 @@ public class RetrofitClient {
         ansApi = retrofit.create(ansApi.class);
         hosplitalApi = retrofit.create(hospitalApi.class);
         getHospitalApi = retrofit.create(getHospitalApi.class);
+        changeHospitalApi = retrofit.create(changeHospitalApi.class);
+
         getHospitalAdApi = retrofit.create(getHospitalAdApi.class);
         postAnsApi = retrofit.create(postAnsApi.class);
         picturePostApi = retrofit.create(picturePostApi.class);
@@ -138,6 +145,9 @@ public class RetrofitClient {
     public static ansApi getRetrofitAnswerInterface() { return ansApi; }
     public static hospitalApi getRetrofitHospitalInterface() { return hosplitalApi; }
     public static getHospitalApi getRetrofitGetHospitalInterface() { return getHospitalApi; }
+    public static changeHospitalApi getRetrofitChangeHospitalInterface() {
+        return changeHospitalApi;
+    }
     public static getHospitalAdApi getRetrofitGetHospitalAdInterface() { return getHospitalAdApi; }
     public static postAnsApi getRetrofitPostAnswerInterface() { return postAnsApi; }
     public static picturePostApi getRetrofitPostPictureInterface() { return picturePostApi; }

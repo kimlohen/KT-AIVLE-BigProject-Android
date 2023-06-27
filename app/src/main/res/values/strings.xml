@@ -11,6 +11,7 @@
 
     <string name="diagnosis_skin">피부질환 진단하기</string>
     <string name="post_qna">질문 등록</string>
+    <string name="ai_diagnosis">AI 진단</string>
     <string name="return_home">돌아가기</string>
     <string name="id_plain_text">ID</string>
     <string name="pw_plain_text">PW</string>

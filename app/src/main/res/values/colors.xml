@@ -9,4 +9,5 @@
     <color name="background">#FFFFFFFF</color>
     <color name="aquamarine">#FF7FFFD4</color>
     <color name="ad_back">#81A180</color>
+    <color name="btn_dialog">#FFCC6600</color>
 </resources>

@@ -6,6 +6,7 @@ public class HospitalInfo {
     private String address;
     private String tel;
     private String introduction;
+
     private String hos_profile_img;
     public HospitalInfo(String id, String name, String tel, String address, String introduction, String hos_profile_img) {
         this.id = id;
@@ -29,6 +30,7 @@ public class HospitalInfo {
     public void setName(String name) {
         this.name = name;
     }
+
 
     public String getAddress() {
         return address;
