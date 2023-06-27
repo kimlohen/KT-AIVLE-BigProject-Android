@@ -55,12 +55,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.FileUtils;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -72,21 +70,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.team11_project_front.API.picturePostApi;
-import com.example.team11_project_front.Data.PicturePostRequest;
 import com.example.team11_project_front.Data.PictureResponse;
 import com.example.team11_project_front.QnA.QnaFragment;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -176,9 +170,9 @@ public class AnswerByGptActivity extends AppCompatActivity {
 
         // 사진은 전 단계에 있던 사진 가져오면 된다고 본다면, 병명, 검사일자,GPT 가져오는 장소, 그리고 여러종류의 id(user_id,진단_id) 가져와야한다.
 
-        diseaseNameText.setText("황소병");
+        diseaseNameText.setText("예측중입니다.");
         diagonistDateText.setText("2023-06-26");
-        proabilityText.setText("95.53%");
+        proabilityText.setText("계산중입니다.");
 
 
 
