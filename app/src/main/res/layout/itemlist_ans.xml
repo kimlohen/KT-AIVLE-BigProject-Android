@@ -1,42 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout3"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/round_border"
-    android:orientation="vertical"
-    android:paddingBottom="20dp">
+    android:paddingBottom="8dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/ansName"
-            style="@style/Text.BoldStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:ems="8"
-            android:paddingLeft="8dp"
-            android:text="홍길동"
-            android:textAlignment="viewStart" />
+    <TextView
+        android:id="@+id/ansName"
+        style="@style/Text.BoldStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="홍길동"
+        android:textAlignment="viewStart"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/ansIntro" />
 
-        <TextView
-            android:id="@+id/ansDate"
-            style="@style/Text.NormalStyle"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:maxLength="10"
-            android:maxLines="1"
-            android:paddingRight="8dp"
-            android:text="2023-06-16"
-            android:textAlignment="textEnd" />
+    <TextView
+        android:id="@+id/ansHosName"
+        style="@style/Text.BoldStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:text="동물병원"
+        android:textAlignment="viewStart"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/ansIntro"
+        style="@style/Text.NormalStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="친절한 병원"
+        android:textAlignment="viewStart"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/ansHosName" />
+
+    <TextView
+        android:id="@+id/ansDate"
+        style="@style/Text.NormalStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:maxLength="10"
+        android:maxLines="1"
+        android:paddingRight="8dp"
+        android:text="2023-06-16"
+        android:textAlignment="textEnd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ansIntro" />
+
+    <TextView
+        android:id="@+id/callBtn"
+        style="@style/Text.NormalStyle"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/round_border"
+        android:backgroundTint="@color/btn"
+        android:clickable="true"
+        android:focusable="auto"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:paddingTop="10dp"
+        android:text="전화상담"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
         <TextView
             android:id="@+id/callBtn"
             style="@style/Text.NormalStyle"
@@ -46,13 +88,13 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@drawable/round_border"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/btn"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/btn_gray"
             android:clickable="true"
             android:focusable="auto"
             android:foreground="?android:attr/selectableItemBackground"
             android:paddingTop="4dp"
-            android:text="연락하기"
+            android:text="전화상담"
             android:textAlignment="center" />
 
     </LinearLayout>
@@ -67,15 +109,27 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/ansText"
-                style="@style/Text.NormalStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="8dp"
-                android:paddingBottom="8dp"
-                android:text="답변" />
-        </LinearLayout>
-    </ScrollView>
+    <TextView
+        android:id="@+id/ansText"
+        style="@style/Text.NormalStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="8dp"
+        android:text="답변"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
 </LinearLayout>

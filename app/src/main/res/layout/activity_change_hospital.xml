@@ -16,19 +16,15 @@
 
         <ImageView
             android:id="@+id/petBackBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
-            android:background="@drawable/right_icon"
+            android:background="@drawable/backicon"
             android:clickable="true"
             android:focusable="auto"
             android:foreground="?android:attr/selectableItemBackground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.08"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.05" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView"
@@ -112,8 +108,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="병원정보 수정"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/btn" />
+            android:textColor="@color/black"
+            android:backgroundTint="@color/btn_gray" />
 
     </LinearLayout>
 

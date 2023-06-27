@@ -55,7 +55,7 @@ public class PetRegisterActivity extends AppCompatActivity implements View.OnCli
         aButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                aButton.setBackgroundColor(Color.rgb(124,252,0));
+                aButton.setBackgroundColor(Color.rgb(240,240,240));
                 bButton.setBackgroundColor(Color.TRANSPARENT);
                 genderButton = 1;
             }
@@ -64,7 +64,7 @@ public class PetRegisterActivity extends AppCompatActivity implements View.OnCli
         bButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bButton.setBackgroundColor(Color.rgb(124,252,0));
+                bButton.setBackgroundColor(Color.rgb(240,240,240));
                 aButton.setBackgroundColor(Color.TRANSPARENT);
                 genderButton = 2;
             }
@@ -73,7 +73,7 @@ public class PetRegisterActivity extends AppCompatActivity implements View.OnCli
         cButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cButton.setBackgroundColor(Color.rgb(255,192,203));
+                cButton.setBackgroundColor(Color.rgb(240,240,240));
                 dButton.setBackgroundColor(Color.TRANSPARENT);
                 speciesButton = 1;
             }
@@ -83,7 +83,7 @@ public class PetRegisterActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onClick(View v) {
                 cButton.setBackgroundColor(Color.TRANSPARENT);
-                dButton.setBackgroundColor(Color.rgb(255,192,203));
+                dButton.setBackgroundColor(Color.rgb(240,240,240));
                 speciesButton = 2;
             }
         });

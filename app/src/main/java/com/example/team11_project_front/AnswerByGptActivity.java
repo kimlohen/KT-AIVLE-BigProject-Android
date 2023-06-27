@@ -49,11 +49,20 @@
 
 package com.example.team11_project_front;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.FileUtils;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -63,12 +72,28 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.team11_project_front.API.picturePostApi;
+import com.example.team11_project_front.Data.PicturePostRequest;
+import com.example.team11_project_front.Data.PictureResponse;
 import com.example.team11_project_front.QnA.QnaFragment;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AnswerByGptActivity extends AppCompatActivity {
 
@@ -80,17 +105,64 @@ public class AnswerByGptActivity extends AppCompatActivity {
 
     private int flag = -1;
 
+    @SuppressLint("WrongThread")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_by_gpt);
 
         // 이미지 URI
-        String selectedImageUriString = getIntent().getStringExtra("selectedImageUri");
-        // Log.d("SelectedImageUri", selectedImageUriString); // 로그 출력
-        if (selectedImageUriString != null) {
-            Uri selectedImageUri = Uri.parse(selectedImageUriString);
-            // 이제 selectedImageUri를 사용하여 이미지를 처리할 수 있습니다.
+        String path = getIntent().getStringExtra("image");
+        Bitmap bitmap;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), Uri.parse(path));
+            try {
+                bitmap = ImageDecoder.decodeBitmap(source);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else{
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse(path));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
+
+        ImageView imageView = findViewById(R.id.imageView);
+        Bitmap scaled_bitmap = bitmap.createScaledBitmap(bitmap, 200, 200, false);
+        imageView.setImageBitmap(scaled_bitmap);
+
+        Cursor cursor = getContentResolver().query(Uri.parse(path), null, null, null, null);
+        cursor.moveToNext();
+        int idx = cursor.getColumnIndex("_data");
+        File file = new File(cursor.getString(idx));
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("photo", file.getName(), requestFile);
+
+        String pet_id = getIntent().getStringExtra("pet_id");
+        MultipartBody.Part textPart = MultipartBody.Part.createFormData("pet_id", pet_id);
+
+        RetrofitClient retrofitClient = RetrofitClient.getInstance();
+        picturePostApi picturePostApi = retrofitClient.getRetrofitPostPictureInterface();
+        picturePostApi.getPictureResponse("Bearer " + getPreferenceString("acessToken"), filePart, textPart).enqueue(new Callback<PictureResponse>() {
+            @Override
+            public void onResponse(Call<PictureResponse> call, Response<PictureResponse> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    PictureResponse res = response.body();
+                    String res_d = res.getModel_result();
+                    String res_t = res.getCreated_at().split("T")[0];
+
+                    TextView tv_diseaseName = (TextView) findViewById(R.id.diseaseNameText);
+                    tv_diseaseName.setText(res_d);
+                    TextView tv_date = (TextView) findViewById(R.id.diagonistDateText);
+                    tv_date.setText(res_t);
+                }
+            }
+            @Override
+            public void onFailure(Call<PictureResponse> call, Throwable t) {
+                Log.e("dia", t.toString());
+            }
+        });
 
 
 
@@ -158,17 +230,17 @@ public class AnswerByGptActivity extends AppCompatActivity {
         TextView dialogContent = gptDialog.findViewById(R.id.dialogContent);
         Button closeButton = gptDialog.findViewById(R.id.closeButton);
         dialogTitle.setText("AI 진단");
-        
-        
-        
+
+
+
         // gpt 부분
         dialogContent.setText("GPT를 통한 이 질환은 다음과 같은 진단을 내릴 수 있습니다.");
 
-        
-        
-        
-        
-        
+
+
+
+
+
         //
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -271,5 +343,18 @@ public class AnswerByGptActivity extends AppCompatActivity {
             }
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    // 데이터를 내부 저장소에 저장하기
+    public void setPreference(String key, String value){
+        SharedPreferences pref = getSharedPreferences("DATA_STORE", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+    // 내부 저장소에 저장된 데이터 가져오기
+    public String getPreferenceString(String key) {
+        SharedPreferences pref = getSharedPreferences("DATA_STORE", MODE_PRIVATE);
+        return pref.getString(key, "");
     }
 }

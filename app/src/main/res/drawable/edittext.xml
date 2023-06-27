@@ -13,7 +13,7 @@
         <path
             android:pathData="M5 0H275C277.761 0 280 2.23858 280 5V38C280 40.7614 277.761 43 275 43H5C2.23858 43 0 40.7614 0 38V5C0 2.23858 2.23858 0 5 0Z"
             android:strokeWidth="2"
-            android:strokeColor="#D9D9D9"
+            android:strokeColor="#FFFFFF"
             />
     </group>
 </vector>

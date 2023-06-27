@@ -75,11 +75,11 @@ public class PetAdapter extends BaseAdapter {
         String CheckGender = list.get(i).getGender();
 
         if(CheckGender.equals("M")) {
-            gender.setText("수컷");
+            gender.setText("남아");
             
         }
         else if(CheckGender.equals("F")) {
-            gender.setText("암컷");
+            gender.setText("여아");
         }
         else {
             gender.setText(CheckGender);

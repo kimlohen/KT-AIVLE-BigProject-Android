@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -219,11 +220,15 @@ public class ArticleFragment extends Fragment {
                             String user_name = element.getUser_name();
                             String contents = element.getContents();
                             String date = element.getCreated_at();
-                            AnsInfo info = new AnsInfo(user_name, date, contents, hospital_num);
+                            String hos_name = element.getHos_info().getHos_name();
+                            String hos_intro = element.getHos_info().getIntroduction();
+                            String hos_profile = element.getHos_info().getHos_profile_img();
+                            AnsInfo info = new AnsInfo(user_name, date, contents, hospital_num, hos_name, hos_intro, hos_profile);
                             ansInfos.add(info);
                         });
                         AnsAdapter adapter = new AnsAdapter(getContext(), ansInfos);
                         listView.setAdapter(adapter);
+                        setListViewHeightBasedOnChildren(listView);
                     }
                 }
                 @Override
@@ -248,4 +253,31 @@ public class ArticleFragment extends Fragment {
         SharedPreferences pref = getActivity().getSharedPreferences("DATA_STORE", MODE_PRIVATE);
         return pref.getString(key, "");
     }
+
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            //listItem.measure(0, 0);
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += listItem.getMeasuredHeight();
+            totalHeight += 100;
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+
+        params.height = totalHeight;
+        listView.setLayoutParams(params);
+
+        listView.requestLayout();
+    }
+
 }
