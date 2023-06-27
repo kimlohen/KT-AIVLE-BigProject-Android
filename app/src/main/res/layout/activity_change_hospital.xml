@@ -104,6 +104,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/editButton"
+            style="@style/Text.BoldStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

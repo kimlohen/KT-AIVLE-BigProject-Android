@@ -29,13 +29,14 @@
 
         <TextView
             android:id="@+id/textView5"
+            style="@style/Text.BoldStyle"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_weight="1"
             android:gravity="center_horizontal"
+            android:paddingTop="8dp"
             android:text="피부질환 진단 결과"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+            android:textSize="28sp" />
     </LinearLayout>
 
     <View
@@ -65,13 +66,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="예측병명"
+            style="@style/Text.BoldStyle"
             tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/diseaseNameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            style="@style/Text.NormalStyle"
             android:ems="10"
             android:gravity="center"
 
@@ -91,6 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="예측일자"
+            style="@style/Text.BoldStyle"
             tools:ignore="MissingConstraints" />
 
         <TextView
@@ -100,6 +103,7 @@
             android:ems="10"
             android:gravity="center"
             android:text="0000-00-00"
+            style="@style/Text.NormalStyle"
             tools:ignore="MissingConstraints" />
     </LinearLayout>
 
@@ -115,6 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="  가능성  "
+            style="@style/Text.BoldStyle"
             tools:ignore="MissingConstraints" />
 
         <TextView
@@ -123,6 +128,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="center"
+            style="@style/Text.NormalStyle"
             android:text="계산중입니다..."
             tools:ignore="MissingConstraints" />
     </LinearLayout>
@@ -139,6 +145,7 @@
             android:layout_height="50dp"
             android:backgroundTint="@color/btn"
             android:text="@string/ai_diagnosis"
+            style="@style/Text.BoldStyle"
             android:textColor="@color/white"
             android:textSize="16sp"
             tools:ignore="MissingConstraints" />
@@ -150,6 +157,7 @@
             android:layout_gravity="fill_horizontal"
             android:backgroundTint="@color/btn"
             android:text="@string/post_qna"
+            style="@style/Text.BoldStyle"
             android:textColor="@color/white"
             android:textSize="16sp"
             tools:ignore="MissingConstraints" />
@@ -164,6 +172,7 @@
         android:layout_margin="16dp"
         android:backgroundTint="@color/white"
         android:text="@string/return_home"
+        style="@style/Text.BoldStyle"
         android:textColor="@color/btn"
         android:textSize="16sp"
         tools:ignore="MissingConstraints" />

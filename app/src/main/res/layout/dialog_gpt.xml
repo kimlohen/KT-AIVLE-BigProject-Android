@@ -21,7 +21,7 @@
 
     <ScrollView
         android:layout_width="280dp"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
         android:background="@drawable/scrollview_border">
@@ -52,14 +52,14 @@
 
         <Button
             android:id="@+id/closeButton"
-            android:layout_width="280dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_margin="16dp"
-            android:backgroundTint="@color/background"
-            android:text="@string/return_home"
+            android:backgroundTint="@color/btn"
             android:fontFamily="@font/maplestory_bold"
-            android:textColor="@color/btn_dialog"
+            android:text="@string/return_home"
+            android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
 

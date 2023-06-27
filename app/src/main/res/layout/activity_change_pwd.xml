@@ -77,11 +77,12 @@
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/Text.BoldStyle"
+            android:backgroundTint="@color/btn_gray"
             android:onClick="onclickPwdChk01"
             android:text="비밀번호 변경"
-            android:textStyle="bold"
             android:textColor="@color/black"
-            android:backgroundTint="@color/btn_gray" />
+            />
     </LinearLayout>
 
 

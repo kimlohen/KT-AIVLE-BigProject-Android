@@ -73,9 +73,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.team11_project_front.API.gptApi;
 import com.example.team11_project_front.API.picturePostApi;
 import com.example.team11_project_front.Data.AddQRequest;
 import com.example.team11_project_front.Data.AddQResponse;
+import com.example.team11_project_front.Data.GPTRequest;
 import com.example.team11_project_front.Data.PictureResponse;
 
 import org.json.JSONArray;
@@ -104,8 +106,6 @@ public class AnswerByGptActivity extends AppCompatActivity {
     private RetrofitClient retrofitClient;
     private com.example.team11_project_front.API.addQApi addQApi;
     private String PictureId;
-
-
 
     private int flag = -1;
 
@@ -215,7 +215,7 @@ public class AnswerByGptActivity extends AppCompatActivity {
                     client.newCall(request).enqueue(new okhttp3.Callback() {
                         @Override
                         public void onFailure(okhttp3.Call call, IOException e) {
-
+                            e.printStackTrace();
                         }
 
                         @Override
@@ -225,8 +225,21 @@ public class AnswerByGptActivity extends AppCompatActivity {
                                 try{
                                     jsonObject = new JSONObject(response.body().string());
                                     JSONArray jsonArray = jsonObject.getJSONArray("choices");
-                                     gptResult = jsonArray.getJSONObject(0).getString("text");
-                                     gpt_flag = true;
+                                    gptResult = jsonArray.getJSONObject(0).getString("text");
+                                    gpt_flag = true;
+                                    GPTRequest gptRequest = new GPTRequest(gptResult);
+                                    gptApi gptApi = RetrofitClient.getRetrofitGPTInterface();
+                                    gptApi.gptResponse("Bearer " + getPreferenceString("acessToken"), picId, gptRequest).enqueue(new Callback<PictureResponse>() {
+                                        @Override
+                                        public void onResponse(Call<PictureResponse> call, Response<PictureResponse> response) {
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<PictureResponse> call, Throwable t) {
+                                            t.printStackTrace();
+                                        }
+                                    });
                                 }catch (JSONException e){
                                     e.printStackTrace();
                                 }
@@ -323,8 +336,6 @@ public class AnswerByGptActivity extends AppCompatActivity {
         gptDialog.show();
     }
 
-
-    //
     void showQuestionDialog() {
 
         questionDialog = new Dialog(this);

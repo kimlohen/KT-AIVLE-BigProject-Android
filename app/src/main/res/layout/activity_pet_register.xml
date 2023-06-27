@@ -149,13 +149,13 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addPetBtn"
-        style="@style/Text.NormalStyle"
+        style="@style/Text.BoldStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="216dp"
+        android:backgroundTint="@color/btn_gray"
         android:text="동물 추가"
         android:textColor="@color/black"
-        android:backgroundTint="@color/btn_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

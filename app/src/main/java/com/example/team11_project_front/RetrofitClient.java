@@ -21,7 +21,7 @@ import com.example.team11_project_front.API.picturePostApi;
 import com.example.team11_project_front.API.postAnsApi;
 import com.example.team11_project_front.API.qnaApi;
 import com.example.team11_project_front.API.refreshApi;
-import com.example.team11_project_front.API.getHospitalAdApi;
+import com.example.team11_project_front.API.gptApi;
 import com.google.gson.internal.GsonBuildConfig;
 
 import java.util.concurrent.TimeUnit;
@@ -46,11 +46,7 @@ public class RetrofitClient {
     private static com.example.team11_project_front.API.changePetApi changePetApi;
     private static com.example.team11_project_front.API.petlistApi petlistApi;
     private static com.example.team11_project_front.API.deletePetApi deletePetApi;
-
     private static com.example.team11_project_front.API.hospitallistApi hospitallistApi;
-
-
-    private static com.example.team11_project_front.API.naverLoginApi naverLoginApi;
     private static com.example.team11_project_front.API.pictureApi pictureApi;
     private static com.example.team11_project_front.API.ansApi ansApi;
     private static hospitalApi hosplitalApi;
@@ -60,6 +56,7 @@ public class RetrofitClient {
     private static com.example.team11_project_front.API.postAnsApi postAnsApi;
     private static picturePostApi picturePostApi;
     private static com.example.team11_project_front.API.addQApi addQApi;
+    private static gptApi gptApi;
     //사용하고 있는 서버 BASE 주소
     private static String baseUrl = "http://3.38.191.199/";
 
@@ -98,17 +95,16 @@ public class RetrofitClient {
         petlistApi = retrofit.create(petlistApi.class);
         changePetApi = retrofit.create(changePetApi.class);
         deletePetApi = retrofit.create(deletePetApi.class);
-        naverLoginApi = retrofit.create(naverLoginApi.class);
         pictureApi = retrofit.create(pictureApi.class);
         ansApi = retrofit.create(ansApi.class);
         hosplitalApi = retrofit.create(hospitalApi.class);
         getHospitalApi = retrofit.create(getHospitalApi.class);
         changeHospitalApi = retrofit.create(changeHospitalApi.class);
-
         getHospitalAdApi = retrofit.create(getHospitalAdApi.class);
         postAnsApi = retrofit.create(postAnsApi.class);
         picturePostApi = retrofit.create(picturePostApi.class);
         addQApi = retrofit.create(com.example.team11_project_front.API.addQApi.class);
+        gptApi = retrofit.create(gptApi.class);
     }
 
     public static RetrofitClient getInstance() {
@@ -138,18 +134,14 @@ public class RetrofitClient {
     public static changePetApi getRetrofitChangePetInterface() { return changePetApi; }
     public static petlistApi getRetrofitPetlistInterface() { return petlistApi; }
     public static deletePetApi getRetrofitDeletePetInterface() { return deletePetApi; }
-    public static com.example.team11_project_front.API.hospitallistApi getRetrofitHospitallistInterface() { return hospitallistApi; }
-    public static naverLoginApi getRetrofitNaverLoginInterface() { return naverLoginApi; }
     public static pictureApi getRetrofitPictureInterface() { return pictureApi; }
     public static ansApi getRetrofitAnswerInterface() { return ansApi; }
     public static hospitalApi getRetrofitHospitalInterface() { return hosplitalApi; }
     public static getHospitalApi getRetrofitGetHospitalInterface() { return getHospitalApi; }
-    public static changeHospitalApi getRetrofitChangeHospitalInterface() {
-        return changeHospitalApi;
-    }
+    public static changeHospitalApi getRetrofitChangeHospitalInterface() { return changeHospitalApi; }
     public static getHospitalAdApi getRetrofitGetHospitalAdInterface() { return getHospitalAdApi; }
     public static postAnsApi getRetrofitPostAnswerInterface() { return postAnsApi; }
     public static picturePostApi getRetrofitPostPictureInterface() { return picturePostApi; }
     public static com.example.team11_project_front.API.addQApi getRetrofitAddQInterface() { return addQApi; }
-
+    public static gptApi getRetrofitGPTInterface() { return gptApi; }
 }
