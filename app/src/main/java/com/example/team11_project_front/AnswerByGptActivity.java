@@ -81,6 +81,7 @@ import com.example.team11_project_front.QnA.QnaFragment;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -134,6 +135,7 @@ public class AnswerByGptActivity extends AppCompatActivity {
         ImageView imageView = findViewById(R.id.imageView);
         TextView tv_diseaseName = (TextView) findViewById(R.id.diseaseNameText);
         TextView tv_date = (TextView) findViewById(R.id.diagonistDateText);
+        TextView tv_score = (TextView) findViewById(R.id.diagonistScoreText);
         TextView tv_gpt = (TextView) findViewById(R.id.explanationGPT);
 
         Bitmap scaled_bitmap = bitmap.createScaledBitmap(bitmap, 200, 200, false);
@@ -161,32 +163,27 @@ public class AnswerByGptActivity extends AppCompatActivity {
                     String res_t = res.getCreated_at().split("T")[0];
 
                     tv_diseaseName.setText(res_d);
+                    tv_score.setText(res_p);
+
                     tv_date.setText(res_t);
                     String question = "반려견 피부질환 AI model이 " + res_p + "%의 Confidence로 " + res_d + "을/를 예상하고있어.\n이 병명에 대해서 간단한 설명을 해줘.";
 
                     JSONArray arr = new JSONArray();
-                    JSONObject baseAi = new JSONObject();
-                    JSONObject userMsg = new JSONObject();
-                    try{
-                        baseAi.put("role", "user");
-                        baseAi.put("content", "You are a helpful and kind AI Assistant.");
-                        userMsg.put("role", "user");
-                        userMsg.put("content", question);
-                        arr.put(baseAi);
-                        arr.put(userMsg);
-                    }catch (JSONException e){
-                        throw new RuntimeException(e);
-                    }
                     JSONObject object = new JSONObject();
                     try{
-                        object.put("model", "gpt-3.5-turbo");
-                        object.put("messages", arr);
+                        object.put("model", "text-davinci-003");
+                        object.put("prompt", question);
+                        object.put("temperature", 0.4);
+                        object.put("max_tokens", 1000);
+                        object.put("top_p", 1);
+                        object.put("frequency_penalty", 0);
+                        object.put("presence_penalty", 0);
                     } catch (JSONException e){
                         e.printStackTrace();
                     }
                     RequestBody body = RequestBody.create(MediaType.get("application/json"), object.toString());
                     Request request = new Request.Builder()
-                            .url("https://api.openai.com/v1/chat/completions")
+                            .url("https://api.openai.com/v1/completions")
                             .header("Authorization", "Bearer " + "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")
                             .post(body)
                             .build();
@@ -203,7 +200,7 @@ public class AnswerByGptActivity extends AppCompatActivity {
                                 try{
                                     jsonObject = new JSONObject(response.body().string());
                                     JSONArray jsonArray = jsonObject.getJSONArray("choices");
-                                    String result = jsonArray.getJSONObject(0).getJSONObject("message").getString("content");
+                                    String result = jsonArray.getJSONObject(0).getString("text");
                                     tv_gpt.setText(result);
                                 }catch (JSONException e){
                                     e.printStackTrace();

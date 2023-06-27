@@ -209,11 +209,11 @@ android:paddingTop="20dp">
                 android:id="@+id/question"
                 style="@style/Text.NormalStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="8dp"
+                android:layout_height="match_parent"
                 android:background="@null"
                 android:hint="질문을 입력해주세요."
-                android:textSize="14sp"/>
+                android:paddingLeft="8dp"
+                android:textSize="14sp" />
         </LinearLayout>
     </ScrollView>
 
