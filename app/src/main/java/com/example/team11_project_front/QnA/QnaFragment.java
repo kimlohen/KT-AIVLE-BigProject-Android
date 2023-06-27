@@ -1,18 +1,24 @@
 package com.example.team11_project_front.QnA;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
+import static android.content.Context.KEYGUARD_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -173,6 +179,18 @@ public class QnaFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 searchList(searchText.getText().toString());
+            }
+        });
+
+        searchText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                switch (keyCode){
+                    case KeyEvent.KEYCODE_ENTER:
+                        searchList(searchText.getText().toString());
+                        break;
+                }
+                return false;
             }
         });
 
