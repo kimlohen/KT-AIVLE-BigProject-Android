@@ -72,12 +72,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.team11_project_front.API.picturePostApi;
+import com.example.team11_project_front.Data.AddQRequest;
+import com.example.team11_project_front.Data.AddQResponse;
 import com.example.team11_project_front.Data.PictureResponse;
-import com.example.team11_project_front.QnA.QnaFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -103,6 +102,12 @@ public class AnswerByGptActivity extends AppCompatActivity {
     private Dialog questionDialog, gptDialog;
     private EditText questionEditText,TitleEditText;
     private Button btn_ai_diagnosis;
+
+    private RetrofitClient retrofitClient;
+    private com.example.team11_project_front.API.addQApi addQApi;
+    private String PictureId;
+
+
 
     private int flag = -1;
 
@@ -277,8 +282,7 @@ public class AnswerByGptActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // HomeFragment 인스턴스 생성
-                Intent intent = new Intent(AnswerByGptActivity.this, MainActivity.class);
-                startActivity(intent);
+
             }
         });
 
@@ -327,10 +331,15 @@ public class AnswerByGptActivity extends AppCompatActivity {
     //
     void showQuestionDialog() {
 
+
+
+
         questionDialog = new Dialog(this);
         questionDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         questionDialog.setContentView(R.layout.dialog_question);
         questionDialog.setCanceledOnTouchOutside(false);
+
+
 
         TitleEditText = questionDialog.findViewById(R.id.question_title_edit_text);
         questionEditText = questionDialog.findViewById(R.id.question_content_edit_text);
@@ -342,19 +351,22 @@ public class AnswerByGptActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String title = TitleEditText.getText().toString();
                 String question = questionEditText.getText().toString();
+
+                // register을 통해서 통신을 한다.
+                registerQuestion(title,question);
+
+                //초기화한다.
                 registerQuestion(title, question, picId);
                 flag = 1;
-                dismissQuestionDialog();
-                if (flag == 1) {
-                    // QnaFragment 인스턴스 생성
-                    QnaFragment qnaFragment = new QnaFragment();
 
-                    // FragmentManager: AnswerByGptActivity -> QnaFragment
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_qna, qnaFragment);
-                    fragmentTransaction.commit();
-                }
+
+                // MainActivity 로 이동하는 부분.
+                Intent intent = new Intent(AnswerByGptActivity.this, MainActivity.class);
+                startActivity(intent);
+
+
+
+
 
             }
         });
@@ -381,12 +393,42 @@ public class AnswerByGptActivity extends AppCompatActivity {
         // 질문 등록 로직을 수행하는 부분
         // 여기서는 간단히 토스트 메시지로 질문을 보여줍니다.
 
+        retrofitClient = RetrofitClient.getInstance();
+        com.example.team11_project_front.API.addQApi addQApi = RetrofitClient.getRetrofitAddQInterface();
 
 
         Toast.makeText(this, "제목이" + title + "질문이 등록되었습니다: " + question, Toast.LENGTH_SHORT).show();
 
 
+        AddQRequest addQRequest = new AddQRequest(title,question, PictureId);
 
+
+        addQApi.getAddQResponse("Bearer " + getPreferenceString("acessToken"),addQRequest).enqueue(new Callback<AddQResponse>() {
+            @Override
+            public void onResponse(Call<AddQResponse> call, Response<AddQResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    AddQResponse Qres = response.body();
+                    String q_id = Qres.getQ_id();
+                    String q_title = Qres.getTitle();
+                    String q_contents = Qres.getContents();
+                    String q_created_at = Qres.getCreated_at();
+                    String q_updated_at = Qres.getUpdated_at();
+                    String q_user_id = Qres.getUser_id();
+                    String q_picture_id = Qres.getPicture_id();
+
+                    Toast.makeText(AnswerByGptActivity.this, "질문 등록이 되었습니다.", Toast.LENGTH_LONG).show();
+
+                    onBackPressed();
+                }else{
+                    Toast.makeText(AnswerByGptActivity.this, "등록이 실패하였습니다.", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddQResponse> call, Throwable t) {
+                Toast.makeText(AnswerByGptActivity.this, "서버에 요청이 실패하였습니다.", Toast.LENGTH_LONG).show();
+            }
+        });
 
 
     }

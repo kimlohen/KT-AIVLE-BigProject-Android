@@ -1,9 +1,5 @@
 package com.example.team11_project_front;
 
-import android.graphics.Picture;
-
-import androidx.annotation.NonNull;
-
 import com.example.team11_project_front.API.addPetApi;
 import com.example.team11_project_front.API.ansApi;
 import com.example.team11_project_front.API.changeHospitalApi;
@@ -12,6 +8,7 @@ import com.example.team11_project_front.API.deletePetApi;
 import com.example.team11_project_front.API.deleteUserApi;
 import com.example.team11_project_front.API.emailApi;
 import com.example.team11_project_front.API.emailVerifyApi;
+import com.example.team11_project_front.API.getHospitalAdApi;
 import com.example.team11_project_front.API.getHospitalApi;
 import com.example.team11_project_front.API.hospitalApi;
 import com.example.team11_project_front.API.joinApi;
@@ -20,11 +17,11 @@ import com.example.team11_project_front.API.logoutApi;
 import com.example.team11_project_front.API.naverLoginApi;
 import com.example.team11_project_front.API.petlistApi;
 import com.example.team11_project_front.API.pictureApi;
+import com.example.team11_project_front.API.picturePostApi;
+import com.example.team11_project_front.API.postAnsApi;
 import com.example.team11_project_front.API.qnaApi;
 import com.example.team11_project_front.API.refreshApi;
-import com.example.team11_project_front.API.postAnsApi;
 import com.example.team11_project_front.API.getHospitalAdApi;
-import com.example.team11_project_front.API.picturePostApi;
 import com.google.gson.internal.GsonBuildConfig;
 
 import java.util.concurrent.TimeUnit;
@@ -62,6 +59,7 @@ public class RetrofitClient {
     private static getHospitalAdApi getHospitalAdApi;
     private static com.example.team11_project_front.API.postAnsApi postAnsApi;
     private static picturePostApi picturePostApi;
+    private static com.example.team11_project_front.API.addQApi addQApi;
     //사용하고 있는 서버 BASE 주소
     private static String baseUrl = "http://3.38.191.199/";
 
@@ -110,6 +108,7 @@ public class RetrofitClient {
         getHospitalAdApi = retrofit.create(getHospitalAdApi.class);
         postAnsApi = retrofit.create(postAnsApi.class);
         picturePostApi = retrofit.create(picturePostApi.class);
+        addQApi = retrofit.create(com.example.team11_project_front.API.addQApi.class);
     }
 
     public static RetrofitClient getInstance() {
@@ -151,4 +150,6 @@ public class RetrofitClient {
     public static getHospitalAdApi getRetrofitGetHospitalAdInterface() { return getHospitalAdApi; }
     public static postAnsApi getRetrofitPostAnswerInterface() { return postAnsApi; }
     public static picturePostApi getRetrofitPostPictureInterface() { return picturePostApi; }
+    public static com.example.team11_project_front.API.addQApi getRetrofitAddQInterface() { return addQApi; }
+
 }

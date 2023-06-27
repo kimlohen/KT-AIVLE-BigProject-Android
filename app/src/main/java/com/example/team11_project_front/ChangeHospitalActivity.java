@@ -46,8 +46,8 @@ public class ChangeHospitalActivity extends AppCompatActivity {
         Intent intent = getIntent();
         HID = intent.getStringExtra("id");
         String Hna = intent.getStringExtra("name");
-        String Hte = intent.getStringExtra("tel");
         String Hlo = intent.getStringExtra("address");
+        String Hte = intent.getStringExtra("tel");
         String Hin = intent.getStringExtra("intro");
 
         HospitalName = findViewById(R.id.HospitalName);
