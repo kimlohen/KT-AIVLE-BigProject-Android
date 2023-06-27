@@ -157,10 +157,19 @@ public class AnswerByGptActivity extends AppCompatActivity {
         TextView dialogTitle = gptDialog.findViewById(R.id.dialogTitle);
         TextView dialogContent = gptDialog.findViewById(R.id.dialogContent);
         Button closeButton = gptDialog.findViewById(R.id.closeButton);
-
         dialogTitle.setText("AI 진단");
+        
+        
+        
+        // gpt 부분
         dialogContent.setText("GPT를 통한 이 질환은 다음과 같은 진단을 내릴 수 있습니다.");
 
+        
+        
+        
+        
+        
+        //
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
