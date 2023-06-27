@@ -48,7 +48,7 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
     private androidx.appcompat.widget.AppCompatButton btn_register_pic;
     private Spinner spinner;
     private InCallService.VideoCall preview;
-    private Bitmap bitmap;
+    Bitmap bitmap;
     private boolean havePicture = false;
     private String petId;
 
@@ -63,7 +63,6 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
         btn_take_pic = findViewById(R.id.btn_take_pic);
         btn_register_pic = findViewById(R.id.btn_register_pic);
         ImageView backBtn = findViewById(R.id.backBtn);
-
         spinner = (Spinner) findViewById(R.id.diagonsisSpin);
 
         // Spinner에 표시할 항목 배열
@@ -101,8 +100,6 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 petId = petIdx.get(position)+"";
-                Log.e("petNmae", petOptions.get(position) +"");
-                Log.e("petId", petIdx.get(position) +"");
             }
 
             @Override
@@ -140,8 +137,7 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
                 if (havePicture) {
                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                    String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Image", null);
-
+                    String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "IMG_" + System.currentTimeMillis(), null);
                     Intent intent = new Intent(SkinDiagnosisActivity.this, AnswerByGptActivity.class);
                     intent.putExtra("image", path);
                     intent.putExtra("pet_id", petId);
