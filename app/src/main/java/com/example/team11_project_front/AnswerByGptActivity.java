@@ -79,6 +79,10 @@ import com.example.team11_project_front.API.picturePostApi;
 import com.example.team11_project_front.Data.PictureResponse;
 import com.example.team11_project_front.QnA.QnaFragment;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -86,6 +90,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -165,8 +170,52 @@ public class AnswerByGptActivity extends AppCompatActivity {
 
                     tv_diseaseName.setText(res_d);
                     tv_score.setText(res_p);
-
                     tv_date.setText(res_t);
+
+                    String question = "반려견 피부질환 AI model이 " + res_p + "%의 Confidence로 " + res_d + "을/를 예상하고있어.\n이 병명에 대해서 간단한 설명을 해줘.";
+
+                    JSONArray arr = new JSONArray();
+                    JSONObject object = new JSONObject();
+                    try{
+                        object.put("model", "text-davinci-003");
+                        object.put("prompt", question);
+                        object.put("temperature", 0.4);
+                        object.put("max_tokens", 1000);
+                        object.put("top_p", 1);
+                        object.put("frequency_penalty", 0);
+                        object.put("presence_penalty", 0);
+                    } catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                    RequestBody body = RequestBody.create(MediaType.get("application/json"), object.toString());
+                    Request request = new Request.Builder()
+                            .url("https://api.openai.com/v1/completions")
+                            .header("Authorization", "Bearer " + "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")
+                            .post(body)
+                            .build();
+                    client.newCall(request).enqueue(new okhttp3.Callback() {
+                        @Override
+                        public void onFailure(okhttp3.Call call, IOException e) {
+
+                        }
+
+                        @Override
+                        public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
+                            if(response.isSuccessful()){
+                                JSONObject jsonObject = null;
+                                try{
+                                    jsonObject = new JSONObject(response.body().string());
+                                    JSONArray jsonArray = jsonObject.getJSONArray("choices");
+                                     gptResult = jsonArray.getJSONObject(0).getString("text");
+                                     gpt_flag = true;
+                                }catch (JSONException e){
+                                    e.printStackTrace();
+                                }
+                            }else{
+
+                            }
+                        }
+                    });
                 }
             }
             @Override
