@@ -1,49 +1,38 @@
 package com.example.team11_project_front;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.hardware.Camera;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 
 import android.telecom.InCallService;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.team11_project_front.API.petlistApi;
-import com.example.team11_project_front.Data.PetInfo;
 import com.example.team11_project_front.Data.PetlistResponse;
-import com.example.team11_project_front.MyPage.PetAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,6 +50,7 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
     private InCallService.VideoCall preview;
     private Bitmap bitmap;
     private boolean havePicture = false;
+    private String petId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +64,7 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
         btn_register_pic = findViewById(R.id.btn_register_pic);
         ImageView backBtn = findViewById(R.id.backBtn);
 
-        spinner = findViewById(R.id.spinner);
+        spinner = (Spinner) findViewById(R.id.diagonsisSpin);
 
         // Spinner에 표시할 항목 배열
 
@@ -94,6 +84,10 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
                         petOptions.add(petName);
                         petIdx.add(id);
                     }
+                    // ArrayAdapter를 사용하여 항목 배열을 Spinner에 연결
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(SkinDiagnosisActivity.this, android.R.layout.simple_spinner_dropdown_item, petOptions);
+                    spinner.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -102,9 +96,20 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
             }
         });
 
-        // ArrayAdapter를 사용하여 항목 배열을 Spinner에 연결
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, petOptions);
-        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                petId = petIdx.get(position)+"";
+                Log.e("petNmae", petOptions.get(position) +"");
+                Log.e("petId", petIdx.get(position) +"");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                petId = petIdx.get(0)+"";
+            }
+        });
 
         // 사진 선택
         btn_select_pic.setOnClickListener(new View.OnClickListener() {
@@ -139,7 +144,7 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(SkinDiagnosisActivity.this, AnswerByGptActivity.class);
                     intent.putExtra("image", path);
-                    intent.putExtra("pet_id", "43");
+                    intent.putExtra("pet_id", petId);
                     startActivity(intent);
                     // 이미지 선택되지 않았을 때 nextBtn 클릭하여 다음 activity로 넘어가지 못함
                 } else {
@@ -148,6 +153,8 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
             }
         });
     }
+
+
     ActivityResultLauncher<Intent> activityResultPicture = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
