@@ -1,5 +1,8 @@
 package com.example.team11_project_front;
 
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+
 import com.example.team11_project_front.API.addPetApi;
 import com.example.team11_project_front.API.ansApi;
 import com.example.team11_project_front.API.changeHospitalApi;
@@ -61,7 +64,6 @@ public class RetrofitClient {
     private static searchApi searchApi;
     //사용하고 있는 서버 BASE 주소
     private static String baseUrl = "http://3.38.191.199/";
-
 
     private RetrofitClient() {
         //로그를 보기 위한 Interceptor
