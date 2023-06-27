@@ -75,7 +75,7 @@
             android:ems="10"
             android:gravity="center"
 
-            android:text="피부병"
+            android:text="예측중입니다...."
             tools:ignore="MissingConstraints" />
     </LinearLayout>
 
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="center"
-            android:text="2023-06-16"
+            android:text="0000-00-00"
             tools:ignore="MissingConstraints" />
     </LinearLayout>
 
@@ -123,7 +123,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="center"
-            android:text="99.93%"
+            android:text="계산중입니다..."
             tools:ignore="MissingConstraints" />
     </LinearLayout>
 
