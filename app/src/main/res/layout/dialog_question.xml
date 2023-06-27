@@ -12,8 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="질문등록"
+        style="@style/Text.BoldStyle"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        />
 
     <TextView
         android:id="@+id/textView3"
@@ -22,11 +23,12 @@
         android:layout_gravity="center_horizontal"
         android:gravity="clip_horizontal"
         android:text="제목"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        style="@style/Text.BoldStyle"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/question_title_edit_text"
+        style="@style/Text.NormalStyle"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -44,8 +46,8 @@
         android:layout_gravity="center_horizontal"
         android:gravity="clip_horizontal"
         android:text="내용 :"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        style="@style/Text.BoldStyle"
+        android:textSize="18sp"/>
 
     <EditText
         android:id="@+id/question_content_edit_text"
@@ -54,6 +56,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
         android:background="@drawable/edittext_event"
+        style="@style/Text.NormalStyle"
         android:ems="10"
         android:gravity="start"
         android:hint="(질문 내용을 여기에 적어주세요.)"
@@ -70,6 +73,7 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
+            style="@style/Text.BoldStyle"
             android:text="예" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -78,6 +82,7 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
+            style="@style/Text.BoldStyle"
             android:text="아니오" />
 
     </LinearLayout>

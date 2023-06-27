@@ -12,18 +12,19 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
         android:background="@drawable/scrollview_border"
+        android:fontFamily="@font/maplestory_bold"
         android:gravity="start"
-        android:text="  AI  설명"
+        android:paddingLeft="8dp"
+        android:text="GPT 설명"
         android:textColor="#000000"
-        android:textSize="25sp"
-        android:textStyle="bold" />
+        android:textSize="25sp" />
 
     <ScrollView
         android:layout_width="280dp"
-        android:layout_height="120dp"
-        android:layout_marginBottom="10dp"
+        android:layout_height="300dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/scrollview_border" >
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/scrollview_border">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,8 +36,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/maplestory_light"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:text="   GPT를 통한 이 질환은 다음과 같은 진단을 내릴 수 있습니다."
-                android:textColor="#000000"
                 android:textSize="16sp" />
         </LinearLayout>
     </ScrollView>
@@ -55,6 +58,7 @@
             android:layout_margin="16dp"
             android:backgroundTint="@color/background"
             android:text="@string/return_home"
+            android:fontFamily="@font/maplestory_bold"
             android:textColor="@color/btn_dialog"
             android:textSize="16sp" />
     </LinearLayout>
