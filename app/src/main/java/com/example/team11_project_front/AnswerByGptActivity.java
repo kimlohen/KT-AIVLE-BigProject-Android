@@ -85,6 +85,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
@@ -109,6 +111,9 @@ public class AnswerByGptActivity extends AppCompatActivity {
     TextView tv_diseaseName, tv_date, tv_score;
     boolean gpt_flag = false;
     String gptResult;
+    boolean question_flag = false;
+    String picId;
+    private Timer timerCall;
 
     @SuppressLint("WrongThread")
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +126,12 @@ public class AnswerByGptActivity extends AppCompatActivity {
                 .readTimeout(60, TimeUnit.SECONDS)
                 .build();
 
+        TimerTask timerTask = new TimerTask(){
+           @Override
+           public void run(){
+               loading();
+           }
+        };
 
         // 이미지 URI
         String path = getIntent().getStringExtra("image");
@@ -144,6 +155,9 @@ public class AnswerByGptActivity extends AppCompatActivity {
         tv_date = (TextView) findViewById(R.id.diagonistDateText);
         tv_score = (TextView) findViewById(R.id.ProabilityText);
 
+        timerCall = new Timer();
+        timerCall.schedule(timerTask, 0, 1000);
+
         Bitmap scaled_bitmap = bitmap.createScaledBitmap(bitmap, 200, 200, false);
         imageView.setImageBitmap(scaled_bitmap);
 
@@ -164,9 +178,12 @@ public class AnswerByGptActivity extends AppCompatActivity {
             public void onResponse(Call<PictureResponse> call, Response<PictureResponse> response) {
                 if(response.isSuccessful() && response.body() != null){
                     PictureResponse res = response.body();
+                    timerCall.cancel();
                     String res_d = res.getModel_result(); // disease name
                     String res_p = res.getModel_conf(); // probability
                     String res_t = res.getCreated_at().split("T")[0];
+                    picId = res.getId();
+                    question_flag = true;
 
                     tv_diseaseName.setText(res_d);
                     tv_score.setText(res_p);
@@ -174,7 +191,6 @@ public class AnswerByGptActivity extends AppCompatActivity {
 
                     String question = "반려견 피부질환 AI model이 " + res_p + "%의 Confidence로 " + res_d + "을/를 예상하고있어.\n이 병명에 대해서 간단한 설명을 해줘.";
 
-                    JSONArray arr = new JSONArray();
                     JSONObject object = new JSONObject();
                     try{
                         object.put("model", "text-davinci-003");
@@ -233,12 +249,12 @@ public class AnswerByGptActivity extends AppCompatActivity {
             }
         });
 
-        btn_ai_diagnosis.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_ai_diagnosis).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(gpt_flag) {
                     showGPTDialog();
                 }else{
-
+                    Toast.makeText(AnswerByGptActivity.this, "GPT 결과를 기다리고 있습니다. 잠시 뒤에 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -249,7 +265,11 @@ public class AnswerByGptActivity extends AppCompatActivity {
         findViewById(R.id.btn_post_qna).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showQuestionDialog();
+                if(question_flag){
+                    showQuestionDialog();
+                }else{
+                    Toast.makeText(AnswerByGptActivity.this, "AI판단 결과를 기다리고 있습니다. 잠시 뒤에 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -265,6 +285,18 @@ public class AnswerByGptActivity extends AppCompatActivity {
 
     }
 
+    private void loading(){
+        String nameText = tv_diseaseName.getText().toString();
+        String scoreText = tv_score.getText().toString();
+        if (nameText.equals("예측중입니다.....")){
+            tv_diseaseName.setText("예측중입니다");
+            tv_score.setText("계산중입니다");
+        }else{
+            tv_diseaseName.setText(nameText+".");
+            tv_score.setText(scoreText+".");
+        }
+    }
+
     void showGPTDialog() {
         Dialog gptDialog = new Dialog(this);
         gptDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -277,7 +309,7 @@ public class AnswerByGptActivity extends AppCompatActivity {
         dialogTitle.setText("AI 진단");
 
         // gpt 부분
-        dialogContent.setText("");
+        dialogContent.setText(gptResult);
 
 
         //
@@ -310,7 +342,7 @@ public class AnswerByGptActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String title = TitleEditText.getText().toString();
                 String question = questionEditText.getText().toString();
-                registerQuestion(title,question);
+                registerQuestion(title, question, picId);
                 flag = 1;
                 dismissQuestionDialog();
                 if (flag == 1) {
@@ -345,12 +377,13 @@ public class AnswerByGptActivity extends AppCompatActivity {
 
     }
 
-    private void registerQuestion(String title, String question) {
+    private void registerQuestion(String title, String question, String pictureId) {
         // 질문 등록 로직을 수행하는 부분
         // 여기서는 간단히 토스트 메시지로 질문을 보여줍니다.
 
-        Toast.makeText(this, "제목이" + title + "질문이 등록되었습니다: " + question, Toast.LENGTH_SHORT).show();
 
+
+        Toast.makeText(this, "제목이" + title + "질문이 등록되었습니다: " + question, Toast.LENGTH_SHORT).show();
 
 
 
