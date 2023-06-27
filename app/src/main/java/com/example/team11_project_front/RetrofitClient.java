@@ -21,6 +21,8 @@ import com.example.team11_project_front.API.picturePostApi;
 import com.example.team11_project_front.API.postAnsApi;
 import com.example.team11_project_front.API.qnaApi;
 import com.example.team11_project_front.API.refreshApi;
+import com.example.team11_project_front.API.getHospitalAdApi;
+import com.google.gson.internal.GsonBuildConfig;
 
 import java.util.concurrent.TimeUnit;
 

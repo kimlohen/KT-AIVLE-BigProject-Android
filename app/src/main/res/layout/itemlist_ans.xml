@@ -76,30 +76,9 @@
         android:paddingTop="10dp"
         android:text="전화상담"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/callBtn2"
-        style="@style/Text.NormalStyle"
-        android:layout_width="60dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_weight="1"
-        android:background="@drawable/round_border"
-        android:textColor="@color/black"
-        android:backgroundTint="@color/btn_gray"
-        android:clickable="true"
-        android:focusable="auto"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:paddingTop="4dp"
-        android:text="전화상담"
-        android:textAlignment="center" />
-
-
-
 
     <TextView
         android:id="@+id/ansText"
@@ -123,4 +102,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

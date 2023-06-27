@@ -78,11 +78,20 @@ import com.example.team11_project_front.Data.AddQRequest;
 import com.example.team11_project_front.Data.AddQResponse;
 import com.example.team11_project_front.Data.PictureResponse;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -92,8 +101,6 @@ public class AnswerByGptActivity extends AppCompatActivity {
 
     private Dialog questionDialog, gptDialog;
     private EditText questionEditText,TitleEditText;
-
-    private TextView diseaseNameText, diagonistDateText,proabilityText;
     private Button btn_ai_diagnosis;
 
     private RetrofitClient retrofitClient;
@@ -104,14 +111,35 @@ public class AnswerByGptActivity extends AppCompatActivity {
 
     private int flag = -1;
 
+    Bitmap bitmap;
+    ImageView imageView;
+    TextView tv_diseaseName, tv_date, tv_score;
+    boolean gpt_flag = false;
+    String gptResult;
+    boolean question_flag = false;
+    String picId;
+    private Timer timerCall;
+
     @SuppressLint("WrongThread")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_by_gpt);
 
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(120, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .build();
+
+        TimerTask timerTask = new TimerTask(){
+           @Override
+           public void run(){
+               loading();
+           }
+        };
+
         // 이미지 URI
         String path = getIntent().getStringExtra("image");
-        Bitmap bitmap;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
             ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), Uri.parse(path));
             try {
@@ -127,7 +155,14 @@ public class AnswerByGptActivity extends AppCompatActivity {
             }
         }
 
-        ImageView imageView = findViewById(R.id.imageView);
+        imageView = findViewById(R.id.imageView);
+        tv_diseaseName = (TextView) findViewById(R.id.diseaseNameText);
+        tv_date = (TextView) findViewById(R.id.diagonistDateText);
+        tv_score = (TextView) findViewById(R.id.ProabilityText);
+
+        timerCall = new Timer();
+        timerCall.schedule(timerTask, 0, 1000);
+
         Bitmap scaled_bitmap = bitmap.createScaledBitmap(bitmap, 200, 200, false);
         imageView.setImageBitmap(scaled_bitmap);
 
@@ -148,15 +183,60 @@ public class AnswerByGptActivity extends AppCompatActivity {
             public void onResponse(Call<PictureResponse> call, Response<PictureResponse> response) {
                 if(response.isSuccessful() && response.body() != null){
                     PictureResponse res = response.body();
-
-                    PictureId = res.getId();
-                    String res_d = res.getModel_result();
+                    timerCall.cancel();
+                    String res_d = res.getModel_result(); // disease name
+                    String res_p = res.getModel_conf(); // probability
                     String res_t = res.getCreated_at().split("T")[0];
+                    picId = res.getId();
+                    question_flag = true;
 
-                    TextView tv_diseaseName = (TextView) findViewById(R.id.diseaseNameText);
                     tv_diseaseName.setText(res_d);
-                    TextView tv_date = (TextView) findViewById(R.id.diagonistDateText);
+                    tv_score.setText(res_p);
                     tv_date.setText(res_t);
+
+                    String question = "반려견 피부질환 AI model이 " + res_p + "%의 Confidence로 " + res_d + "을/를 예상하고있어.\n이 병명에 대해서 간단한 설명을 해줘.";
+
+                    JSONObject object = new JSONObject();
+                    try{
+                        object.put("model", "text-davinci-003");
+                        object.put("prompt", question);
+                        object.put("temperature", 0.4);
+                        object.put("max_tokens", 1000);
+                        object.put("top_p", 1);
+                        object.put("frequency_penalty", 0);
+                        object.put("presence_penalty", 0);
+                    } catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                    RequestBody body = RequestBody.create(MediaType.get("application/json"), object.toString());
+                    Request request = new Request.Builder()
+                            .url("https://api.openai.com/v1/completions")
+                            .header("Authorization", "Bearer " + "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")
+                            .post(body)
+                            .build();
+                    client.newCall(request).enqueue(new okhttp3.Callback() {
+                        @Override
+                        public void onFailure(okhttp3.Call call, IOException e) {
+
+                        }
+
+                        @Override
+                        public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
+                            if(response.isSuccessful()){
+                                JSONObject jsonObject = null;
+                                try{
+                                    jsonObject = new JSONObject(response.body().string());
+                                    JSONArray jsonArray = jsonObject.getJSONArray("choices");
+                                     gptResult = jsonArray.getJSONObject(0).getString("text");
+                                     gpt_flag = true;
+                                }catch (JSONException e){
+                                    e.printStackTrace();
+                                }
+                            }else{
+
+                            }
+                        }
+                    });
                 }
             }
             @Override
@@ -165,27 +245,7 @@ public class AnswerByGptActivity extends AppCompatActivity {
             }
         });
 
-
-
         ImageView backBtn = findViewById(R.id.backBtn);
-
-        diseaseNameText = findViewById(R.id.diseaseNameText);
-        diagonistDateText = findViewById(R.id.diagonistDateText);
-        proabilityText = findViewById(R.id.ProabilityText);
-        btn_ai_diagnosis = findViewById(R.id.btn_ai_diagnosis);
-
-
-        // 사진은 전 단계에 있던 사진 가져오면 된다고 본다면, 병명, 검사일자,GPT 가져오는 장소, 그리고 여러종류의 id(user_id,진단_id) 가져와야한다.
-
-        diseaseNameText.setText("예측중입니다.");
-        diagonistDateText.setText("2023-06-26");
-        proabilityText.setText("계산중입니다.");
-
-
-
-        //
-
-
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -194,10 +254,13 @@ public class AnswerByGptActivity extends AppCompatActivity {
             }
         });
 
-        btn_ai_diagnosis.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_ai_diagnosis).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                showGPTDialog();
-
+                if(gpt_flag) {
+                    showGPTDialog();
+                }else{
+                    Toast.makeText(AnswerByGptActivity.this, "GPT 결과를 기다리고 있습니다. 잠시 뒤에 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -207,7 +270,11 @@ public class AnswerByGptActivity extends AppCompatActivity {
         findViewById(R.id.btn_post_qna).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showQuestionDialog();
+                if(question_flag){
+                    showQuestionDialog();
+                }else{
+                    Toast.makeText(AnswerByGptActivity.this, "AI판단 결과를 기다리고 있습니다. 잠시 뒤에 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -222,10 +289,22 @@ public class AnswerByGptActivity extends AppCompatActivity {
 
     }
 
+    private void loading(){
+        String nameText = tv_diseaseName.getText().toString();
+        String scoreText = tv_score.getText().toString();
+        if (nameText.equals("예측중입니다.....")){
+            tv_diseaseName.setText("예측중입니다");
+            tv_score.setText("계산중입니다");
+        }else{
+            tv_diseaseName.setText(nameText+".");
+            tv_score.setText(scoreText+".");
+        }
+    }
+
     void showGPTDialog() {
         Dialog gptDialog = new Dialog(this);
         gptDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        gptDialog.setContentView(R.layout.gpt_dialog);
+        gptDialog.setContentView(R.layout.dialog_gpt);
         gptDialog.setCanceledOnTouchOutside(false);
 
         TextView dialogTitle = gptDialog.findViewById(R.id.dialogTitle);
@@ -233,14 +312,8 @@ public class AnswerByGptActivity extends AppCompatActivity {
         Button closeButton = gptDialog.findViewById(R.id.closeButton);
         dialogTitle.setText("AI 진단");
 
-
-
         // gpt 부분
-        dialogContent.setText("GPT를 통한 이 질환은 다음과 같은 진단을 내릴 수 있습니다.");
-
-
-
-
+        dialogContent.setText(gptResult);
 
 
         //
@@ -263,7 +336,7 @@ public class AnswerByGptActivity extends AppCompatActivity {
 
         questionDialog = new Dialog(this);
         questionDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        questionDialog.setContentView(R.layout.question_dialog);
+        questionDialog.setContentView(R.layout.dialog_question);
         questionDialog.setCanceledOnTouchOutside(false);
 
 
@@ -283,7 +356,7 @@ public class AnswerByGptActivity extends AppCompatActivity {
                 registerQuestion(title,question);
 
                 //초기화한다.
-                dismissQuestionDialog();
+                registerQuestion(title, question, picId);
                 flag = 1;
 
 
@@ -316,13 +389,15 @@ public class AnswerByGptActivity extends AppCompatActivity {
 
     }
 
-    private void registerQuestion(String title, String question) {
+    private void registerQuestion(String title, String question, String pictureId) {
         // 질문 등록 로직을 수행하는 부분
         // 여기서는 간단히 토스트 메시지로 질문을 보여줍니다.
 
         retrofitClient = RetrofitClient.getInstance();
         com.example.team11_project_front.API.addQApi addQApi = RetrofitClient.getRetrofitAddQInterface();
 
+
+        Toast.makeText(this, "제목이" + title + "질문이 등록되었습니다: " + question, Toast.LENGTH_SHORT).show();
 
 
         AddQRequest addQRequest = new AddQRequest(title,question, PictureId);
