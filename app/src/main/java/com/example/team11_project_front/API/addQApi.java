@@ -9,7 +9,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface addQApi {
-    @POST("/accounts/api/question/")
+    @POST("/posts/api/question/")
     Call<AddQResponse> getAddQResponse(@Header("Authorization") String auth, @Body AddQRequest addQRequest);
 
 }
