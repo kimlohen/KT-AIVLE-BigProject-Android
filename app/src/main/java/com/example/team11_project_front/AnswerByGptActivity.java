@@ -387,7 +387,7 @@ public class AnswerByGptActivity extends AppCompatActivity {
         retrofitClient = RetrofitClient.getInstance();
         com.example.team11_project_front.API.addQApi addQApi = RetrofitClient.getRetrofitAddQInterface();
 
-        Toast.makeText(this, "제목이" + title + "질문이 등록되었습니다: " + question, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, title + "이라는 제목으로 질문이 등록되었습니다: ", Toast.LENGTH_SHORT).show();
 
         AddQRequest addQRequest = new AddQRequest(title,question, pictureId);
 

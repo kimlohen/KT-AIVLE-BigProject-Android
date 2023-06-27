@@ -14,7 +14,6 @@ import com.example.team11_project_front.API.hospitalApi;
 import com.example.team11_project_front.API.joinApi;
 import com.example.team11_project_front.API.loginApi;
 import com.example.team11_project_front.API.logoutApi;
-import com.example.team11_project_front.API.naverLoginApi;
 import com.example.team11_project_front.API.petlistApi;
 import com.example.team11_project_front.API.pictureApi;
 import com.example.team11_project_front.API.picturePostApi;
@@ -22,7 +21,7 @@ import com.example.team11_project_front.API.postAnsApi;
 import com.example.team11_project_front.API.qnaApi;
 import com.example.team11_project_front.API.refreshApi;
 import com.example.team11_project_front.API.gptApi;
-import com.google.gson.internal.GsonBuildConfig;
+import com.example.team11_project_front.API.userProfileApi;
 
 import java.util.concurrent.TimeUnit;
 
@@ -57,6 +56,7 @@ public class RetrofitClient {
     private static picturePostApi picturePostApi;
     private static com.example.team11_project_front.API.addQApi addQApi;
     private static gptApi gptApi;
+    private static userProfileApi userProfileApi;
     //사용하고 있는 서버 BASE 주소
     private static String baseUrl = "http://3.38.191.199/";
 
@@ -105,6 +105,7 @@ public class RetrofitClient {
         picturePostApi = retrofit.create(picturePostApi.class);
         addQApi = retrofit.create(com.example.team11_project_front.API.addQApi.class);
         gptApi = retrofit.create(gptApi.class);
+        userProfileApi = retrofit.create(userProfileApi.class);
     }
 
     public static RetrofitClient getInstance() {
@@ -144,4 +145,5 @@ public class RetrofitClient {
     public static picturePostApi getRetrofitPostPictureInterface() { return picturePostApi; }
     public static com.example.team11_project_front.API.addQApi getRetrofitAddQInterface() { return addQApi; }
     public static gptApi getRetrofitGPTInterface() { return gptApi; }
+    public static userProfileApi getRetrofitUserProfileInterface() { return userProfileApi; }
 }

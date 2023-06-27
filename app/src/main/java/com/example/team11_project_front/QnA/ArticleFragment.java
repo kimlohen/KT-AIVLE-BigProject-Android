@@ -270,7 +270,7 @@ public class ArticleFragment extends Fragment {
             //listItem.measure(0, 0);
             listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
             totalHeight += listItem.getMeasuredHeight();
-            totalHeight += 100;
+            totalHeight += 120;
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
 
