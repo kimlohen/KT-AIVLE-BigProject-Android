@@ -22,6 +22,7 @@ import com.example.team11_project_front.API.qnaApi;
 import com.example.team11_project_front.API.refreshApi;
 import com.example.team11_project_front.API.gptApi;
 import com.example.team11_project_front.API.userProfileApi;
+import com.example.team11_project_front.API.searchApi;
 
 import java.util.concurrent.TimeUnit;
 
@@ -57,6 +58,7 @@ public class RetrofitClient {
     private static com.example.team11_project_front.API.addQApi addQApi;
     private static gptApi gptApi;
     private static userProfileApi userProfileApi;
+    private static searchApi searchApi;
     //사용하고 있는 서버 BASE 주소
     private static String baseUrl = "http://3.38.191.199/";
 
@@ -106,6 +108,7 @@ public class RetrofitClient {
         addQApi = retrofit.create(com.example.team11_project_front.API.addQApi.class);
         gptApi = retrofit.create(gptApi.class);
         userProfileApi = retrofit.create(userProfileApi.class);
+        searchApi = retrofit.create(searchApi.class);
     }
 
     public static RetrofitClient getInstance() {
@@ -146,4 +149,5 @@ public class RetrofitClient {
     public static com.example.team11_project_front.API.addQApi getRetrofitAddQInterface() { return addQApi; }
     public static gptApi getRetrofitGPTInterface() { return gptApi; }
     public static userProfileApi getRetrofitUserProfileInterface() { return userProfileApi; }
+    public static searchApi getRetrofitSearchInterface() { return searchApi; }
 }
