@@ -44,7 +44,7 @@ public class PostedAdapter extends BaseAdapter {
 
         title.setText(list.get(i).getTitle());
         pet.setText(list.get(i).getContents());
-        date.setText(list.get(i).getCreated_at());
+        date.setText(list.get(i).getCreated_at().split("T")[0]);
 
         return view;
     }

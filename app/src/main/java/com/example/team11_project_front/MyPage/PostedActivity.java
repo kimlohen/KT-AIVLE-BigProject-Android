@@ -14,11 +14,15 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.team11_project_front.API.petlistApi;
 import com.example.team11_project_front.API.pictureApi;
+import com.example.team11_project_front.API.refreshApi;
+import com.example.team11_project_front.ChangeHospitalActivity;
 import com.example.team11_project_front.Data.MypostlistResponse;
 import com.example.team11_project_front.Data.PetInfo;
 import com.example.team11_project_front.Data.PetlistResponse;
 import com.example.team11_project_front.Data.PictureResponse;
 import com.example.team11_project_front.Data.PostedList;
+import com.example.team11_project_front.Data.RefreshRequest;
+import com.example.team11_project_front.Data.RefreshResponse;
 import com.example.team11_project_front.MainActivity;
 import com.example.team11_project_front.QnA.ArticleActivity;
 import com.example.team11_project_front.R;
@@ -51,68 +55,44 @@ public class PostedActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<MypostlistResponse>> call, Response<ArrayList<MypostlistResponse>> response) {
                 Log.d("retrofit", "Data fetch success");
-                if (response.isSuccessful() && response.body() != null && response.body().size() > 0) {
+                if (response.code() == 401) {
+                    RefreshRequest refreshRequest = new RefreshRequest(getPreferenceString("refreshToken"));
+                    refreshApi refreshApi = RetrofitClient.getRefreshInterface();
+                    refreshApi.getRefreshResponse(refreshRequest).enqueue(new Callback<RefreshResponse>() {
+                        @Override
+                        public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
+                            if(response.isSuccessful() && response.body() != null){
+                                setPreference("acessToken", response.body().getAccessToken());
+                                Toast.makeText(PostedActivity.this, "토큰이 만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(PostedActivity.this, "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RefreshResponse> call, Throwable t) {
+                            Toast.makeText(PostedActivity.this, "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else if (response.isSuccessful() && response.body() != null && response.body().size() > 0) {
                     ArrayList<MypostlistResponse> mypostlistResponses = response.body();
                     // PetlistResponse 객체를 PetInfo 객체로 변환하여 리스트에 추가
 
                     postInfos = new ArrayList<>();
                     listView.setAdapter(null);
                     for (MypostlistResponse mypostlistResponse : mypostlistResponses) {
-                        if (mypostlistResponse.equals(mypostlistResponses.get(mypostlistResponses.size()-1))){
                             String id = mypostlistResponse.getId();
                             String title = mypostlistResponse.getTitle();
                             String contents = mypostlistResponse.getContents();
                             String created_at = mypostlistResponse.getCreated_at();
                             String updated_at = mypostlistResponse.getUpdated_at();
-                            String user_id = mypostlistResponse.getUserid();
                             String pictureid = mypostlistResponse.getPictureid();
-
-                            pictureApi pictureApi = RetrofitClient.getRetrofitPictureInterface();
-                            pictureApi.getPictureResponse("Bearer " + getPreferenceString("acessToken"), pictureid).enqueue(new Callback<PictureResponse>() {
-                                @Override
-                                public void onResponse(Call<PictureResponse> call, Response<PictureResponse> response) {
-                                    if(response.isSuccessful() && response.body() != null){
-                                        String picture_url = response.body().getPhoto();
-                                        PostedList postInfo = new PostedList(id, title,contents,created_at,updated_at,picture_url);
-                                        postInfos.add(postInfo);
-                                        PostedAdapter adapter = new PostedAdapter(PostedActivity.this, postInfos);
-                                        adapter.notifyDataSetChanged();
-                                        listView.setAdapter(adapter);
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<PictureResponse> call, Throwable t) {
-
-                                }
-                            });
-                        }else{
-                            String id = mypostlistResponse.getId();
-                            String title = mypostlistResponse.getTitle();
-                            String contents = mypostlistResponse.getContents();
-                            String created_at = mypostlistResponse.getCreated_at();
-                            String updated_at = mypostlistResponse.getUpdated_at();
-                            String user_id = mypostlistResponse.getUserid();
-                            String pictureid = mypostlistResponse.getPictureid();
-
-                            pictureApi pictureApi = RetrofitClient.getRetrofitPictureInterface();
-                            pictureApi.getPictureResponse("Bearer " + getPreferenceString("acessToken"), pictureid).enqueue(new Callback<PictureResponse>() {
-                                @Override
-                                public void onResponse(Call<PictureResponse> call, Response<PictureResponse> response) {
-                                    if(response.isSuccessful() && response.body() != null){
-                                        String picture_url = response.body().getPhoto();
-                                        PostedList postInfo = new PostedList(id, title,contents,created_at,updated_at,picture_url);
-                                        postInfos.add(postInfo);
-                                    }
-                                }
-                                @Override
-                                public void onFailure(Call<PictureResponse> call, Throwable t) {
-
-                                }
-                            });
-                        }
+                            PostedList postInfo = new PostedList(id, title,contents,created_at,updated_at,pictureid);
+                            postInfos.add(postInfo);
                     }
-
+                    PostedAdapter adapter = new PostedAdapter(PostedActivity.this, postInfos);
+                    listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 }
             }
 

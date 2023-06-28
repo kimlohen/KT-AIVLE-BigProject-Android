@@ -35,6 +35,7 @@
             android:layout_alignParentLeft="false"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="16dp"
+            android:layout_marginTop="14dp"
             android:gravity="top"
             android:text="이 름"
             android:textSize="25dp"
@@ -44,7 +45,7 @@
             app:layout_constraintLeft_toRightOf="@+id/profile"
             app:layout_constraintStart_toEndOf="@+id/profile"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.022" />
+            app:layout_constraintVertical_bias="0" />
 
         <TextView
             android:id="@+id/type"
@@ -52,14 +53,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
             android:gravity="left"
             android:text="수의사 일반회원"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@+id/profile"
-            app:layout_constraintTop_toBottomOf="@+id/profileName"
-            app:layout_constraintVertical_bias="0.01" />
+            app:layout_constraintTop_toBottomOf="@+id/profileName" />
 
         <TextView
             android:id="@+id/email"
@@ -79,18 +79,21 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/profile_update"
             style="@style/Text.BoldStyle"
-            android:layout_width="130dp"
+            android:layout_width="120dp"
             android:layout_height="35dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/button_style"
-            android:backgroundTint="@color/btn"
+            android:backgroundTint="@color/btn_gray"
             android:text="프로필 사진 변경"
             android:textColor="#2B2B2B"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.903"
+            app:layout_constraintHorizontal_bias="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.028" />
+            app:layout_constraintVertical_bias="0" />
 
         <TextView
             android:id="@+id/textView4"
