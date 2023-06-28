@@ -67,6 +67,8 @@ public class ArticleFragment extends Fragment {
     private Bitmap bitmap;
     private String qId, pictureUrl, questionText;
 
+    private TextView diseaseNameText, diseaseDateText, diseaseScoreText;
+
     private RetrofitClient retrofitClient;
     private com.example.team11_project_front.API.qnaApi picture;
     public ArticleFragment() {
