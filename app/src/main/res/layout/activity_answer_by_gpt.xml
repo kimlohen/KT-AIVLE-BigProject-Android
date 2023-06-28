@@ -143,10 +143,10 @@
             android:id="@+id/btn_ai_diagnosis"
             android:layout_width="140dp"
             android:layout_height="50dp"
-            android:backgroundTint="@color/btn"
+            android:backgroundTint="@color/btn_gray"
             android:text="@string/ai_diagnosis"
             style="@style/Text.BoldStyle"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="16sp"
             tools:ignore="MissingConstraints" />
 
@@ -155,10 +155,10 @@
             android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_gravity="fill_horizontal"
-            android:backgroundTint="@color/btn"
+            android:backgroundTint="@color/btn_gray"
             android:text="@string/post_qna"
             style="@style/Text.BoldStyle"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="16sp"
             tools:ignore="MissingConstraints" />
 
@@ -173,7 +173,7 @@
         android:backgroundTint="@color/white"
         android:text="@string/return_home"
         style="@style/Text.BoldStyle"
-        android:textColor="@color/btn"
+        android:textColor="@color/black"
         android:textSize="16sp"
         tools:ignore="MissingConstraints" />
 

@@ -56,7 +56,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_margin="16dp"
-            android:backgroundTint="@color/btn"
+            android:backgroundTint="@color/btn_gray"
             android:fontFamily="@font/maplestory_bold"
             android:text="@string/return_home"
             android:textColor="@color/black"
