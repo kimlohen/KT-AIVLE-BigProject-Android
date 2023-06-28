@@ -16,6 +16,13 @@ import com.example.team11_project_front.API.changePetApi;
 import com.example.team11_project_front.Data.ChangePetRequest;
 import com.example.team11_project_front.Data.ChangePetResponse;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,6 +38,7 @@ public class ChangePetActivity extends AppCompatActivity {
     private ImageView backBtn;
 
     private int genderButton = 0 , speciesButton = 0;
+
 
 
     private RetrofitClient retrofitClient;
@@ -59,6 +67,8 @@ public class ChangePetActivity extends AppCompatActivity {
         backBtn = (ImageView) findViewById(R.id.petBackBtn);
         editButton = (Button) findViewById(R.id.editButton);
 
+        //list.set(index, newValue);
+
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +95,7 @@ public class ChangePetActivity extends AppCompatActivity {
             }
         });
 
+
         cButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,10 +115,46 @@ public class ChangePetActivity extends AppCompatActivity {
         });
 
 
+        List<Integer> list = new ArrayList<>(Collections.nCopies(4, 0));
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changePet();
+                String name_size = editTextText.getText().toString();
+                if (name_size.length() > 0) {
+                    list.set(0, 1);
+                }
+                else {
+                    Toast.makeText(ChangePetActivity.this, "이름을 작성해주세요.", Toast.LENGTH_LONG).show();
+                }
+
+                String date_format = editTextText2.getText().toString();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                try {
+                    LocalDate.parse(date_format, formatter);
+                    list.set(1,1);
+                } catch (DateTimeParseException e) {
+                    Toast.makeText(ChangePetActivity.this, "날짜형식이 올바르지 않습니다.", Toast.LENGTH_LONG).show();
+                }
+
+                if ( (genderButton == 1) || (genderButton == 2) ) {
+                    list.set(2, 1);
+                }
+                else {
+                    Toast.makeText(ChangePetActivity.this, "성별을 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
+                }
+                if ((speciesButton == 1 ) || (speciesButton == 2)) {
+                    list.set(3, 1);
+                }
+                else {
+                    Toast.makeText(ChangePetActivity.this, "종을 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
+                }
+                int sum = 0;
+                for (int num : list) {
+                    sum += num;
+                }
+                if( sum == 4) {
+                    changePet();
+                }
             }
         });
 
