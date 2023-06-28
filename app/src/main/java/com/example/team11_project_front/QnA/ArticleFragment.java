@@ -187,7 +187,7 @@ public class ArticleFragment extends Fragment {
                         mThread.start();
                         try{
                             mThread.join();
-                            iv_disease.setImageBitmap(bitmap.createScaledBitmap(bitmap, 400, 400, false));
+                            iv_disease.setImageBitmap(bitmap.createScaledBitmap(bitmap, 600, 600, false));
                         }catch (InterruptedException e){
                             e.printStackTrace();
                         }

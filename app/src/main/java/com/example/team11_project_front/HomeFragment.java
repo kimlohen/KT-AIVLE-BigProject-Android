@@ -23,11 +23,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.team11_project_front.API.getHospitalAdApi;
+import com.example.team11_project_front.API.refreshApi;
 import com.example.team11_project_front.Data.HospitalAdResponse;
+import com.example.team11_project_front.Data.RefreshRequest;
+import com.example.team11_project_front.Data.RefreshResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,21 +57,7 @@ public class HomeFragment extends Fragment {
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
-
-//        Spinner spinner = view.findViewById(R.id.spinner);
-//
-//        // Spinner에 표시할 항목 배열
-//        String[] petOptions = {"라옹", "레오", "라임"};
-//
-//        // ArrayAdapter를 사용하여 항목 배열을 Spinner에 연결
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, petOptions);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner.setAdapter(adapter);
-
-        // Fragment -> Activity 화면 전환!
-        // androidx.appcompat.widget.AppCompatButton button_skin = view.findViewById(R.id.btn_skin_diagnosis);
         button_skin = (androidx.appcompat.widget.AppCompatButton) view.findViewById(R.id.btn_skin_diagnosis);
         button_skin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +80,26 @@ public class HomeFragment extends Fragment {
         getHospitalAdApi.getHospitalResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<HospitalAdResponse>() {
             @Override
             public void onResponse(Call<HospitalAdResponse> call, Response<HospitalAdResponse> response) {
-                if(response.isSuccessful() && response!=null){
+                if (response.code() == 401) {
+                    RefreshRequest refreshRequest = new RefreshRequest(getPreferenceString("refreshToken"));
+                    refreshApi refreshApi = RetrofitClient.getRefreshInterface();
+                    refreshApi.getRefreshResponse(refreshRequest).enqueue(new Callback<RefreshResponse>() {
+                        @Override
+                        public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
+                            if(response.isSuccessful() && response.body() != null){
+                                setPreference("acessToken", response.body().getAccessToken());
+                                Toast.makeText(getActivity(), "토큰이 만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RefreshResponse> call, Throwable t) {
+                            Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else if(response.isSuccessful() && response!=null){
                     HospitalAdResponse res = response.body();
                     String ad_hos_name = res.getHospital().getHos_name();
                     String ad_hos_addr = res.getHospital().getAddress();

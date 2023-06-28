@@ -9,10 +9,14 @@ import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.team11_project_front.API.getHospitalAdApi;
+import com.example.team11_project_front.API.refreshApi;
 import com.example.team11_project_front.Data.HospitalAdResponse;
 import com.example.team11_project_front.Data.HospitalResponse;
+import com.example.team11_project_front.Data.RefreshRequest;
+import com.example.team11_project_front.Data.RefreshResponse;
 import com.example.team11_project_front.MyPage.MyPageFragment;
 import com.example.team11_project_front.QnA.QnaFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -53,7 +57,26 @@ public class MainActivity extends AppCompatActivity {
             getHospitalApi.getHospitalResponse("Bearer " + getPreferenceString("acessToken")).enqueue(new Callback<List<HospitalResponse>>() {
                 @Override
                 public void onResponse(Call<List<HospitalResponse>> call, Response<List<HospitalResponse>> response) {
-                    if(response.isSuccessful() && response.body() != null){
+                    if (response.code() == 401) {
+                        RefreshRequest refreshRequest = new RefreshRequest(getPreferenceString("refreshToken"));
+                        refreshApi refreshApi = RetrofitClient.getRefreshInterface();
+                        refreshApi.getRefreshResponse(refreshRequest).enqueue(new Callback<RefreshResponse>() {
+                            @Override
+                            public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
+                                if(response.isSuccessful() && response.body() != null){
+                                    setPreference("acessToken", response.body().getAccessToken());
+                                    Toast.makeText(MainActivity.this, "토큰이 만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+                                }else{
+                                    Toast.makeText(MainActivity.this, "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<RefreshResponse> call, Throwable t) {
+                                Toast.makeText(MainActivity.this, "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else if(response.isSuccessful() && response.body() != null){
                         List<HospitalResponse> responses = response.body();
                         HospitalResponse res = responses.get(0);
                         setPreference("hos_id", res.getHos_id());
