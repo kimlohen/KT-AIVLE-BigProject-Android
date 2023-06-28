@@ -60,7 +60,7 @@
         android:background="@drawable/edittext"
         android:ems="10"
         android:hint="이메일 입력"
-        android:inputType="text"
+        android:inputType="text|textEmailAddress"
         android:paddingLeft="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

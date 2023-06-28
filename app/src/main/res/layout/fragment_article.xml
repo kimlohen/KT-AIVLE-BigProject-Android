@@ -47,6 +47,18 @@
             app:layout_constraintTop_toBottomOf="@+id/diseaseNameText" />
 
         <TextView
+            android:id="@+id/diagonistScoreText"
+            style="@style/Text.NormalStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="14dp"
+            android:ems="10"
+            android:text="0000"
+            app:layout_constraintStart_toEndOf="@+id/diagonistDate"
+            app:layout_constraintTop_toBottomOf="@+id/diagonistDateText" />
+
+        <TextView
             android:id="@+id/diagonistDate"
             style="@style/Text.NormalStyle"
             android:layout_width="wrap_content"
@@ -57,6 +69,18 @@
             app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/diseaseName" />
+
+        <TextView
+            android:id="@+id/diagonistScore"
+            style="@style/Text.NormalStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="위험도"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/diagonistDate" />
 
         <TextView
             android:id="@+id/diseaseName"
@@ -74,9 +98,9 @@
             android:id="@+id/divider6"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             android:background="?android:attr/listDivider"
-            app:layout_constraintTop_toBottomOf="@+id/diagonistDateText"
+            app:layout_constraintTop_toBottomOf="@+id/diagonistScoreText"
             tools:layout_editor_absoluteX="0dp" />
 
         <TextView

@@ -5,6 +5,8 @@ import static android.content.ContentValues.TAG;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -51,7 +53,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public EditText idEdit, pwEdit;
     public Button loginBtn, joinBtn;
     public CheckBox checkBox;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

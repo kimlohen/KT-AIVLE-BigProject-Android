@@ -34,10 +34,10 @@ import retrofit2.Response;
 public class AnswerActivity extends AppCompatActivity {
     private RetrofitClient retrofitClient;
     private postAnsApi postAnsApi;
-    private ImageView iv_disease, backBtn;
+    private ImageView iv_disease;
     private TextView questionText;
     private EditText answerText;
-    private Button submitBtn;
+    private Button submitBtn, backBtn;
     private Bitmap bitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class AnswerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_answer);
 
         iv_disease = (ImageView) findViewById(R.id.diseaseImg2);
-        backBtn = (ImageView) findViewById(R.id.backBtn4);
+        backBtn = (Button) findViewById(R.id.backBtn4);
         questionText = (TextView) findViewById(R.id.questionText);
         answerText = (EditText) findViewById(R.id.answerText);
         submitBtn = (Button) findViewById(R.id.answerSubmit);

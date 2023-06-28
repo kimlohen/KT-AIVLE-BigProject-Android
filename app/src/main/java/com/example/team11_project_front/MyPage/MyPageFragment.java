@@ -1,5 +1,6 @@
 package com.example.team11_project_front.MyPage;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.app.AlertDialog;
@@ -7,9 +8,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,15 +25,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
 import com.example.team11_project_front.API.deleteUserApi;
 import com.example.team11_project_front.API.hospitallistApi;
 import com.example.team11_project_front.API.logoutApi;
 import com.example.team11_project_front.API.refreshApi;
+import com.example.team11_project_front.API.userProfileApi;
 import com.example.team11_project_front.Data.DeleteUserResponse;
 import com.example.team11_project_front.Data.HospitalInfo;
 import com.example.team11_project_front.Data.HospitallistResponse;
+import com.example.team11_project_front.Data.LoginResponse;
 import com.example.team11_project_front.Data.LogoutResponse;
 import com.example.team11_project_front.Data.PetInfo;
 import com.example.team11_project_front.Data.PetlistResponse;
@@ -40,6 +50,10 @@ import com.example.team11_project_front.PetRegisterActivity;
 import com.example.team11_project_front.R;
 import com.example.team11_project_front.RetrofitClient;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -47,6 +61,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -65,11 +82,9 @@ public class MyPageFragment extends Fragment {
     private hospitallistApi hospitallistApi;
 
     private Button profile_update;
-
+    ImageView iv_profile;
     Bitmap bitmap;
-
     String is_vet;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -89,7 +104,7 @@ public class MyPageFragment extends Fragment {
         TextView tv_type = (TextView) view.findViewById(R.id.type);
         TextView tv_email = (TextView) view.findViewById(R.id.email);
         TextView tv_hospital = (TextView) view.findViewById(R.id.hospitalText);
-        ImageView iv_profile = (ImageView) view.findViewById(R.id.profile);
+        iv_profile = (ImageView) view.findViewById(R.id.profile);
         addPet = (Button) view.findViewById(R.id.addPetBtn);
         profile_update = (Button) view.findViewById(R.id.profile_update);
 
@@ -201,7 +216,19 @@ public class MyPageFragment extends Fragment {
 
             }
         });
+
+        profile_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                activityResultStorage.launch(intent);
+            }
+        });
+
         return view;
+
     }
 
     @Override
@@ -264,8 +291,59 @@ public class MyPageFragment extends Fragment {
         hospitalAdapter.notifyDataSetChanged();
         hospital_list.setAdapter(hospitalAdapter);
 
-}
+    }
 
+    ActivityResultLauncher<Intent> activityResultStorage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode() == RESULT_OK && result.getData() != null){
+                        Uri uri = result.getData().getData();
+                        try{
+                            bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+                            if (bitmap.getWidth() >= bitmap.getHeight()){
+                                bitmap = cropBitmap(bitmap, bitmap.getHeight(), bitmap.getHeight());
+                            }else{
+                                bitmap = cropBitmap(bitmap, bitmap.getWidth(), bitmap.getWidth());
+                            }
+
+                            bitmap.createScaledBitmap(bitmap, 87, 87, false);
+                            iv_profile.setImageBitmap(bitmap);
+
+                            File file = new File(getActivity().getCacheDir(), "IMG_" + System.currentTimeMillis()+".JPEG");
+                            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                            byte[] bitmapdata = bytes.toByteArray();
+                            FileOutputStream fos = new FileOutputStream(file);
+                            fos.write(bitmapdata);
+                            fos.flush();
+                            fos.close();
+
+                            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                            MultipartBody.Part imgFile = MultipartBody.Part.createFormData("profile_img", file.getName(), requestFile);
+
+                            retrofitClient = RetrofitClient.getInstance();
+                            userProfileApi userProfileApi = RetrofitClient.getRetrofitUserProfileInterface();
+                            userProfileApi.getUserProfileResponse("Bearer " + getPreferenceString("acessToken"), imgFile).enqueue(new Callback<LoginResponse>() {
+                                @Override
+                                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                                    Toast.makeText(getActivity(), "프로필 사진이 서버에 반영되었습니다. 로그아웃 후에도 변경사항이 적용됩니다.", Toast.LENGTH_LONG).show();
+                                }
+                                @Override
+                                public void onFailure(Call<LoginResponse> call, Throwable t) {
+                                    Toast.makeText(getActivity(), "프로필 사진이 서버에 반영되지 못하였습니다.", Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+                        }catch(FileNotFoundException e){
+                            e.printStackTrace();
+                        }catch (IOException e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
 
     // 데이터를 내부 저장소에 저장하기
     public void setPreference(String key, String value){
@@ -393,5 +471,25 @@ public class MyPageFragment extends Fragment {
                             .show();
             }
         });
+    }
+
+    public Bitmap cropBitmap(Bitmap bitmap, int width, int height) {
+        int originWidth = bitmap.getWidth();
+        int originHeight = bitmap.getHeight();
+
+        // 이미지를 crop 할 좌상단 좌표
+        int x = 0;
+        int y = 0;
+
+        if (originWidth > width) { // 이미지의 가로가 view 의 가로보다 크면..
+            x = (originWidth - width)/2;
+        }
+
+        if (originHeight > height) { // 이미지의 세로가 view 의 세로보다 크면..
+            y = (originHeight - height)/2;
+        }
+
+        Bitmap cropedBitmap = Bitmap.createBitmap(bitmap, x, y, width, height);
+        return cropedBitmap;
     }
 }

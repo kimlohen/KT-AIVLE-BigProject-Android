@@ -34,6 +34,7 @@
             style="@style/Text.NormalStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="반려동물 정보 수정"
@@ -80,11 +81,11 @@
             style="@style/Text.NormalStyle"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:ems="10"
-            android:inputType="text"
-            android:hint="  생년월일(yyyy-mm-dd)"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/edittext_rectangle" />
+            android:background="@drawable/edittext_rectangle"
+            android:ems="10"
+            android:hint="  생년월일(yyyy-mm-dd)"
+            android:inputType="datetime" />
 
         <LinearLayout
             android:layout_width="match_parent"

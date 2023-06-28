@@ -67,6 +67,8 @@ public class ArticleFragment extends Fragment {
     private Bitmap bitmap;
     private String qId, pictureUrl, questionText;
 
+    private TextView diseaseNameText, diseaseDateText, diseaseScoreText;
+
     private RetrofitClient retrofitClient;
     private com.example.team11_project_front.API.qnaApi picture;
     public ArticleFragment() {
@@ -270,7 +272,7 @@ public class ArticleFragment extends Fragment {
             //listItem.measure(0, 0);
             listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
             totalHeight += listItem.getMeasuredHeight();
-            totalHeight += 100;
+            totalHeight += 120;
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
 

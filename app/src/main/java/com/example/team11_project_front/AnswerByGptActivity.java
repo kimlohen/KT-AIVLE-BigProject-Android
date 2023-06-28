@@ -53,6 +53,8 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
@@ -207,9 +209,17 @@ public class AnswerByGptActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     RequestBody body = RequestBody.create(MediaType.get("application/json"), object.toString());
+
+                    String gpt_key = "";
+                    try {
+                        ApplicationInfo ai = getApplicationContext().getPackageManager().getApplicationInfo(getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
+                        gpt_key = ai.metaData.get("gpt_key").toString();
+                    } catch (PackageManager.NameNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                     Request request = new Request.Builder()
                             .url("https://api.openai.com/v1/completions")
-                            .header("Authorization", "Bearer " + "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")
+                            .header("Authorization", "Bearer " + gpt_key)
                             .post(body)
                             .build();
                     client.newCall(request).enqueue(new okhttp3.Callback() {
@@ -387,7 +397,7 @@ public class AnswerByGptActivity extends AppCompatActivity {
         retrofitClient = RetrofitClient.getInstance();
         com.example.team11_project_front.API.addQApi addQApi = RetrofitClient.getRetrofitAddQInterface();
 
-        Toast.makeText(this, "제목이" + title + "질문이 등록되었습니다: " + question, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, title + "이라는 제목으로 질문이 등록되었습니다: ", Toast.LENGTH_SHORT).show();
 
         AddQRequest addQRequest = new AddQRequest(title,question, pictureId);
 

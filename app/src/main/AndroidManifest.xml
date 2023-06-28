@@ -70,6 +70,15 @@
             android:name=".MainActivity"
             android:exported="true" />
 
+
+
+        <meta-data
+            android:name = "server_ip"
+            android:value = "${server_ip}"/>
+        <meta-data
+            android:name = "gpt_key"
+            android:value = "${gpt_key}"/>
+
     </application>
 
 </manifest>

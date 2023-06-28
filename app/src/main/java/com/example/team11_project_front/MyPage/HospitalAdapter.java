@@ -72,7 +72,6 @@ public class HospitalAdapter extends BaseAdapter {
 
                     InputStream is = conn.getInputStream();
                     bitmap = BitmapFactory.decodeStream(is);
-
                     // Set the bitmap to the ImageView
 
                 }catch (MalformedURLException e){
@@ -87,8 +86,14 @@ public class HospitalAdapter extends BaseAdapter {
 
         // Start the thread to load the image
         mthread.start();
-
+        try{
+            mthread.join();
+            image.setImageBitmap(bitmap.createScaledBitmap(bitmap, 120, 120, false));
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
         // 여기가 이미지 넣는 곳.
+
 
         name.setText(list.get(i).getName());
         prof.setText(list.get(i).getTel());

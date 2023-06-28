@@ -82,10 +82,9 @@
             android:layout_width="90dp"
             android:layout_height="35dp"
             android:background="@drawable/button_style"
-            android:text="개인정보 수정"
-            android:textSize="12sp"
+            android:backgroundTint="@color/btn"
+            android:text="프로필 사진 변경"
             android:textColor="#2B2B2B"
-            android:backgroundTint="@color/btn_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.903"
@@ -107,6 +106,7 @@
             app:layout_constraintTop_toBottomOf="@+id/profile"
             app:layout_constraintVertical_bias="0.05" />
 
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/addPetBtn"
             style="@style/Text.NormalStyle"
@@ -114,13 +114,13 @@
             android:layout_height="25dp"
             android:background="@drawable/add_icon"
             android:backgroundTint="@color/black"
+            android:paddingBottom="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.958"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.182" />
-
+            app:layout_constraintTop_toBottomOf="@+id/profile"
+            app:layout_constraintVertical_bias="0.049" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
