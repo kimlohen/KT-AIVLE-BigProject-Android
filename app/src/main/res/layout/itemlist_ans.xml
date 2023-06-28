@@ -44,7 +44,8 @@
         android:text="친절한 병원"
         android:textAlignment="viewStart"
         app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/ansHosName" />
+        app:layout_constraintTop_toBottomOf="@+id/ansHosName"
+        tools:ignore="UnknownId" />
 
     <TextView
         android:id="@+id/ansDate"
@@ -65,11 +66,11 @@
         android:id="@+id/callBtn"
         style="@style/Text.BoldStyle"
         android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/round_border"
-        android:backgroundTint="@color/btn"
+        android:backgroundTint="@color/btn_gray"
         android:clickable="true"
         android:focusable="auto"
         android:foreground="?android:attr/selectableItemBackground"
