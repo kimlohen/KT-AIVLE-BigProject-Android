@@ -243,7 +243,26 @@ public class MyPageFragment extends Fragment {
             @Override
             public void onResponse(Call<ArrayList<PetlistResponse>> call, Response<ArrayList<PetlistResponse>> response) {
                 ListView listView = (ListView) view.findViewById(R.id.petList);
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.code() == 401) {
+                    RefreshRequest refreshRequest = new RefreshRequest(getPreferenceString("refreshToken"));
+                    refreshApi refreshApi = RetrofitClient.getRefreshInterface();
+                    refreshApi.getRefreshResponse(refreshRequest).enqueue(new Callback<RefreshResponse>() {
+                        @Override
+                        public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
+                            if(response.isSuccessful() && response.body() != null){
+                                setPreference("acessToken", response.body().getAccessToken());
+                                Toast.makeText(getActivity(), "토큰이 만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RefreshResponse> call, Throwable t) {
+                            Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else if (response.isSuccessful() && response.body() != null) {
                     ArrayList<PetlistResponse> petlistResponses = response.body();
                     // PetlistResponse 객체를 PetInfo 객체로 변환하여 리스트에 추가
 
@@ -328,6 +347,26 @@ public class MyPageFragment extends Fragment {
                             userProfileApi.getUserProfileResponse("Bearer " + getPreferenceString("acessToken"), imgFile).enqueue(new Callback<LoginResponse>() {
                                 @Override
                                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                                    if (response.code() == 401) {
+                                        RefreshRequest refreshRequest = new RefreshRequest(getPreferenceString("refreshToken"));
+                                        refreshApi refreshApi = RetrofitClient.getRefreshInterface();
+                                        refreshApi.getRefreshResponse(refreshRequest).enqueue(new Callback<RefreshResponse>() {
+                                            @Override
+                                            public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
+                                                if(response.isSuccessful() && response.body() != null){
+                                                    setPreference("acessToken", response.body().getAccessToken());
+                                                    Toast.makeText(getActivity(), "토큰이 만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+                                                }else{
+                                                    Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<RefreshResponse> call, Throwable t) {
+                                                Toast.makeText(getActivity(), "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
                                     Toast.makeText(getActivity(), "프로필 사진이 서버에 반영되었습니다. 로그아웃 후에도 변경사항이 적용됩니다.", Toast.LENGTH_LONG).show();
                                 }
                                 @Override

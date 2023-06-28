@@ -1,52 +1,3 @@
-//package com.example.team11_project_front;
-//
-//import android.content.Intent;
-//import android.graphics.Rect;
-//import android.os.Bundle;
-//import android.view.MotionEvent;
-//import android.view.View;
-//import android.view.inputmethod.InputMethodManager;
-//import android.widget.ImageView;
-//
-//import androidx.appcompat.app.AppCompatActivity;
-//
-//public class AnswerByGptActivity extends AppCompatActivity {
-//
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_answer_by_gpt);
-//
-//
-//        ImageView backBtn = findViewById(R.id.backBtn);
-//
-//        backBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(AnswerByGptActivity.this, SkinDiagnosisActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public boolean dispatchTouchEvent(MotionEvent ev) {
-//        View focusView = getCurrentFocus();
-//        if (focusView != null) {
-//            Rect rect = new Rect();
-//            focusView.getGlobalVisibleRect(rect);
-//            int x = (int) ev.getX(), y = (int) ev.getY();
-//            if (!rect.contains(x, y)) {
-//                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-//                if (imm != null)
-//                    imm.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
-//                focusView.clearFocus();
-//            }
-//        }
-//        return super.dispatchTouchEvent(ev);
-//    }
-//}
-
-
 package com.example.team11_project_front;
 
 import android.annotation.SuppressLint;
@@ -77,10 +28,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.team11_project_front.API.gptApi;
 import com.example.team11_project_front.API.picturePostApi;
+import com.example.team11_project_front.API.refreshApi;
 import com.example.team11_project_front.Data.AddQRequest;
 import com.example.team11_project_front.Data.AddQResponse;
 import com.example.team11_project_front.Data.GPTRequest;
 import com.example.team11_project_front.Data.PictureResponse;
+import com.example.team11_project_front.Data.RefreshRequest;
+import com.example.team11_project_front.Data.RefreshResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -114,11 +68,12 @@ public class AnswerByGptActivity extends AppCompatActivity {
     Bitmap bitmap;
     ImageView imageView;
     TextView tv_diseaseName, tv_date, tv_score;
+    Button btn_ai_diagnosis;
     boolean gpt_flag = false;
     String gptResult;
     boolean question_flag = false;
     String picId;
-    private Timer timerCall;
+    private Timer timerCall, gptTimerCall;
 
     @SuppressLint("WrongThread")
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +91,12 @@ public class AnswerByGptActivity extends AppCompatActivity {
            public void run(){
                loading();
            }
+        };
+        TimerTask gptTimerTask = new TimerTask(){
+            @Override
+            public void run(){
+                gptLoading();
+            }
         };
 
         // 이미지 URI
@@ -159,9 +120,13 @@ public class AnswerByGptActivity extends AppCompatActivity {
         tv_diseaseName = (TextView) findViewById(R.id.diseaseNameText);
         tv_date = (TextView) findViewById(R.id.diagonistDateText);
         tv_score = (TextView) findViewById(R.id.ProabilityText);
+        btn_ai_diagnosis = (Button) findViewById(R.id.btn_ai_diagnosis);
 
         timerCall = new Timer();
         timerCall.schedule(timerTask, 0, 1000);
+
+        gptTimerCall = new Timer();
+        gptTimerCall.schedule(gptTimerTask, 0, 1000);
 
         Bitmap scaled_bitmap = bitmap.createScaledBitmap(bitmap, 200, 200, false);
         imageView.setImageBitmap(scaled_bitmap);
@@ -181,7 +146,26 @@ public class AnswerByGptActivity extends AppCompatActivity {
         picturePostApi.getPictureResponse("Bearer " + getPreferenceString("acessToken"), filePart, textPart).enqueue(new Callback<PictureResponse>() {
             @Override
             public void onResponse(Call<PictureResponse> call, Response<PictureResponse> response) {
-                if(response.isSuccessful() && response.body() != null){
+                if (response.code() == 401) {
+                    RefreshRequest refreshRequest = new RefreshRequest(getPreferenceString("refreshToken"));
+                    refreshApi refreshApi = RetrofitClient.getRefreshInterface();
+                    refreshApi.getRefreshResponse(refreshRequest).enqueue(new Callback<RefreshResponse>() {
+                        @Override
+                        public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
+                            if(response.isSuccessful() && response.body() != null){
+                                setPreference("acessToken", response.body().getAccessToken());
+                                Toast.makeText(AnswerByGptActivity.this, "토큰이 만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(AnswerByGptActivity.this, "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RefreshResponse> call, Throwable t) {
+                            Toast.makeText(AnswerByGptActivity.this, "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else if(response.isSuccessful() && response.body() != null){
                     PictureResponse res = response.body();
                     timerCall.cancel();
                     String res_d = res.getModel_result(); // disease name
@@ -242,7 +226,27 @@ public class AnswerByGptActivity extends AppCompatActivity {
                                     gptApi.gptResponse("Bearer " + getPreferenceString("acessToken"), picId, gptRequest).enqueue(new Callback<PictureResponse>() {
                                         @Override
                                         public void onResponse(Call<PictureResponse> call, Response<PictureResponse> response) {
+                                            if (response.code() == 401) {
+                                                RefreshRequest refreshRequest = new RefreshRequest(getPreferenceString("refreshToken"));
+                                                refreshApi refreshApi = RetrofitClient.getRefreshInterface();
+                                                refreshApi.getRefreshResponse(refreshRequest).enqueue(new Callback<RefreshResponse>() {
+                                                    @Override
+                                                    public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
+                                                        if(response.isSuccessful() && response.body() != null){
+                                                            setPreference("acessToken", response.body().getAccessToken());
+                                                            Toast.makeText(AnswerByGptActivity.this, "만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+                                                        }else{
+                                                            Toast.makeText(AnswerByGptActivity.this, "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                                                        }
+                                                    }
 
+                                                    @Override
+                                                    public void onFailure(Call<RefreshResponse> call, Throwable t) {
+                                                        Toast.makeText(AnswerByGptActivity.this, "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                                                    }
+                                                });
+                                            }
+                                            gptTimerCall.cancel();
                                         }
 
                                         @Override
@@ -319,6 +323,15 @@ public class AnswerByGptActivity extends AppCompatActivity {
         }else{
             tv_diseaseName.setText(nameText+".");
             tv_score.setText(scoreText+".");
+        }
+    }
+
+    private void gptLoading(){
+        String target = btn_ai_diagnosis.getText().toString();
+        if (target.equals("AI 진단.....")){
+            btn_ai_diagnosis.setText("AI 진단");
+        }else{
+            btn_ai_diagnosis.setText(target+".");
         }
     }
 
@@ -406,7 +419,26 @@ public class AnswerByGptActivity extends AppCompatActivity {
         addQApi.getAddQResponse("Bearer " + getPreferenceString("acessToken"),addQRequest).enqueue(new Callback<AddQResponse>() {
             @Override
             public void onResponse(Call<AddQResponse> call, Response<AddQResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.code() == 401) {
+                    RefreshRequest refreshRequest = new RefreshRequest(getPreferenceString("refreshToken"));
+                    refreshApi refreshApi = RetrofitClient.getRefreshInterface();
+                    refreshApi.getRefreshResponse(refreshRequest).enqueue(new Callback<RefreshResponse>() {
+                        @Override
+                        public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
+                            if(response.isSuccessful() && response.body() != null){
+                                setPreference("acessToken", response.body().getAccessToken());
+                                Toast.makeText(AnswerByGptActivity.this, "토큰이 만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(AnswerByGptActivity.this, "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RefreshResponse> call, Throwable t) {
+                            Toast.makeText(AnswerByGptActivity.this, "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else if (response.isSuccessful() && response.body() != null) {
                     Toast.makeText(AnswerByGptActivity.this, "질문 등록이 되었습니다.", Toast.LENGTH_LONG).show();
                 }else{
                     Toast.makeText(AnswerByGptActivity.this, "등록이 실패하였습니다. 다시 시도해주십시오.", Toast.LENGTH_LONG).show();

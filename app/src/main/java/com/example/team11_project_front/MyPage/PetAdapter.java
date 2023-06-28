@@ -16,8 +16,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
 
+import com.example.team11_project_front.API.refreshApi;
 import com.example.team11_project_front.ChangePetActivity;
 import com.example.team11_project_front.Data.PetInfo;
+import com.example.team11_project_front.Data.RefreshRequest;
+import com.example.team11_project_front.Data.RefreshResponse;
 import com.example.team11_project_front.R;
 import com.example.team11_project_front.RetrofitClient;
 
@@ -152,7 +155,26 @@ public class PetAdapter extends BaseAdapter {
         deletePetApi.getDeletePetResponse("Bearer " + getPreferenceString("acessToken"),PID).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.code() == 204) {
+                if (response.code() == 401) {
+                    RefreshRequest refreshRequest = new RefreshRequest(getPreferenceString("refreshToken"));
+                    refreshApi refreshApi = RetrofitClient.getRefreshInterface();
+                    refreshApi.getRefreshResponse(refreshRequest).enqueue(new Callback<RefreshResponse>() {
+                        @Override
+                        public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
+                            if(response.isSuccessful() && response.body() != null){
+                                setPreference("acessToken", response.body().getAccessToken());
+                                Toast.makeText(mContext, "토큰이 만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(mContext, "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RefreshResponse> call, Throwable t) {
+                            Toast.makeText(mContext, "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else if (response.code() == 204) {
                     Toast.makeText(mContext, "삭제하였습니다.", Toast.LENGTH_LONG).show();
                     list.remove(number);
                     notifyDataSetChanged();
@@ -169,7 +191,12 @@ public class PetAdapter extends BaseAdapter {
         });
 
     }
-
+    public void setPreference(String key, String value){
+        SharedPreferences pref = mContext.getSharedPreferences("DATA_STORE", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
     public String getPreferenceString(String key) {
         SharedPreferences pref = mContext.getSharedPreferences("DATA_STORE", MODE_PRIVATE);
         return pref.getString(key, "");

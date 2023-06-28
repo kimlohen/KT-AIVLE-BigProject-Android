@@ -15,8 +15,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.team11_project_front.API.refreshApi;
 import com.example.team11_project_front.Data.ChangeHospitalRequest;
 import com.example.team11_project_front.Data.ChangeHospitalResponse;
+import com.example.team11_project_front.Data.RefreshRequest;
+import com.example.team11_project_front.Data.RefreshResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -119,7 +122,26 @@ public class ChangeHospitalActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<ChangeHospitalResponse> call, Response<ChangeHospitalResponse> response) {
-                if (response.isSuccessful()) {
+                if (response.code() == 401) {
+                    RefreshRequest refreshRequest = new RefreshRequest(getPreferenceString("refreshToken"));
+                    refreshApi refreshApi = RetrofitClient.getRefreshInterface();
+                    refreshApi.getRefreshResponse(refreshRequest).enqueue(new Callback<RefreshResponse>() {
+                        @Override
+                        public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
+                            if(response.isSuccessful() && response.body() != null){
+                                setPreference("acessToken", response.body().getAccessToken());
+                                Toast.makeText(ChangeHospitalActivity.this, "토큰이 만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(ChangeHospitalActivity.this, "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RefreshResponse> call, Throwable t) {
+                            Toast.makeText(ChangeHospitalActivity.this, "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else if (response.isSuccessful()) {
                     Toast.makeText(ChangeHospitalActivity.this, "수정되었습니다.", Toast.LENGTH_LONG).show();
 
 

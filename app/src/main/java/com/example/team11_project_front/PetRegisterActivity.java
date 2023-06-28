@@ -20,8 +20,11 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.team11_project_front.API.addPetApi;
+import com.example.team11_project_front.API.refreshApi;
 import com.example.team11_project_front.Data.AddPetRequest;
 import com.example.team11_project_front.Data.AddPetResponse;
+import com.example.team11_project_front.Data.RefreshRequest;
+import com.example.team11_project_front.Data.RefreshResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -178,7 +181,26 @@ public class PetRegisterActivity extends AppCompatActivity implements View.OnCli
         addPetApi.getAddPetResponse("Bearer " + getPreferenceString("acessToken"), addPetRequest).enqueue(new Callback<AddPetResponse>() {
             @Override
             public void onResponse(Call<AddPetResponse> call, Response<AddPetResponse> response) {
-                if(response.isSuccessful()){
+                if (response.code() == 401) {
+                    RefreshRequest refreshRequest = new RefreshRequest(getPreferenceString("refreshToken"));
+                    refreshApi refreshApi = RetrofitClient.getRefreshInterface();
+                    refreshApi.getRefreshResponse(refreshRequest).enqueue(new Callback<RefreshResponse>() {
+                        @Override
+                        public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
+                            if(response.isSuccessful() && response.body() != null){
+                                setPreference("acessToken", response.body().getAccessToken());
+                                Toast.makeText(PetRegisterActivity.this, "토큰이 만료되어 갱신하였습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(PetRegisterActivity.this, "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RefreshResponse> call, Throwable t) {
+                            Toast.makeText(PetRegisterActivity.this, "토큰 갱신에 실패하였습니다. 관리자에게 문의해주세요.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else if(response.isSuccessful()){
                     Toast.makeText(PetRegisterActivity.this, "추가되었습니다.", Toast.LENGTH_LONG).show();
                     onBackPressed();
                 }else{
@@ -191,6 +213,14 @@ public class PetRegisterActivity extends AppCompatActivity implements View.OnCli
                 Toast.makeText(PetRegisterActivity.this, "잘못된 동물 정보입니다.<error3>", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    // 데이터를 내부 저장소에 저장하기
+    public void setPreference(String key, String value){
+        SharedPreferences pref = getSharedPreferences("DATA_STORE", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(key, value);
+        editor.apply();
     }
 
     // 내부 저장소에 저장된 데이터 가져오기
