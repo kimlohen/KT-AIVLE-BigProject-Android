@@ -124,6 +124,7 @@ public class ChangePetActivity extends AppCompatActivity {
                     list.set(0, 1);
                 }
                 else {
+                    list.set(0,0);
                     Toast.makeText(ChangePetActivity.this, "이름을 작성해주세요.", Toast.LENGTH_LONG).show();
                 }
 
@@ -134,18 +135,21 @@ public class ChangePetActivity extends AppCompatActivity {
                     list.set(1,1);
                 } catch (DateTimeParseException e) {
                     Toast.makeText(ChangePetActivity.this, "날짜형식이 올바르지 않습니다.", Toast.LENGTH_LONG).show();
+                    list.set(1,0);
                 }
 
                 if ( (genderButton == 1) || (genderButton == 2) ) {
                     list.set(2, 1);
                 }
                 else {
+                    list.set(2,0);
                     Toast.makeText(ChangePetActivity.this, "성별을 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
                 }
                 if ((speciesButton == 1 ) || (speciesButton == 2)) {
                     list.set(3, 1);
                 }
                 else {
+                    list.set(3,0);
                     Toast.makeText(ChangePetActivity.this, "종을 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
                 }
                 int sum = 0;
