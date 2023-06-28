@@ -67,7 +67,7 @@ public class ArticleFragment extends Fragment {
     private Bitmap bitmap;
     private String qId, pictureUrl, questionText;
 
-    private TextView diseaseNameText, diseaseDateText, diseaseScoreText;
+    private TextView diseaseNameText, diseaseDateText, diseaseScoreText, explanationGPT;
 
     private RetrofitClient retrofitClient;
     private com.example.team11_project_front.API.qnaApi picture;
@@ -109,6 +109,10 @@ public class ArticleFragment extends Fragment {
         TextView question = view.findViewById(R.id.question);
         ImageView iv_disease = view.findViewById(R.id.diseaseImg);
         ListView listView = (ListView) view.findViewById(R.id.ansList);
+        diseaseNameText = view.findViewById(R.id.diseaseNameText);
+        diseaseDateText = view.findViewById(R.id.diagonistDateText);
+        diseaseScoreText = view.findViewById(R.id.diagonistScoreText);
+        explanationGPT = view.findViewById(R.id.explanationGPT);
 
         try {
             qId = this.getArguments().getString("qId");
@@ -144,6 +148,23 @@ public class ArticleFragment extends Fragment {
                     } else if(response.isSuccessful() && response.body() != null){
                         PictureResponse result = response.body();
                         pictureUrl = result.getPhoto();
+                        String checkResult = result.getModel_result();
+                        String checkConf = result.getModel_conf();
+                        String checkDate = result.getCreated_at();
+                        String gpt_explain = result.getGpt_explain();
+                        if(checkConf != null){
+                            diseaseNameText.setText(checkResult);
+                        }
+                        if (checkResult != null){
+                            diseaseScoreText.setText(checkConf);
+                        }
+                        if (checkDate != null){
+                            diseaseDateText.setText(checkDate.split("T")[0]);
+                        }
+                        if (gpt_explain != null){
+                            explanationGPT.setText(gpt_explain);
+                        }
+
                         Thread mThread = new Thread(){
                             @Override
                             public void run(){

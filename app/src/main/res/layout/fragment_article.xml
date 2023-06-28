@@ -108,11 +108,11 @@
             style="@style/Text.NormalStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:text="질문 내용"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/explanationScrollView" />
+            app:layout_constraintTop_toBottomOf="@+id/divider7" />
 
         <TextView
             android:id="@+id/questionTitle"
@@ -128,7 +128,7 @@
         <ScrollView
             android:id="@+id/explanationScrollView"
             android:layout_width="320dp"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/edittext"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -149,14 +149,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:paddingLeft="8dp"
-                    android:text="설명" />
+                    android:text="아직 GPT의 설명을 받지 못한 게시글입니다." />
             </LinearLayout>
         </ScrollView>
 
         <ScrollView
             android:id="@+id/scrollView2"
             android:layout_width="320dp"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/edittext"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -176,7 +176,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
-                    android:text="질문" />
+                    android:text="질문 내용을 입력받지 못하였습니다." />
             </LinearLayout>
         </ScrollView>
 
@@ -187,6 +187,15 @@
             android:layout_marginTop="24dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <View
+            android:id="@+id/divider7"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="16dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintTop_toBottomOf="@+id/explanationScrollView"
             tools:layout_editor_absoluteX="0dp" />
 
         <androidx.appcompat.widget.AppCompatButton

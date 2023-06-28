@@ -17,6 +17,10 @@ public class PictureResponse {
     private String userid;
     @SerializedName("pet_id")
     private String pet_id;
+
+
+    @SerializedName("gpt_explain")
+    private String gpt_explain;
     public String getId() {
         return id;
     }
@@ -69,6 +73,12 @@ public class PictureResponse {
     }
     public void setModel_conf(String model_conf) {
         this.model_conf = model_conf;
+    }
+    public String getGpt_explain() {
+        return gpt_explain;
+    }
+    public void setGpt_explain(String gpt_explain) {
+        this.gpt_explain = gpt_explain;
     }
 }
 
