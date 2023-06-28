@@ -301,6 +301,8 @@ public class AnswerByGptActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // HomeFragment 인스턴스 생성
+                Intent intent = new Intent(AnswerByGptActivity.this, MainActivity.class);
+                startActivity(intent);
 
             }
         });
