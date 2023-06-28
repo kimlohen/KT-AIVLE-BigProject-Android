@@ -17,6 +17,7 @@ import com.example.team11_project_front.API.hospitalApi;
 import com.example.team11_project_front.API.joinApi;
 import com.example.team11_project_front.API.loginApi;
 import com.example.team11_project_front.API.logoutApi;
+import com.example.team11_project_front.API.mypostlistApi;
 import com.example.team11_project_front.API.petlistApi;
 import com.example.team11_project_front.API.pictureApi;
 import com.example.team11_project_front.API.picturePostApi;
@@ -62,6 +63,8 @@ public class RetrofitClient {
     private static gptApi gptApi;
     private static userProfileApi userProfileApi;
     private static searchApi searchApi;
+
+    private static mypostlistApi mypostlistApi;
     //사용하고 있는 서버 BASE 주소
     private static String baseUrl = "http://3.38.191.199/";
 
@@ -111,6 +114,7 @@ public class RetrofitClient {
         gptApi = retrofit.create(gptApi.class);
         userProfileApi = retrofit.create(userProfileApi.class);
         searchApi = retrofit.create(searchApi.class);
+        mypostlistApi = retrofit.create(mypostlistApi.class);
     }
 
     public static RetrofitClient getInstance() {
@@ -152,4 +156,5 @@ public class RetrofitClient {
     public static gptApi getRetrofitGPTInterface() { return gptApi; }
     public static userProfileApi getRetrofitUserProfileInterface() { return userProfileApi; }
     public static searchApi getRetrofitSearchInterface() { return searchApi; }
+    public static mypostlistApi getRetrofitMypostlistInterface() { return mypostlistApi; }
 }

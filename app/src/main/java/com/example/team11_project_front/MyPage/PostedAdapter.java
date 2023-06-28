@@ -39,12 +39,12 @@ public class PostedAdapter extends BaseAdapter {
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         View view = View.inflate(mContext, R.layout.itemlist_posted, null);
         TextView title = (TextView)view.findViewById(R.id.title);
-        TextView pet = (TextView) view.findViewById(R.id.pet);
+        TextView pet = (TextView) view.findViewById(R.id.contents);
         TextView date =(TextView) view.findViewById(R.id.date);
 
         title.setText(list.get(i).getTitle());
-        pet.setText(list.get(i).getPet());
-        date.setText(list.get(i).getDate());
+        pet.setText(list.get(i).getContents());
+        date.setText(list.get(i).getCreated_at());
 
         return view;
     }

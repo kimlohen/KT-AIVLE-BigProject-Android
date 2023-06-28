@@ -1,7 +1,22 @@
 package com.example.team11_project_front.Data;
 
-public class PostedList {
+import com.google.gson.annotations.SerializedName;
+
+public class MypostlistResponse {
+    @SerializedName("id")
     private String id;
+    @SerializedName("title")
+    private String title;
+    @SerializedName("contents")
+    private String contents;
+    @SerializedName("created_at")
+    private String created_at;
+    @SerializedName("updated_at")
+    private String updated_at;
+    @SerializedName("userid")
+    private String userid;
+    @SerializedName("pictureid")
+    private String pictureid;
 
     public String getId() {
         return id;
@@ -10,12 +25,6 @@ public class PostedList {
     public void setId(String id) {
         this.id = id;
     }
-
-    private String title;
-    private String contents;
-    private String created_at;
-    private String updated_at;
-    private String pictureid;
 
     public String getTitle() {
         return title;
@@ -49,6 +58,14 @@ public class PostedList {
         this.updated_at = updated_at;
     }
 
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
     public String getPictureid() {
         return pictureid;
     }
@@ -56,15 +73,4 @@ public class PostedList {
     public void setPictureid(String pictureid) {
         this.pictureid = pictureid;
     }
-
-    public PostedList(String id,String title, String contents, String created_at, String updated_at, String pictureid) {
-        this.id = id;
-        this.title = title;
-        this.contents = contents;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-        this.pictureid = pictureid;
-    }
-
-
 }
