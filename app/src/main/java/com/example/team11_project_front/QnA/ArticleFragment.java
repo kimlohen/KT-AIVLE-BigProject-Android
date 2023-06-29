@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -23,15 +24,12 @@ import android.widget.Toast;
 
 import com.example.team11_project_front.API.ansApi;
 import com.example.team11_project_front.API.pictureApi;
-import com.example.team11_project_front.API.qnaApi;
 import com.example.team11_project_front.API.refreshApi;
 import com.example.team11_project_front.Data.AnsInfo;
 import com.example.team11_project_front.Data.AnsResponse;
 import com.example.team11_project_front.Data.PictureResponse;
 import com.example.team11_project_front.Data.RefreshRequest;
 import com.example.team11_project_front.Data.RefreshResponse;
-import com.example.team11_project_front.LoginActivity;
-import com.example.team11_project_front.MainActivity;
 import com.example.team11_project_front.R;
 import com.example.team11_project_front.RetrofitClient;
 
@@ -67,7 +65,7 @@ public class ArticleFragment extends Fragment {
     private Bitmap bitmap;
     private String qId, pictureUrl, questionText;
 
-    private TextView diseaseNameText, diseaseDateText, diseaseScoreText, explanationGPT;
+    private TextView diseaseInfoText, diseaseDateText, explanationGPT;
 
     private RetrofitClient retrofitClient;
     private com.example.team11_project_front.API.qnaApi picture;
@@ -109,9 +107,8 @@ public class ArticleFragment extends Fragment {
         TextView question = view.findViewById(R.id.question);
         ImageView iv_disease = view.findViewById(R.id.diseaseImg);
         ListView listView = (ListView) view.findViewById(R.id.ansList);
-        diseaseNameText = view.findViewById(R.id.diseaseNameText);
+        diseaseInfoText = view.findViewById(R.id.diseaseNameText);
         diseaseDateText = view.findViewById(R.id.diagonistDateText);
-        diseaseScoreText = view.findViewById(R.id.diagonistScoreText);
         explanationGPT = view.findViewById(R.id.explanationGPT);
 
         try {
@@ -152,11 +149,31 @@ public class ArticleFragment extends Fragment {
                         String checkConf = result.getModel_conf();
                         String checkDate = result.getCreated_at();
                         String gpt_explain = result.getGpt_explain();
-                        if(checkConf != null){
-                            diseaseNameText.setText(checkResult);
-                        }
-                        if (checkResult != null){
-                            diseaseScoreText.setText(checkConf);
+                        if(checkResult != null && checkConf != null){
+                            if(checkResult.equals("무증상")){
+                                diseaseInfoText.setTextColor(Color.parseColor("#008000"));
+                            }else if(checkResult.equals("미란, 궤양") || checkResult.equals("결절, 종괴 ")){
+                                diseaseInfoText.setTextColor(Color.parseColor("#DB4455"));
+                            }else {
+                                diseaseInfoText.setTextColor(Color.parseColor("#FC6500"));
+                            }
+
+                            if(Double.parseDouble(checkConf) >= 80.0){
+                                String diseaseInfo = "매우 높은 확률(" + checkConf +"%)로 " + checkResult + "이 예상됨";
+                                diseaseInfoText.setText(diseaseInfo);
+                            }else if(Double.parseDouble(checkConf) >= 60.0){
+                                String diseaseInfo = "높은 확률(" + checkConf +"%)로 " + checkResult + "이 예상됨";
+                                diseaseInfoText.setText(diseaseInfo);
+                            }else if(Double.parseDouble(checkConf) >= 40.0){
+                                String diseaseInfo = "높지 않은 확률(" + checkConf +"%)로 " + checkResult + "이 예상됨";
+                                diseaseInfoText.setText(diseaseInfo);
+                            }else if(Double.parseDouble(checkConf) >= 20.0){
+                                String diseaseInfo = "낮은 확률(" + checkConf +"%)로 " + checkResult + "이 예상됨";
+                                diseaseInfoText.setText(diseaseInfo);
+                            }else{
+                                String diseaseInfo = "매우 낮은 확률(" + checkConf +"%)로 " + checkResult + "이 예상됨";
+                                diseaseInfoText.setText(diseaseInfo);
+                            }
                         }
                         if (checkDate != null){
                             diseaseDateText.setText(checkDate.split("T")[0]);

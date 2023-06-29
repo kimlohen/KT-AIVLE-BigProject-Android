@@ -4,10 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.ImageDecoder;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -67,7 +66,7 @@ public class AnswerByGptActivity extends AppCompatActivity {
 
     Bitmap bitmap;
     ImageView imageView;
-    TextView tv_diseaseName, tv_date, tv_score;
+    TextView tv_diseaseInfo, tv_date;
     Button btn_ai_diagnosis;
     boolean gpt_flag = false;
     String gptResult;
@@ -117,9 +116,8 @@ public class AnswerByGptActivity extends AppCompatActivity {
         }
 
         imageView = findViewById(R.id.imageView);
-        tv_diseaseName = (TextView) findViewById(R.id.diseaseNameText);
+        tv_diseaseInfo = (TextView) findViewById(R.id.diseaseNameText);
         tv_date = (TextView) findViewById(R.id.diagonistDateText);
-        tv_score = (TextView) findViewById(R.id.ProabilityText);
         btn_ai_diagnosis = (Button) findViewById(R.id.btn_ai_diagnosis);
 
         timerCall = new Timer();
@@ -171,8 +169,33 @@ public class AnswerByGptActivity extends AppCompatActivity {
                     picId = res.getId();
                     question_flag = true;
 
-                    tv_diseaseName.setText(res_d);
-                    tv_score.setText(res_p);
+                    if(res_d.equals("무증상")){
+                        tv_diseaseInfo.setTextColor(Color.parseColor("#008000"));
+                    }else if(res_d.equals("미란, 궤양") || res_d.equals("결절, 종괴 ")){
+                        tv_diseaseInfo.setTextColor(Color.parseColor("#DB4455"));
+                    }else {
+                        tv_diseaseInfo.setTextColor(Color.parseColor("#FC6500"));
+                    }
+
+                    if(Double.parseDouble(res_p) >= 80.0){
+                        String diseaseInfo = "매우 높은 확률(" + res_p +"%)로 " + res_d + "이 예상됨";
+                        tv_diseaseInfo.setText(diseaseInfo);
+                    }else if(Double.parseDouble(res_p) >= 60.0){
+                        String diseaseInfo = "높은 확률(" + res_p +"%)로 " + res_d + "이 예상됨";
+                        tv_diseaseInfo.setText(diseaseInfo);
+                    }else if(Double.parseDouble(res_p) >= 40.0){
+                        String diseaseInfo = "높지 않은 확률(" + res_p +"%)로 " + res_d + "이 예상됨";
+                        tv_diseaseInfo.setText(diseaseInfo);
+                    }else if(Double.parseDouble(res_p) >= 20.0){
+                        String diseaseInfo = "낮은 확률(" + res_p +"%)로 " + res_d + "이 예상됨";
+                        tv_diseaseInfo.setText(diseaseInfo);
+                    }else{
+                        String diseaseInfo = "매우 낮은 확률(" + res_p +"%)로 " + res_d + "이 예상됨";
+                        tv_diseaseInfo.setText(diseaseInfo);
+                    }
+
+
+                    tv_diseaseInfo.setText(res_d);
                     tv_date.setText(res_t);
 
                     gptTimerCall = new Timer();
@@ -317,14 +340,11 @@ public class AnswerByGptActivity extends AppCompatActivity {
     }
 
     private void loading(){
-        String nameText = tv_diseaseName.getText().toString();
-        String scoreText = tv_score.getText().toString();
+        String nameText = tv_diseaseInfo.getText().toString();
         if (nameText.equals("예측중입니다.....")){
-            tv_diseaseName.setText("예측중입니다");
-            tv_score.setText("계산중입니다");
+            tv_diseaseInfo.setText("예측중입니다");
         }else{
-            tv_diseaseName.setText(nameText+".");
-            tv_score.setText(scoreText+".");
+            tv_diseaseInfo.setText(nameText+".");
         }
     }
 

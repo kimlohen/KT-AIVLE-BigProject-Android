@@ -27,11 +27,10 @@
             style="@style/Text.NormalStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="14dp"
-            android:ems="10"
-            android:text="피부병"
-            app:layout_constraintStart_toEndOf="@+id/diseaseName"
+            android:text="서버에서 예측된 질병을 받지 못하였습니다."
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/diseaseImg" />
 
         <TextView
@@ -42,21 +41,9 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="14dp"
             android:ems="10"
-            android:text="2023-06-16"
+            android:text="0000-00-00"
             app:layout_constraintStart_toEndOf="@+id/diagonistDate"
             app:layout_constraintTop_toBottomOf="@+id/diseaseNameText" />
-
-        <TextView
-            android:id="@+id/diagonistScoreText"
-            style="@style/Text.NormalStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="14dp"
-            android:ems="10"
-            android:text="0000"
-            app:layout_constraintStart_toEndOf="@+id/diagonistDate"
-            app:layout_constraintTop_toBottomOf="@+id/diagonistDateText" />
 
         <TextView
             android:id="@+id/diagonistDate"
@@ -66,41 +53,17 @@
             android:layout_marginTop="14dp"
             android:text="예측일자"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintHorizontal_bias="0.197"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/diseaseName" />
-
-        <TextView
-            android:id="@+id/diagonistScore"
-            style="@style/Text.NormalStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:text="위험도"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/diagonistDate" />
-
-        <TextView
-            android:id="@+id/diseaseName"
-            style="@style/Text.NormalStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:text="예측병명"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/diseaseImg" />
+            app:layout_constraintTop_toBottomOf="@+id/diseaseNameText" />
 
         <View
             android:id="@+id/divider6"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
             android:background="?android:attr/listDivider"
-            app:layout_constraintTop_toBottomOf="@+id/diagonistScoreText"
+            app:layout_constraintTop_toBottomOf="@+id/diagonistDateText"
             tools:layout_editor_absoluteX="0dp" />
 
         <TextView
