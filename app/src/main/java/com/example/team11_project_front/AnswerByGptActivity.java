@@ -125,9 +125,6 @@ public class AnswerByGptActivity extends AppCompatActivity {
         timerCall = new Timer();
         timerCall.schedule(timerTask, 0, 1000);
 
-        gptTimerCall = new Timer();
-        gptTimerCall.schedule(gptTimerTask, 0, 1000);
-
         Bitmap scaled_bitmap = bitmap.createScaledBitmap(bitmap, 200, 200, false);
         imageView.setImageBitmap(scaled_bitmap);
 
@@ -178,6 +175,9 @@ public class AnswerByGptActivity extends AppCompatActivity {
                     tv_score.setText(res_p);
                     tv_date.setText(res_t);
 
+                    gptTimerCall = new Timer();
+                    gptTimerCall.schedule(gptTimerTask, 0, 1000);
+
                     String question = "반려견 피부질환 AI model이 " + res_p + "%의 Confidence로 " + res_d + "을/를 예상하고있어.\n이 병명에 대해서 간단한 설명을 해줘.";
 
                     JSONObject object = new JSONObject();
@@ -194,13 +194,15 @@ public class AnswerByGptActivity extends AppCompatActivity {
                     }
                     RequestBody body = RequestBody.create(MediaType.get("application/json"), object.toString());
 
-                    String gpt_key = "";
-                    try {
-                        ApplicationInfo ai = getApplicationContext().getPackageManager().getApplicationInfo(getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
-                        gpt_key = ai.metaData.get("gpt_key").toString();
-                    } catch (PackageManager.NameNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
+
+                    String gpt_key = "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";
+//                    String gpt_key = "";
+//                    try {
+//                        ApplicationInfo ai = getApplicationContext().getPackageManager().getApplicationInfo(getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
+//                        gpt_key = ai.metaData.get("gpt_key").toString();
+//                    } catch (PackageManager.NameNotFoundException e) {
+//                        throw new RuntimeException(e);
+//                    }
                     Request request = new Request.Builder()
                             .url("https://api.openai.com/v1/completions")
                             .header("Authorization", "Bearer " + gpt_key)

@@ -148,7 +148,10 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { onBackPressed(); }
+            public void onClick(View v) {
+                Intent intent = new Intent(SkinDiagnosisActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
         });
 
 
