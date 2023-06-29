@@ -272,6 +272,7 @@ public class AnswerByGptActivity extends AppCompatActivity {
                                                 });
                                             }
                                             gptTimerCall.cancel();
+                                            Toast.makeText(AnswerByGptActivity.this, "결과에 대한 GPT 설명이 도착하였습니다.", Toast.LENGTH_LONG).show();
                                         }
 
                                         @Override
