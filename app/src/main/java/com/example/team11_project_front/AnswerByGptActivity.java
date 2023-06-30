@@ -195,7 +195,6 @@ public class AnswerByGptActivity extends AppCompatActivity {
                     }
 
 
-                    tv_diseaseInfo.setText(res_d);
                     tv_date.setText(res_t);
 
                     gptTimerCall = new Timer();
