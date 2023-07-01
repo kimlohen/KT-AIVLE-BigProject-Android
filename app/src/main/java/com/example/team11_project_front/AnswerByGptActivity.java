@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -271,6 +272,8 @@ public class AnswerByGptActivity extends AppCompatActivity {
                                                 });
                                             }
                                             gptTimerCall.cancel();
+                                            btn_ai_diagnosis.setText("GPT 설명");
+                                            btn_ai_diagnosis.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F0F0F0")));
                                             Toast.makeText(AnswerByGptActivity.this, "결과에 대한 GPT 설명이 도착하였습니다.", Toast.LENGTH_LONG).show();
                                         }
 
@@ -350,8 +353,8 @@ public class AnswerByGptActivity extends AppCompatActivity {
 
     private void gptLoading(){
         String target = btn_ai_diagnosis.getText().toString();
-        if (target.equals("AI 진단.....")){
-            btn_ai_diagnosis.setText("AI 진단");
+        if (target.equals("GPT 설명.....")){
+            btn_ai_diagnosis.setText("GPT 설명");
         }else{
             btn_ai_diagnosis.setText(target+".");
         }
