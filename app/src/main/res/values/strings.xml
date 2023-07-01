@@ -9,7 +9,7 @@
     <string name="select_pic">사진 선택</string>
     <string name="register_pic">사진 등록</string>
 
-    <string name="diagnosis_skin">피부질환 진단하기</string>
+    <string name="diagnosis_skin">🐾피부질환 진단하기</string>
     <string name="post_qna">질문 등록</string>
     <string name="ai_diagnosis">AI 진단</string>
     <string name="return_home">돌아가기</string>
@@ -25,6 +25,7 @@
     <string name="failed_login">구글 로그인 실패</string>
     <string name="success_logout">로그아웃 되었습니다</string>
     <string name="status_login">이미 로그인 되어있습니다</string>
+    <string name="myQnA">나의 질문</string>
     <string name='membership'>\'강아지킴\'은(는) 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.\n\n
 
 ○ 이 개인정보처리방침은 2023년 7월 1부터 적용됩니다.\n\n

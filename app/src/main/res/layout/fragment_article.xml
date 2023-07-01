@@ -25,10 +25,11 @@
         <TextView
             android:id="@+id/diseaseNameText"
             style="@style/Text.NormalStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
             android:text="서버에서 예측된 질병을 받지 못하였습니다."
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/diseaseImg" />
@@ -68,7 +69,7 @@
 
         <TextView
             android:id="@+id/explanationTitleGPT"
-            style="@style/Text.NormalStyle"
+            style="@style/Text.BoldStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -79,7 +80,7 @@
 
         <TextView
             android:id="@+id/questionTitle"
-            style="@style/Text.NormalStyle"
+            style="@style/Text.BoldStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"

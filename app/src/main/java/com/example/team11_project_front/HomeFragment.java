@@ -11,27 +11,22 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.team11_project_front.API.getHospitalAdApi;
 import com.example.team11_project_front.API.refreshApi;
 import com.example.team11_project_front.Data.HospitalAdResponse;
 import com.example.team11_project_front.Data.RefreshRequest;
 import com.example.team11_project_front.Data.RefreshResponse;
+import com.example.team11_project_front.MyPage.PostedActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,9 +42,9 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
     private View view;
     private ImageView backBtn2;
-    private androidx.appcompat.widget.AppCompatButton button_skin, btn_ad_hos_call;
+    private androidx.appcompat.widget.AppCompatButton button_skin, btn_ad_hos_call, button_qna, button_vote;
     private TextView tv_ad_hos_name, tv_ad_hos_addr, tv_ad_hos_intro;
-    private ImageView iv_ad_hos_profile;
+    private ImageView iv_ad_hos_profile, mainImage;
     Bitmap bitmap;
 
 
@@ -65,6 +60,33 @@ public class HomeFragment extends Fragment {
                 // 버튼 클릭 이벤트 처리 및 SkinDiagnosisActivity로 이동
                 Intent intent = new Intent(getActivity(), SkinDiagnosisActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+            }
+        });
+
+        button_qna = (androidx.appcompat.widget.AppCompatButton) view.findViewById(R.id.btn_QnA);
+        button_qna.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 버튼 클릭 이벤트 처리 및 SkinDiagnosisActivity로 이동
+                Intent intent = new Intent(getActivity(), PostedActivity.class);
+                startActivity(intent);
+            }
+        });
+        button_vote = (androidx.appcompat.widget.AppCompatButton) view.findViewById(R.id.btn_vote);
+        button_vote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
+                startActivity(intent);
+            }
+        });
+
+        mainImage = (ImageView) view.findViewById(R.id.mainImage);
+        mainImage.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
                 startActivity(intent);
             }
         });

@@ -159,19 +159,19 @@ public class ArticleFragment extends Fragment {
                             }
 
                             if(Double.parseDouble(checkConf) >= 80.0){
-                                String diseaseInfo = "매우 높은 확률(" + checkConf +"%)로 " + checkResult + "이 예상됨";
+                                String diseaseInfo = "매우 높은 확률(" + checkConf +"%)로\n" + "[" + checkResult + "]이(가) 예상됨";
                                 diseaseInfoText.setText(diseaseInfo);
                             }else if(Double.parseDouble(checkConf) >= 60.0){
-                                String diseaseInfo = "높은 확률(" + checkConf +"%)로 " + checkResult + "이 예상됨";
+                                String diseaseInfo = "높은 확률(" + checkConf +"%)로\n" + "[" + checkResult + "]이(가) 예상됨";
                                 diseaseInfoText.setText(diseaseInfo);
                             }else if(Double.parseDouble(checkConf) >= 40.0){
-                                String diseaseInfo = "높지 않은 확률(" + checkConf +"%)로 " + checkResult + "이 예상됨";
+                                String diseaseInfo = "높지 않은 확률(" + checkConf +"%)로\n" + "[" + checkResult + "]이(가) 예상됨";
                                 diseaseInfoText.setText(diseaseInfo);
                             }else if(Double.parseDouble(checkConf) >= 20.0){
-                                String diseaseInfo = "낮은 확률(" + checkConf +"%)로 " + checkResult + "이 예상됨";
+                                String diseaseInfo = "낮은 확률(" + checkConf +"%)로\n" + "[" + checkResult + "]이(가) 예상됨";
                                 diseaseInfoText.setText(diseaseInfo);
                             }else{
-                                String diseaseInfo = "매우 낮은 확률(" + checkConf +"%)로 " + checkResult + "이 예상됨";
+                                String diseaseInfo = "매우 낮은 확률(" + checkConf +"%)로\n" + "[" + checkResult + "]이(가) 예상됨";
                                 diseaseInfoText.setText(diseaseInfo);
                             }
                         }

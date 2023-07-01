@@ -178,19 +178,19 @@ public class AnswerByGptActivity extends AppCompatActivity {
                     }
 
                     if(Double.parseDouble(res_p) >= 80.0){
-                        String diseaseInfo = "매우 높은 확률(" + res_p +"%)로 " + res_d + "이 예상됨";
+                        String diseaseInfo = "매우 높은 확률(" + res_p +"%)로\n" + "[" + res_d + "]이(가) 예상됨";
                         tv_diseaseInfo.setText(diseaseInfo);
                     }else if(Double.parseDouble(res_p) >= 60.0){
-                        String diseaseInfo = "높은 확률(" + res_p +"%)로 " + res_d + "이 예상됨";
+                        String diseaseInfo = "높은 확률(" + res_p +"%)로\n" +  "[" + res_d + "]이(가) 예상됨";
                         tv_diseaseInfo.setText(diseaseInfo);
                     }else if(Double.parseDouble(res_p) >= 40.0){
-                        String diseaseInfo = "높지 않은 확률(" + res_p +"%)로 " + res_d + "이 예상됨";
+                        String diseaseInfo = "높지 않은 확률(" + res_p +"%)로\n" + "[" +  res_d + "]이(가) 예상됨";
                         tv_diseaseInfo.setText(diseaseInfo);
                     }else if(Double.parseDouble(res_p) >= 20.0){
-                        String diseaseInfo = "낮은 확률(" + res_p +"%)로 " + res_d + "이 예상됨";
+                        String diseaseInfo = "낮은 확률(" + res_p +"%)로\n" + "[" + res_d + "]이(가) 예상됨";
                         tv_diseaseInfo.setText(diseaseInfo);
                     }else{
-                        String diseaseInfo = "매우 낮은 확률(" + res_p +"%)로 " + res_d + "이 예상됨";
+                        String diseaseInfo = "매우 낮은 확률(" + res_p +"%)로\n" + "[" +  res_d + "]이(가) 예상됨";
                         tv_diseaseInfo.setText(diseaseInfo);
                     }
 

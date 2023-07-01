@@ -40,20 +40,20 @@
 
     <ImageView
         android:id="@+id/placeholder_image"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+        android:layout_width="380dp"
+        android:layout_height="380dp"
         android:layout_gravity="center"
-        android:layout_marginTop="28dp"
         android:src="@drawable/placeholder_image"
+        app:layout_constraintBottom_toTopOf="@+id/btn_take_pic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/diagonsisSpin"
+        app:layout_constraintTop_toBottomOf="@+id/diagnosisTitle"
         tools:ignore="MissingConstraints" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_take_pic"
-        style="@style/Text.NormalStyle"
+        style="@style/Text.BoldStyle"
         android:layout_width="180dp"
         android:layout_height="70dp"
         android:layout_gravity="bottom"
@@ -73,7 +73,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_select_pic"
-        style="@style/Text.NormalStyle"
+        style="@style/Text.BoldStyle"
         android:layout_width="180dp"
         android:layout_height="70dp"
         android:layout_gravity="bottom"
@@ -92,7 +92,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_register_pic"
-        style="@style/Text.NormalStyle"
+        style="@style/Text.BoldStyle"
         android:layout_width="380dp"
         android:layout_height="70dp"
         android:layout_gravity="bottom"
@@ -111,13 +111,13 @@
 
     <TextView
         android:id="@+id/diagnosisTitle"
-        style="@style/Text.NormalStyle"
+        style="@style/Text.BoldStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="70dp"
         android:layout_marginTop="28dp"
-        android:text="반려동물을 선택해주세요."
-        android:textSize="14sp"
+        android:text="나의 반려동물"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/backBtn"
         app:layout_constraintTop_toTopOf="parent" />
 
