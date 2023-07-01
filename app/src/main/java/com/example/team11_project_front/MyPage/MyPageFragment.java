@@ -162,7 +162,7 @@ public class MyPageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("추가 정보 입력")
+                builder.setTitle("다시 한번 확인해주세요")
                         .setMessage("정말로 로그아웃 하시겠습니까?");
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
                     @Override
@@ -186,8 +186,8 @@ public class MyPageFragment extends Fragment {
         deleteUser_layout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("추가 정보 입력")
-                        .setMessage("정말로 로그아웃 하시겠습니까?");
+                builder.setTitle("다시 한번 확인해주세요")
+                        .setMessage("정말로 삭제 하시겠습니까?");
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

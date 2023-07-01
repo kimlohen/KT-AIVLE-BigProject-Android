@@ -369,7 +369,7 @@ public class AnswerByGptActivity extends AppCompatActivity {
         TextView dialogTitle = gptDialog.findViewById(R.id.dialogTitle);
         TextView dialogContent = gptDialog.findViewById(R.id.dialogContent);
         Button closeButton = gptDialog.findViewById(R.id.closeButton);
-        dialogTitle.setText("AI 진단");
+        dialogTitle.setText("GPT 설명");
 
         // gpt 부분
         dialogContent.setText(gptResult);

@@ -42,7 +42,7 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
     private View view;
     private ImageView backBtn2;
-    private androidx.appcompat.widget.AppCompatButton button_skin, btn_ad_hos_call, button_qna, button_vote;
+    private androidx.appcompat.widget.AppCompatButton button_skin, btn_ad_hos_call, button_qna, button_survey;
     private TextView tv_ad_hos_name, tv_ad_hos_addr, tv_ad_hos_intro;
     private ImageView iv_ad_hos_profile, mainImage;
     Bitmap bitmap;
@@ -73,11 +73,11 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        button_vote = (androidx.appcompat.widget.AppCompatButton) view.findViewById(R.id.btn_vote);
-        button_vote.setOnClickListener(new View.OnClickListener() {
+        button_survey = (androidx.appcompat.widget.AppCompatButton) view.findViewById(R.id.btn_survey);
+        button_survey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://forms.gle/eB6SCj6gDvSQtHeL6"));
                 startActivity(intent);
             }
         });
