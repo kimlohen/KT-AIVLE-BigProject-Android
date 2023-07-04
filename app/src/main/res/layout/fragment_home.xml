@@ -111,6 +111,7 @@
             android:layout_width="120dp"
             android:layout_height="29dp"
             android:layout_marginTop="12dp"
+            android:maxLines="1"
             android:text="열심답변 병원"
             android:textAlignment="center"
             android:textSize="20sp"

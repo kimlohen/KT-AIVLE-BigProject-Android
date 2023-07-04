@@ -45,7 +45,6 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageView placeholder_image;
     private Uri selectedImageUri;
-
     private androidx.appcompat.widget.AppCompatButton btn_select_pic;
     private androidx.appcompat.widget.AppCompatButton btn_take_pic;
     private androidx.appcompat.widget.AppCompatButton btn_register_pic;
