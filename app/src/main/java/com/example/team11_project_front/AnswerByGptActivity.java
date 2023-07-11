@@ -218,7 +218,7 @@ public class AnswerByGptActivity extends AppCompatActivity {
                     RequestBody body = RequestBody.create(MediaType.get("application/json"), object.toString());
 
 
-                    String gpt_key = "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";
+                    String gpt_key = "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";
 //                    String gpt_key = "";
 //                    try {
 //                        ApplicationInfo ai = getApplicationContext().getPackageManager().getApplicationInfo(getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);

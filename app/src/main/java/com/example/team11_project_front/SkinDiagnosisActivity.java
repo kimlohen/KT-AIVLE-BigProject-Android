@@ -158,7 +158,7 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
         btn_register_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (havePicture) {
+                if (havePicture && petId != null) {
                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
                     String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "IMG_" + System.currentTimeMillis(), null);
@@ -167,6 +167,8 @@ public class SkinDiagnosisActivity extends AppCompatActivity {
                     intent.putExtra("pet_id", petId);
                     startActivity(intent);
                     // 이미지 선택되지 않았을 때 nextBtn 클릭하여 다음 activity로 넘어가지 못함
+                } else if (petId == null){
+                    Snackbar.make(v, "내 정보에서 펫을 우선 등록해주세요.", Snackbar.LENGTH_SHORT).show();
                 } else {
                     Snackbar.make(v, "사진을 등록해주세요.", Snackbar.LENGTH_SHORT).show();
                 }

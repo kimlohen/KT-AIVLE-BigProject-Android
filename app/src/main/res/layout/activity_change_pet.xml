@@ -85,7 +85,7 @@
             android:background="@drawable/edittext_rectangle"
             android:ems="10"
             android:hint="  생년월일(yyyy-mm-dd)"
-            android:inputType="datetime" />
+            android:inputType="text" />
 
         <LinearLayout
             android:layout_width="match_parent"
